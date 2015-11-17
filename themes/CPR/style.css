@@ -5,7 +5,7 @@ Author URI:		http://www.fredcave.com
 */
 
 #wpadminbar {
-   display: none !important;
+    display: none !important;
 }
 
 /************************************************
@@ -26,6 +26,9 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 html, body {
     width: 100%;
     top: 0;
+    margin-top: 0;
+    font-family: helvetica, arial, sans-serif;
+    font-size: 1.2em;
 }
 
 a {
@@ -53,6 +56,27 @@ b, strong {
 
 .hide {
     display: none;
+}
+
+#menu {
+    position: fixed;
+    top: 0;
+}
+
+section {
+    background-color: pink;
+    height: 100vh;
+}
+
+section:nth-child(2n) {
+    background-color: yellow;
+}
+
+#front_collections h1 {
+    font-size: 2em;
+    color: blue;
+    text-align: center;
+    padding-top: 45vh;
 }
 
 
