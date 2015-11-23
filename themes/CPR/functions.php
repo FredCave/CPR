@@ -16,20 +16,32 @@ function enqueue_cpr_scripts() {
     wp_register_script( 'jquery', '//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js');
     wp_enqueue_script( 'jquery' );  
     
-    wp_enqueue_script('modernizr', get_template_directory_uri() . '/js/modernizr.js', array('jquery'), true);
-    wp_enqueue_script('scrollify', get_template_directory_uri() . '/js/jquery.scrollify.min.js', array('jquery'), true);
-    wp_enqueue_script('custom', get_template_directory_uri() . '/js/custom.js', array('jquery'), true);
+    wp_enqueue_script('modernizr', get_template_directory_uri() . '/js/scripts.min.js', array('jquery'), true);
 
 }
 add_action('wp_enqueue_scripts', 'enqueue_cpr_scripts');
 
-// Declare WooCommerce support
-
+// DECLARE WOOCOMMERCE SUPPORT
 add_action( 'after_setup_theme', 'woocommerce_support' );
 function woocommerce_support() {
     add_theme_support( 'woocommerce' );
 }
 
+// ADD CUSTOM POST TYPES
+add_action( 'init', 'create_post_types' );
+function create_post_types() {
+    register_post_type( 'news',
+    array(
+        'labels' => array(
+            'name' => __( 'News' )
+        ),
+        'public' => true,
+        'has_archive' => true,
+        'supports' => array('editor','title'),
+        'menu_position' => 5
+        )
+    );
+}
 /*
 // Set max. number of products per page (80)
 add_filter( 'loop_shop_per_page', create_function( '$cols', 'return 80;' ), 20 );
@@ -82,34 +94,6 @@ add_filter('manage_product_cat_custom_column', 'add_post_tag_column_content');
 
 
 
-// Add custom post types
-/*
-add_action( 'init', 'create_post_types' );
-function create_post_types() {
-  register_post_type( 'projects',
-    array(
-      'labels' => array(
-        'name' => __( 'Projects' ),
-        'singular_name' => __( 'Project' )
-      ),
-      'public' => true,
-      'has_archive' => true,
-      'supports' => array('editor','title'),
-      'taxonomies' => array('post_tag'),
-    'menu_position' => 5
-    )
-  );
-  register_post_type( 'dates',
-    array(
-      'labels' => array(
-        'name' => __( 'Time' )
-      ),
-      'public' => true,
-      'has_archive' => true,
-      'supports' => array('editor','title'),
-    'menu_position' => 6
-    )
-  );
-*/
+
 
 ?>

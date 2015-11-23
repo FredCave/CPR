@@ -63,21 +63,104 @@ b, strong {
     top: 0;
 }
 
+/* TEMP CSS */
+
 section {
-    background-color: pink;
+    background-color: gray;
     height: 100vh;
+    position: relative;
 }
 
 section:nth-child(2n) {
     background-color: yellow;
 }
 
-#front_collections h1 {
+#collections h1 {
     font-size: 2em;
     color: blue;
     text-align: center;
     padding-top: 45vh;
 }
 
+#collections a {
+    text-align: center;
+    display: block
+}
 
+/* END OF TEMP CSS */
 
+.col {
+    border: 1px solid blue;
+    width: 50%;
+    position: fixed;
+    top: 0;
+    transition: left 1s;
+    -webkit-transition: left 1s;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.col > div {
+    position: absolute;
+    overflow-y: scroll;
+    height: 100%;
+    width: 100%;
+}
+
+#col_1 {
+    left: -50%;
+}
+
+    #col_1.slideleft {
+        left: 0%;
+    }
+
+    #col_1.slideright {
+        left: -100%;
+    }
+
+#col_2 {
+    left: 0%;
+}
+
+    #col_2.slideleft {
+        left: 50%;
+    }
+
+    #col_2.slideright {
+        left: -50%;
+    }
+
+#col_3 {
+    left: 50%;
+}
+
+    #col_3.slideleft {
+        left: 100%;
+    }
+
+    #col_3.slideright {
+        left: 0%;
+    }
+
+#col_4 {
+    left: 100%;
+}
+
+    #col_4.slideleft {
+        left: 150%;
+    }
+
+    #col_4.slideright {
+        left: 50%;
+    }
+
+/************************************************
+    INFO
+************************************************/
+
+#
+
+#news {
+
+}

@@ -1,8 +1,26 @@
 <?php get_header(); ?>
 
-<?php get_sidebar(); ?>
+<div id="wrapper" data-position="centre">
 
-<!-- FRONT COLLECTION LOOP -->
-<?php include("includes/front-collection.php"); ?>
+	<div id="col_1" class="col">
+		<!-- NEWS, ABOUT, CONTACT -->
+		<?php include("includes/info.php"); ?>
+	</div>
+
+	<div id="col_2" class="col">
+		<!-- MENU -->
+		<?php get_sidebar(); ?>
+	</div>
+
+	<div id="col_3" class="col">
+		<!-- COLLECTION NAV -->
+		<?php include("includes/collections.php"); ?>
+	</div>
+
+	<div id="col_4" class="col">
+		<!-- COLLECTION GRID VIEW -->
+	</div>
+
+</div><!-- end of #wrapper -->
 
 <?php get_footer(); ?>
