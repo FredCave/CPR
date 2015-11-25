@@ -3,7 +3,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 get_header(); 
-get_sidebar();
 ?>
 
 <div id="single_product">
@@ -79,27 +78,5 @@ get_sidebar();
 		<?php endwhile; // end of the loop. ?>
 
 </div><!-- end of #single_product -->
-
-<!-- REST OF CATEGORY -->	
-
-<div id="single_other">
-	<ul>
-	<?php 
-		$this_cat = array_shift( wp_get_post_terms( get_the_ID(), 'product_cat' ) )->term_id; 
-		echo $this_cat;
-	?>
-	<?php $args = array(
-        'post_type' => 'product',
-        'taxonomy' => 'product_cat',
-        'terms' => array_shift($this_cat)
-        );
-    $the_query = new WP_Query( $args ); ?>
-    <?php if ( $the_query->have_posts() ) :
-    	while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
-    		<li><?php wc_get_template_part( 'content', 'product' ); ?></li>
-    	<?php endwhile; 
-    endif; ?>
-	</ul>
-</div><!-- end of #single_other -->
    
 <?php get_footer( ); ?>

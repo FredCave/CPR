@@ -42,10 +42,22 @@ function create_post_types() {
         )
     );
 }
-/*
+
 // Set max. number of products per page (80)
 add_filter( 'loop_shop_per_page', create_function( '$cols', 'return 80;' ), 20 );
 
+// REMOVE ACTIONS
+
+    /* COLLECTION PAGE — REMOVE SALE FLASH */
+remove_action( "woocommerce_before_shop_loop_item_title", "woocommerce_show_product_loop_sale_flash", 10 );
+
+    /* COLLECTION PAGE — REMOVE ADD TO CART */
+remove_action( "woocommerce_after_shop_loop_item", "woocommerce_template_loop_add_to_cart", 10 );
+
+
+
+
+/*
 // Ensure cart contents update when products are added to the cart via AJAX 
 add_filter( 'woocommerce_add_to_cart_fragments', 'woocommerce_header_add_to_cart_fragment' );
 function woocommerce_header_add_to_cart_fragment( $fragments ) {

@@ -3,7 +3,7 @@ $( document ).ready(function() {
 	var winH = $(window).height(),
 	winW = $(window).width();
 
-	// Check if browser supports CSS VH units
+	// CHECK IF BROWSER SUPPORTS CSS VH UNITS
 
 	function vhTest() {
 		if( !Modernizr.cssvhunit ) {
@@ -12,33 +12,6 @@ $( document ).ready(function() {
 	}
 
 	// NAVIGATE LEFT & RIGHT
-
-	
-
-	// $(document).on("click", function(e){
-	// 	// check 3 cases here : col_left, centre, col_right
-	// 	var dataPos = $("#wrapper").attr("data-position");
-	// 	// sort by desired result
-	// 	if ( e.pageX < winW * 0.5 && dataPos === "centre" ) {
-	// 		// slide left
-	// 		//console.log("slide left");
-	// 		$("#wrapper").attr("data-position","left");
-	// 		$(".col").removeClass("slideright").addClass("slideleft");
-	// 	} else if ( e.pageX > winW * 0.5 && dataPos === "centre" ) {
-	// 		// slide right
-	// 		//console.log("slide right");
-	// 		$("#wrapper").attr("data-position","right");
-	// 		$(".col").removeClass("slideleft").addClass("slideright");
-	// 	} else if ( e.pageX < winW * 0.5 && dataPos === "right" || e.pageX > winW * 0.5 && dataPos === "left" ) {
-	// 		// slide centre
-	// 		//console.log("slide centre");
-	// 		$("#wrapper").attr("data-position","centre");
-	// 		$(".col").removeClass("slideleft slideright")
-	// 	} else {
-	// 		// null
-	// 		//console.log("null");
-	// 	}
-	// });
 
 	function slideLeft () {
 		var dataPos = $("#wrapper").attr("data-position");
@@ -67,16 +40,20 @@ $( document ).ready(function() {
 	// MAIN MENU NAVIGATION
 
 		// HOME
-
 	$(".nav_home").on("click", function(e){
 		e.preventDefault();
 		slideCentre();
 	});
 
+	$("#back a").on("click", function(e){
+		e.preventDefault();
+		slideCentre();
+		$(this).parent().hide();
+	});
+
 		// INFO COLUMN
 
 		// CREATE INFO NAV POINTS
-
 		function infoPoints() {
 			$("#info_wrapper section").each( function(){
 				var offsetPoint = $(this).offset().top;
@@ -96,12 +73,95 @@ $( document ).ready(function() {
 	});
 
 		// COLLECTIONS
-
 	$(".nav_coll, .to_grid").on("click", function(e){
-		console.log("slide right");
 		e.preventDefault();
 		slideRight();
 	});
+
+	// COLLECTIONS — LOAD AJAX CONTENT
+
+		// loading bar
+		setTimeout( function(){
+			$("#loading_bar .loading").css({
+				"transition" : "",
+				"-webkit-transition" : "",
+				"width" : "100%"
+			});
+		}, 250 );
+
+	$location = $("#coll_ajax_wrapper");
+
+	$("a.to_grid").on("click", function(e){
+		e.preventDefault();
+		// empty ajax wrapper
+		$location.empty();
+		$("#loading_bar .loading").css({
+			"transition" : "width 0s",
+			"-webkit-transition" : "width 0s",
+			"width" : "0%"
+		}); 
+		$location.css("opacity","0"); 
+		// get section name
+		var sectionName = $(this).parent("section").attr("data-section-name");
+		
+		// ajax call
+        $.get("collection/" + sectionName, function (response) {
+            $location.html(response);                   
+        }).done(function () {           
+	        // update url  
+	        window.history.pushState("", "", sectionName);  
+
+	        $("#loading_bar .loading").css({
+				"transition" : "",
+				"-webkit-transition" : "",
+				"width" : "100%"
+			});  
+
+	        $location.animate({
+	        	"opacity" : "1"
+	        }, 500);
+
+        });
+	});
+
+	// SINGLE — LOAD AJAX CONTENT
+
+	$single_location = $("#single_ajax_wrapper");
+
+	$("#col_4").on("click", ".open_single", function(e){
+		e.preventDefault();
+		
+		// hide existing content
+		$("#collections").hide();
+
+		// empty ajax wrapper
+		$single_location.empty().show().css("opacity","0"); 
+
+		// get section name
+		var thisHref = $(this).attr("href").split("/item")[1];
+		
+		// ajax call
+        $.get("item/" + thisHref, function (response) {
+            $single_location.html(response);                   
+        }).done(function () {           
+	        
+        	console.log("checkkk");
+
+        	/*
+	        // update url  
+	        window.history.pushState("", "", sectionName);  
+			*/
+
+	        $single_location.animate({
+	        	"opacity" : "1"
+	        }, 500);
+
+	        $("#back").show();
+	        
+        });
+
+	});
+
 
 	// WINDOW EVENTS
 
@@ -112,7 +172,7 @@ $( document ).ready(function() {
 		vhTest();
 		infoPoints()
 	}).on("scroll", function(){
-		// 
+
 	});
     
 });
