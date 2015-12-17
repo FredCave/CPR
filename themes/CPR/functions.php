@@ -57,46 +57,6 @@ remove_action( "woocommerce_after_shop_loop_item", "woocommerce_template_loop_ad
 
 
 
-/*
-// Ensure cart contents update when products are added to the cart via AJAX 
-add_filter( 'woocommerce_add_to_cart_fragments', 'woocommerce_header_add_to_cart_fragment' );
-function woocommerce_header_add_to_cart_fragment( $fragments ) {
-    ob_start();
-    ?>
-    <span class="cart_count">    
-        <?php echo "Cart (" . WC()->cart->cart_contents_count . ")"; ?>
-    </span> 
-    <?php    
-    $fragments['span.cart_count'] = ob_get_clean();
-    return $fragments;
-}
-
-// Add visible check box to product category view
-
-function add_post_tag_columns($columns){
-    // $columns is existing array??
-    $columns['public'] = 'Public';
-    return $columns;
-}
-add_filter('manage_edit-product_cat_columns', 'add_post_tag_columns');
-
-
-/* TO DO: GET CATEGORY DATA (CHECKBOX) TO SHOW IN COLUMN */
-
-/*
-function add_post_tag_column_content($content){
-    // get wp-categroy-meta result??
-    //$content .= 'Bar';
-    return $content;
-}
-add_filter('manage_product_cat_custom_column', 'add_post_tag_column_content');
-*/
-
-
-
-
-
-
 
 
 

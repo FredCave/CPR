@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html <?php language_attributes(); ?> style="top: 0px !important">
+<html <?php language_attributes(); ?> style="margin-top: 0px !important">
 
 <head>
 	<title>Can Pep Rey</title>

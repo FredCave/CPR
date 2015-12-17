@@ -58,154 +58,27 @@ b, strong {
     display: none;
 }
 
-#menu {
-    position: fixed;
-    top: 0;
-}
-
-/* TEMP CSS */
-
-section {
-    background-color: gray;
-    height: 100vh;
-    position: relative;
-}
-
-section:nth-child(2n) {
-    background-color: yellow;
-}
-
-#collections h1 {
-    font-size: 2em;
-    color: blue;
-    text-align: center;
-    padding-top: 45vh;
-}
-
-#collections a {
-    text-align: center;
-    display: block
-}
-
-/* END OF TEMP CSS */
-
-.col {
-    border: 1px solid blue;
-    width: 50%;
-    position: fixed;
-    top: 0;
-    transition: left 1s;
-    -webkit-transition: left 1s;
-    min-height: 100vh;
-    overflow-x: hidden;
-}
-
-.col > div {
-    position: absolute;
-    overflow-y: scroll;
-    height: 100%;
-    width: 100%;
-}
-
-#col_1 {
-    left: -50%;
-}
-
-    #col_1.slideleft {
-        left: 0%;
-    }
-
-    #col_1.slideright {
-        left: -100%;
-    }
-
-#col_2 {
-    left: 0%;
-}
-
-    #col_2.slideleft {
-        left: 50%;
-    }
-
-    #col_2.slideright {
-        left: -50%;
-    }
-
-#col_3 {
-    left: 50%;
-}
-
-    #col_3.slideleft {
-        left: 100%;
-    }
-
-    #col_3.slideright {
-        left: 0%;
-    }
-
-#col_4 {
-    left: 100%;
-}
-
-    #col_4.slideleft {
-        left: 150%;
-    }
-
-    #col_4.slideright {
-        left: 50%;
-    }
-
-/************************************************
-    INFO
-************************************************/
-
-#news {
-
+.page {
 }
 
 /************************************************
-    SINGLE COLUMN
+    NAV
 ************************************************/
 
-#back {
+#nav {
     position: fixed;
     top: 0;
-    left: 0;
-    width: 50%;
-    height: auto;
-    text-align: center;
-    z-index: 99;
-    display: none;
-}
-
-#single_ajax_wrapper {
-    border: 1px solid pink;
     width: 100%;
-    display: none;
+    /*text-align: justify;*/
+    font-size: 4em;
+    font-weight: bold;
 }
 
-.product img {
-    max-width: 100%;
-    height: auto;
+#nav li {
+    white-space: nowrap; 
 }
 
-/************************************************
-    COLLECTIONS
-************************************************/
-
-#loading_bar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 5px;
-    width: 100%;
+#nav li span:last-child {
+    display: inline-block;
+    margin-left: -35px; /* This is mysterious why 35?? */
 }
-
-#loading_bar .loading {
-    background-color: black;
-    width: 0%;
-    height: 100%;
-    transition: width 0.5s;
-    -webkit-transition: width 0.5s;
-}
-

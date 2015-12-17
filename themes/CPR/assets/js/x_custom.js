@@ -1,176 +1,71 @@
 $( document ).ready(function() {
 
-	var winH = $(window).height(),
-	winW = $(window).width();
+	// NAV ONE LINE JUSTIFY
 
-	// CHECK IF BROWSER SUPPORTS CSS VH UNITS
-
-	function vhTest() {
-		if( !Modernizr.cssvhunit ) {
-			$(".section").css("height", winH);
-		}
+	function navJustifyInit() {
+		$("#nav li").lettering('words').each( function(){
+			if ( $(this).find("span").length === 1 ) {
+				$(this).text( $.trim( $(this).text() ) ).lettering();
+			}
+		});
 	}
 
-	// NAVIGATE LEFT & RIGHT
+	function navJustifyCalc() {
+		var wrapperW = $("#nav").width();
+		// set height - necessary??
+		//var liH = $("#nav li:first-child").height();	
+		//$("#nav li").css("height", liH);
 
-	function slideLeft () {
-		var dataPos = $("#wrapper").attr("data-position");
-		if ( dataPos === "centre" ) {
-			$("#wrapper").attr("data-position","left");
-			$(".col").removeClass("slideright").addClass("slideleft");
-		}	
-	}
+		// set spacing
 
-	function slideCentre () {
-		var dataPos = $("#wrapper").attr("data-position");
-		if ( dataPos !== "centre" ) {
-			$("#wrapper").attr("data-position","centre");
-			$(".col").removeClass("slideright slideleft");
-		}	
-	}
-
-	function slideRight () {
-		var dataPos = $("#wrapper").attr("data-position");
-		if ( dataPos !== "right" ) {
-			$("#wrapper").attr("data-position","right");
-			$(".col").removeClass("slideleft").addClass("slideright");
-		}	
-	}
-
-	// MAIN MENU NAVIGATION
-
-		// HOME
-	$(".nav_home").on("click", function(e){
-		e.preventDefault();
-		slideCentre();
-	});
-
-	$("#back a").on("click", function(e){
-		e.preventDefault();
-		slideCentre();
-		$(this).parent().hide();
-	});
-
-		// INFO COLUMN
-
-		// CREATE INFO NAV POINTS
-		function infoPoints() {
-			$("#info_wrapper section").each( function(){
-				var offsetPoint = $(this).offset().top;
-				$(this).attr("data-offset", offsetPoint);
+		$("#nav li").each( function(){
+			var textW = 0;
+			var elemCount = 0;
+			$(this).find("span").each( function(){
+				textW += $(this).width();
+				elemCount++;
 			});
-		}
-
-	$(".nav_info").on("click", function(e){
-		e.preventDefault();
-		var dest = $(this).attr("data-info");
-		slideLeft();
-		// scroll to selected section
-		var scrollPoint = $("#" + dest).attr("data-offset");
-		$("#info_wrapper").animate({
-                scrollTop: scrollPoint
-        }, 1000);
-	});
-
-		// COLLECTIONS
-	$(".nav_coll, .to_grid").on("click", function(e){
-		e.preventDefault();
-		slideRight();
-	});
-
-	// COLLECTIONS — LOAD AJAX CONTENT
-
-		// loading bar
-		setTimeout( function(){
-			$("#loading_bar .loading").css({
-				"transition" : "",
-				"-webkit-transition" : "",
-				"width" : "100%"
+			console.log( wrapperW - textW );
+			
+			var diff = ( wrapperW - textW ) / ( elemCount - 1 );
+			$(this).find("span").css("margin-right", diff * 0.95);
+			$(this).find("span:last-child").css({
+				"margin-right" : "0px",
+				"float" :  "right"
 			});
-		}, 250 );
+		});
 
-	$location = $("#coll_ajax_wrapper");
+		/*
+		wrapperW = 1637
+		textW = 174 + 169 + 169 = 512
+		*/
 
-	$("a.to_grid").on("click", function(e){
-		e.preventDefault();
-		// empty ajax wrapper
-		$location.empty();
-		$("#loading_bar .loading").css({
-			"transition" : "width 0s",
-			"-webkit-transition" : "width 0s",
-			"width" : "0%"
-		}); 
-		$location.css("opacity","0"); 
-		// get section name
-		var sectionName = $(this).parent("section").attr("data-section-name");
-		
-		// ajax call
-        $.get("collection/" + sectionName, function (response) {
-            $location.html(response);                   
-        }).done(function () {           
-	        // update url  
-	        window.history.pushState("", "", sectionName);  
+		// .each( function(){
+		// 	// add span tags — for letters if 1 word, for words if more than 1 word
+		// 	if ( $(this).find("span").length === 1 ) {
+		// 		$(this).text( $.trim( $(this).text() ) ).lettering();
 
-	        $("#loading_bar .loading").css({
-				"transition" : "",
-				"-webkit-transition" : "",
-				"width" : "100%"
-			});  
-
-	        $location.animate({
-	        	"opacity" : "1"
-	        }, 500);
-
-        });
-	});
-
-	// SINGLE — LOAD AJAX CONTENT
-
-	$single_location = $("#single_ajax_wrapper");
-
-	$("#col_4").on("click", ".open_single", function(e){
-		e.preventDefault();
-		
-		// hide existing content
-		$("#collections").hide();
-
-		// empty ajax wrapper
-		$single_location.empty().show().css("opacity","0"); 
-
-		// get section name
-		var thisHref = $(this).attr("href").split("/item")[1];
-		
-		// ajax call
-        $.get("item/" + thisHref, function (response) {
-            $single_location.html(response);                   
-        }).done(function () {           
-	        
-        	console.log("checkkk");
-
-        	/*
-	        // update url  
-	        window.history.pushState("", "", sectionName);  
-			*/
-
-	        $single_location.animate({
-	        	"opacity" : "1"
-	        }, 500);
-
-	        $("#back").show();
-	        
-        });
-
-	});
-
+		// 		// var diff = ( wrapperW - textW ) / ( charCount - 1 );
+		// 		// $(this).find("span").css("margin-right", diff * 1);
+		// 		// $(this).find("span:last-child").css("margin-right", 0);
+		// 	} 
+		// 	var textW = 0;
+		// 	var elemCount = 0;
+		// 	$(this).find("span").each( function(){
+		// 		textW += $(this).width();
+		// 		elemCount++;
+		// 	});
+		// 	console.log( textW, elemCount );
+		// });
+	}
 
 	// WINDOW EVENTS
 
 	$(window).on("load", function(){
-		vhTest();
-		infoPoints()	
+		navJustifyInit();
+		navJustifyCalc();
 	}).on("resize", function(){
-		vhTest();
-		infoPoints()
+		navJustifyCalc();
 	}).on("scroll", function(){
 
 	});
