@@ -2,8 +2,11 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
-get_header(); 
+get_header();
+get_sidebar();
 ?>
+
+	<span class="sketch">Single Page</span>
 
 <div id="single_product">
 
@@ -75,8 +78,51 @@ get_header();
 
 		<?php do_action( 'woocommerce_after_single_product' ); ?>
 
+		<?php
+
+			
+		?>
+
 		<?php endwhile; // end of the loop. ?>
 
 </div><!-- end of #single_product -->
+
+<div id="single_collection">
+
+	<?php
+	/* GET THIS PRODUCT CATEGORY */ 
+	global $post;
+	$terms = get_the_terms( $post->ID, 'product_cat' );
+	foreach ($terms as $term) {
+	    $this_cat = $term->slug;
+	    break;
+	}
+	$args = array(
+        'post_type' => 'product',
+        'taxonomy' => 'product_cat',
+        'field' => 'slug',
+        'term' => $this_cat
+        );
+    $the_query = new WP_Query( $args ); 
+	?>
+
+	<!-- COLLECTION LOOP -->
+
+	<ul>
+		<?php	
+		if ( $the_query->have_posts() ) {
+			while ( $the_query->have_posts() ) {
+				$the_query->the_post(); ?>
+				<li>
+					<?php the_title(); ?>
+				</li>
+				<?php	
+			}
+		} 
+		wp_reset_postdata();	
+	    ?>
+	</ul>
+
+</div>
    
 <?php get_footer( ); ?>

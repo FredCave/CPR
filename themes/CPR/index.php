@@ -1,9 +1,12 @@
 <?php get_header(); ?>
 
+	<span class="sketch">Latest Collection</span>
+
 <?php get_sidebar(); ?>
 
 	<!-- SHOWS LATEST COLLECTION -->
     <?php 
+    	/* GET SLUG OF LATEST COLLECTION */
     $args = array(
         'taxonomy'			=> 'product_cat',
         'orderby'			=> 'id',

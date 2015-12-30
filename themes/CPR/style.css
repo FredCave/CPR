@@ -8,6 +8,14 @@ Author URI:		http://www.fredcave.com
     display: none !important;
 }
 
+/* TMP */
+.sketch {
+    color: red;
+    font-size: 2em;
+    font-family: Times;
+}
+/* END OF TMP */
+
 /************************************************
     CSS RESET
 ************************************************/
@@ -81,4 +89,30 @@ b, strong {
 #nav li span:last-child {
     display: inline-block;
     margin-left: -35px; /* This is mysterious why 35?? */
+}
+
+#secondary_nav {
+    position: fixed;
+    bottom: 24px;
+    width: 100%;
+    font-size: 1.5em;
+    font-weight: bold;    
+}
+
+#secondary_nav li {
+    display: inline-block;  
+}
+
+#secondary_nav li:nth-child(1) {
+    float: left; 
+}
+
+#secondary_nav li:nth-child(2) {
+    float: right; 
+}
+
+#secondary_nav li:nth-child(3) {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }

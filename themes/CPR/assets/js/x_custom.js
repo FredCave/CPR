@@ -3,7 +3,7 @@ $( document ).ready(function() {
 	// NAV ONE LINE JUSTIFY
 
 	function navJustifyInit() {
-		$("#nav li").lettering('words').each( function(){
+		$("#nav a").lettering('words').each( function(){
 			if ( $(this).find("span").length === 1 ) {
 				$(this).text( $.trim( $(this).text() ) ).lettering();
 			}
@@ -18,7 +18,7 @@ $( document ).ready(function() {
 
 		// set spacing
 
-		$("#nav li").each( function(){
+		$("#nav a").each( function(){
 			var textW = 0;
 			var elemCount = 0;
 			$(this).find("span").each( function(){

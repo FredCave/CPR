@@ -1,10 +1,14 @@
-<!-- THIS PAGE IS SHOWN IN COLLECTION COLUMN -->
+<!-- COLLECTION PAGE -->
 
 <?php
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
+get_header();
+get_sidebar();
 ?>
+
+	<span class="sketch">Collection Page</span>
 
 <?php woocommerce_page_title(); ?>
 
