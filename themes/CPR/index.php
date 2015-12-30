@@ -1,7 +1,5 @@
 <?php get_header(); ?>
 
-	<span class="sketch">Latest Collection</span>
-
 <?php get_sidebar(); ?>
 
 	<!-- SHOWS LATEST COLLECTION -->
@@ -22,18 +20,22 @@
         );
     $the_query = new WP_Query( $args2 ); ?>
 
-	<div id="home" class="page">
+    <!-- 
+    	LOAD JUST IMAGES 
+		NEED TO ABLE TO FILTER PRODUCTS
+	-->
+
+	<div id="home" class="page page-collection" data-collection="<?php echo $latest[0]->slug; ?>">
 		<ul>
 		<?php	
 		if ( $the_query->have_posts() ) {
 			while ( $the_query->have_posts() ) {
-				$the_query->the_post();
-				echo "<li>";
-				/*
-				POST CONTENT HERE 
-				*/
-				//the_title();
-				echo "</li>";
+				$the_query->the_post(); 
+                ?>
+
+				<?php wc_get_template_part( 'content', 'product' ); ?>
+			
+			<?php 
 			}
 		} 
 		wp_reset_postdata();	

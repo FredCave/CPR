@@ -1,33 +1,45 @@
+<?php
+	/* QUERY FOR COLLECTIONS LIST */
+	$args = array(
+        'taxonomy'			=> 'product_cat',
+        'orderby'			=> 'id',
+		'order'				=> 'desc'
+    );
+	$all_cats = get_categories( $args );
+?>
+
 <!-- NAVIGATION -->
 <div id="nav">
 	<ul>
-		<li><a href="<?php bloginfo( 'url' ); ?>/">Can Pep Rey</a></li>
-		<?php
-			$args = array(
-		        'taxonomy'			=> 'product_cat',
-		        'orderby'			=> 'id',
-				'order'				=> 'desc'
-		    );
-			$all_cats = get_categories( $args );
-		?>
-		<li class="nav_collection" data-length="<?php echo count( $all_cats ); ?>">Collections
+		<li id="nav_home" class=""><a href="<?php bloginfo( 'url' ); ?>/">Can Pep Rey</a></li>
 
-		<?php foreach ( $all_cats as $cat  ) {
-			echo "<li><a href='" . get_bloginfo( 'url' ) . "/collection/" . $cat->slug . "'>";
-			echo $cat->name;
-			echo "</a></li>";
-		} ?>
+	<?php if ( is_front_page() ) { ?>
+		<span id="nav_dropdown" class="front_dropdown">
+	<?php } else { ?>
+		<span id="nav_dropdown">
+	<?php } ?>
 
-		</li>
-		<li><a href="<?php bloginfo( 'url' ); ?>/_news/">News</a></li>
-		<li><a href="<?php bloginfo( 'url' ); ?>/_information/">Information</a></li>
+		<li class="nav_collection" data-length="<?php echo count( $all_cats ); ?>"><a href="">Collections:</a></li>
+
+		<?php foreach ( $all_cats as $cat  ) { ?>
+			<li id="<?php echo $cat->slug; ?>" class="nav_collection_2 nav_hidden">
+				<a data-href="<?php bloginfo( 'url' ); ?>/collection/<?php echo $cat->slug; ?>"><?php echo $cat->name; ?></a>
+			</li>
+		<?php } ?>
+
+		<li class=""><a href="<?php bloginfo( 'url' ); ?>/_news/">News</a></li>
+
+		<li class=""><a href="<?php bloginfo( 'url' ); ?>/_information/">Information</a></li>
+
+		</span>
+
 	</ul>
 </div>
 
 <div id="secondary_nav">
 	<ul>
-		<li>Cart</li>	
-		<li>Account</li>
+		<li><a href="<?php bloginfo( 'url' ); ?>/cart/">Cart</a></li>	
+		<li><a href="<?php bloginfo( 'url' ); ?>/my-account/">Account</a></li>
 		<!-- OPTIONAL ON CATEGORY PAGES -->
 		<li>Filter</li>	
 	</ul>

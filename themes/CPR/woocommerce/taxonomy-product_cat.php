@@ -6,11 +6,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 get_header();
 get_sidebar();
+// get collection slug for data-collection attribute
+global $post;
+$cat = get_the_terms($post->id, 'product_cat');
 ?>
 
-	<span class="sketch">Collection Page</span>
+	<span class="sketch"><!-- Collection Page --></span>
 
-<?php woocommerce_page_title(); ?>
+<div class="page page-collection" data-collection="<?php echo $cat[0]->slug; ?>">
 
 	<?php if ( have_posts() ) : ?>
 
@@ -29,3 +32,5 @@ get_sidebar();
 		<?php wc_get_template( 'loop/no-products-found.php' ); ?>
 
 	<?php endif; ?>
+
+</div>

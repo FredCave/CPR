@@ -16,7 +16,7 @@ function enqueue_cpr_scripts() {
     wp_register_script( 'jquery', '//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js');
     wp_enqueue_script( 'jquery' );  
     
-    wp_enqueue_script('modernizr', get_template_directory_uri() . '/js/scripts.min.js', array('jquery'), true);
+    wp_enqueue_script('all_scripts', get_template_directory_uri() . '/js/scripts.min.js', array('jquery'), true);
 
 }
 add_action('wp_enqueue_scripts', 'enqueue_cpr_scripts');
@@ -53,10 +53,6 @@ remove_action( "woocommerce_before_shop_loop_item_title", "woocommerce_show_prod
 
     /* COLLECTION PAGE — REMOVE ADD TO CART */
 remove_action( "woocommerce_after_shop_loop_item", "woocommerce_template_loop_add_to_cart", 10 );
-
-
-
-
 
 
 

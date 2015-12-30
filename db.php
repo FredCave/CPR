@@ -1,1 +1,0 @@
-/Users/Fred/MEGA/htdocs/canpeprey/wp-content/plugins/query-monitor/wp-content/db.php

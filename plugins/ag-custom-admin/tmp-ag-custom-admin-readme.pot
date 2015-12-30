@@ -1,0 +1,1401 @@
+msgid ""
+msgstr "MIME-Version: 1.0\n"
+
+#. Name.
+msgid "AG Custom Admin"
+msgstr ""
+
+#. Short description.
+msgid "All-in-one tool for admin panel customization. Change almost everything: admin menu, dashboard, login page, admin bar etc. Apply admin panel themes."
+msgstr ""
+
+#. Screenshot description.
+msgid "AG Custom Admin provides most of the options for admin panel customization, and it's pretty easy to use it."
+msgstr ""
+
+#. Screenshot description.
+msgid "Login page can be customized and styled with custom branding logo or image, rounded borders, background colors."
+msgstr ""
+
+#. Screenshot description.
+msgid "Admin menu is completely customizable. You can rename or remove the items from them menu and submenu, or add brand new buttons with custom links."
+msgstr ""
+
+#. Screenshot description.
+msgid "Default WP grey colors can be refreshed with any colors! There are a lot of Colorizer's options that can be used to style the text, background, login, widgets, admin menu, top bar, footer, almost everything!"
+msgstr ""
+
+#. Screenshot description.
+msgid "Free and commercial predefined WP admin panel themes."
+msgstr ""
+
+#. Screenshot description.
+msgid "Orange - free theme - login page."
+msgstr ""
+
+#. Screenshot description.
+msgid "Dunes - commercial theme."
+msgstr ""
+
+#. Screenshot description.
+msgid "Wasteland - commercial theme."
+msgstr ""
+
+#. Screenshot description.
+msgid "Army - commercial theme."
+msgstr ""
+
+#. Found in description header.
+msgid "General Settings"
+msgstr ""
+
+#. Found in description header.
+msgid "Admin Bar Settings"
+msgstr ""
+
+#. Found in description header.
+msgid "Admin Footer Options"
+msgstr ""
+
+#. Found in description header.
+msgid "Dashboard Page Options"
+msgstr ""
+
+#. Found in description header.
+msgid "Login Page Options"
+msgstr ""
+
+#. Found in description header.
+msgid "Admin Menu Options"
+msgstr ""
+
+#. Found in description header.
+msgid "Colorizer"
+msgstr ""
+
+#. Found in description header.
+msgid "Advanced"
+msgstr ""
+
+#. Found in description header.
+msgid "Premium Features"
+msgstr ""
+
+#. Found in description header.
+msgid "Contact"
+msgstr ""
+
+#. Found in description list item.
+msgid "<strong>ADMIN BAR</strong>: Hide or change admin bar items. Remove WordPress traces from admin bar. Brand it with custom colors."
+msgstr ""
+
+#. Found in description list item.
+msgid "<strong>ADMIN MENU</strong>: Change and remove existing and add custom admin menu items. Brand it with custom colors. "
+msgstr ""
+
+#. Found in description list item.
+msgid "<strong>ADMIN THEMES</strong>: It have never been so easy to apply free and commercial responsive admin panel themes with just few clicks."
+msgstr ""
+
+#. Found in description list item.
+msgid "<strong>COLORIZER</strong>: This tool is integrated with AG Custom Admin panel and can be used to change default WordPress admin panel colors, admin bar, admin menu, login page, backgrounds and text."
+msgstr ""
+
+#. Found in description list item.
+msgid "<strong>BRANDING</strong>: Brand your admin panel pages with custom content, colors, images and text."
+msgstr ""
+
+#. Found in description list item.
+msgid "<strong>ADMIN PANEL OPTIONS</strong>: There are dozens of other admin panel options used to improve WordPress UX on admin and login pages items like Dashboard widgets, Help and Screen options, WordPress logos, links, menus etc. See the full list down below."
+msgstr ""
+
+#. Found in description list item.
+msgid "Hide \"Screen Options\" menu"
+msgstr ""
+
+#. Found in description list item.
+msgid "Hide \"Help\" menu"
+msgstr ""
+
+#. Found in description list item.
+msgid "Hide admin bar completely"
+msgstr ""
+
+#. Found in description list item.
+msgid "Show Log out button only if admin bar is completely hidden"
+msgstr ""
+
+#. Found in description list item.
+msgid "Hide admin bar on site pages only"
+msgstr ""
+
+#. Found in description list item.
+msgid "Replace WordPress logo with custom branding image"
+msgstr ""
+
+#. Found in description list item.
+msgid "Change link on admin bar logo"
+msgstr ""
+
+#. Found in description list item.
+msgid "Custom page title template on admin pages (change  =&gt;  tag)"
+msgstr ""
+
+#. Found in description list item.
+msgid "Add custom branding image above the content in admin bar"
+msgstr ""
+
+#. Found in description list item.
+msgid "Hide WordPress logo"
+msgstr ""
+
+#. Found in description list item.
+msgid "Hide site name"
+msgstr ""
+
+#. Found in description list item.
+msgid "Hide admin bar logo context menu"
+msgstr ""
+
+#. Found in description list item.
+msgid "Hide update notifications block"
+msgstr ""
+
+#. Found in description list item.
+msgid "Hide \"Comments\" block"
+msgstr ""
+
+#. Found in description list item.
+msgid "Hide \"New\" menu block"
+msgstr ""
+
+#. Found in description list item.
+msgid "Hide \"New\" -&gt; \"Post\""
+msgstr ""
+
+#. Found in description list item.
+msgid "Hide \"New\" -&gt; \"Link\""
+msgstr ""
+
+#. Found in description list item.
+msgid "Hide \"New\" -&gt; \"Page\""
+msgstr ""
+
+#. Found in description list item.
+msgid "Hide \"New\" -&gt; \"User\""
+msgstr ""
+
+#. Found in description list item.
+msgid "Hide \"New\" -&gt; \"Media\""
+msgstr ""
+
+#. Found in description list item.
+msgid "Change site name to custom text"
+msgstr ""
+
+#. Found in description list item.
+msgid "Hide yellow WordPress update notification"
+msgstr ""
+
+#. Found in description list item.
+msgid "Change Howdy text"
+msgstr ""
+
+#. Found in description list item.
+msgid "Change Log Out text"
+msgstr ""
+
+#. Found in description list item.
+msgid "Remove \"Edit My Profile\" option from context menu"
+msgstr ""
+
+#. Found in description list item.
+msgid "Show \"Log Out\" button only on the right"
+msgstr ""
+
+#. Found in description list item.
+msgid "Hide footer completely"
+msgstr ""
+
+#. Found in description list item.
+msgid "Change/remove footer text"
+msgstr ""
+
+#. Found in description list item.
+msgid "Change/remove footer version text"
+msgstr ""
+
+#. Found in description list item.
+msgid "Change Dashboard heading text"
+msgstr ""
+
+#. Found in description list item.
+msgid "Add custom Dashboard HTML content"
+msgstr ""
+
+#. Found in description list item.
+msgid "Hide dashboard widgets"
+msgstr ""
+
+#. Found in description list item.
+msgid "Hide back to blog text"
+msgstr ""
+
+#. Found in description list item.
+msgid "Change back to blog text"
+msgstr ""
+
+#. Found in description list item.
+msgid "Change login image"
+msgstr ""
+
+#. Found in description list item.
+msgid "Change hyperlink on login image"
+msgstr ""
+
+#. Found in description list item.
+msgid "Hide login image"
+msgstr ""
+
+#. Found in description list item.
+msgid "Round corners on login boxes"
+msgstr ""
+
+#. Found in description list item.
+msgid "Hide register and lost password links"
+msgstr ""
+
+#. Found in description list item.
+msgid "Change hyperlink on register button"
+msgstr ""
+
+#. Found in description list item.
+msgid "Rename menu and sub-menu items"
+msgstr ""
+
+#. Found in description list item.
+msgid "Hide menu and sub-menu items"
+msgstr ""
+
+#. Found in description list item.
+msgid "Add new buttons with custom links"
+msgstr ""
+
+#. Found in description list item.
+msgid "Remove icons from admin menu buttons"
+msgstr ""
+
+#. Found in description list item.
+msgid "Remove spaces between admin menu buttons"
+msgstr ""
+
+#. Found in description list item.
+msgid "Remove admin menu arrow on hover"
+msgstr ""
+
+#. Found in description list item.
+msgid "Round admin sub-menu popups"
+msgstr ""
+
+#. Found in description list item.
+msgid "Remove \"Collapse\" button  "
+msgstr ""
+
+#. Found in description list item.
+msgid "Add custom branding image above the admin menu"
+msgstr ""
+
+#. Found in description list item.
+msgid "Add custom link to branding image"
+msgstr ""
+
+#. Found in description list item.
+msgid "Change admin menu auto-folding settings"
+msgstr ""
+
+#. Found in description list item.
+msgid "Change background and text colors on admin and login page "
+msgstr ""
+
+#. Found in description list item.
+msgid "Change admin menu colors"
+msgstr ""
+
+#. Found in description list item.
+msgid "Change widget colors"
+msgstr ""
+
+#. Found in description list item.
+msgid "Add custom CSS"
+msgstr ""
+
+#. Found in description list item.
+msgid "Add custom JavaScript"
+msgstr ""
+
+#. Found in description list item.
+msgid "Export/import customization settings"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "With this plugin you can easily customize WordPress <strong>admin panel</strong>, <strong>login page</strong>, <strong>admin menu</strong>, <strong>admin bar</strong> etc. in tiny details and apply free responsive and commercial <strong>admin themes</strong>."
+msgstr ""
+
+#. Found in description paragraph.
+msgid ""
+"<strong>Admin Themes</strong><br />\n"
+"  AG Custom Admin plugin contains specially created professional and responsive themes for admin panel and login page, that can be applied easily within AG Custom Admin plugin with only few clicks!\n"
+"  We will add more themes with better styles and theme options in future."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "For more info about AG Custom Admin themes, please go to <a href=\"http://wordpressadminpanel.com/themes/home\">WordPress Admin Panel Themes</a> site."
+msgstr ""
+
+#. Found in description paragraph.
+msgid ""
+"<strong>Custom Admin Menu Icons</strong><br />\n"
+"  AGL Custom Admin Menu Icons plugin, can be used to add or change admin menu icons, add custom colors and icons, and even draw custom icons"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "For more information about advanced admin menu icons management, please check <a href=\"http://wordpressadminpanel.com/aglcami/home\">Admin Menu Icons Management</a>"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "If you are unable to login or you have any other problems, please check our <a href=\"http://wordpress.org/extend/plugins/ag-custom-admin/faq/\">FAQ</a> and <a href=\"http://wordpress.org/support/plugin/ag-custom-admin\">SUPPORT</a> page."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "For more information about the plugin please check <a href=\"http://wordpressadminpanel.com/ag-custom-admin/\">OFFICIAL PLUGIN'S SITE</a> <br />For more information about admin themes please check <a href=\"http://wordpressadminpanel.com/themes/home\">THEMES SITE</a>"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "<strong>Important</strong>: It's recommended to always update AG Custom Admin plugin before updating WordPress."
+msgstr ""
+
+#. Found in installation list item.
+msgid "Upload <code>ag-custom-admin</code> directory to the <code>/wp-content/plugins/</code> directory"
+msgstr ""
+
+#. Found in installation list item.
+msgid "Activate the plugin through the 'Plugins' menu in WordPress"
+msgstr ""
+
+#. Found in installation list item.
+msgid "Navigate to plugin's settings page: 'Tools =&gt; AG Custom Admin'"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.5.2"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.5.1"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.5"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.4.9"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.4.8.2"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.4.8.1"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.4.8"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.4.7"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.4.6"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.4.5"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.4.4"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.4.3"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.4.2"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.4.1"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.4"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.3.9"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.3.8"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.3.7"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.3.6"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.3.5"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.3.4"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.3.3"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.3.2"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.3.1"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.3"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.2.8"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.2.7.9"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.2.7.8"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.2.7.7"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.2.7.6"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.2.7.5"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.2.7.4"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.2.7.3"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.2.7.2"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.2.7.1"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.2.7"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.2.6.5"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.2.6.4"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.2.6.3"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.2.6.2"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.2.6.1"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.2.6"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.2.5.4"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.2.5.3"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.2.5.2"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.2.5.1"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.2.5"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.2.4"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.2.3"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.2.2"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.2.1"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.2"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.0.1"
+msgstr ""
+
+#. Found in change log header.
+msgid "1.0"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Small UX improvements on options"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added support for older PHP versions, starting from 5.2"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Improved UX with new icons and styles"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed admin menu issues when menu is updated outside of AGCA"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Code reorganizing"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Using dashboard icons instead of images"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Updated option names"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Issues fixed"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added check for non existing 'pagenow' GLOBAL variable"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Using default WordPress theme when AGCA theme is activated"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed unknown font theme issue"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Option to remove AGCA themes from admin bar"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Small bug fix"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Style improvements"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Tab navigation remembers previously used tab"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Removed AG Custom Admin menu top item"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Better error handling"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Removed obsolete Colorizer's border options"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Removed obsolete code"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Changed some options labels/descriptions"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Handling user's errors caused by mistake in Custom JS"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Removed first and second menu item separator options, replaced with remove all separators option"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed issues"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Admin themes, caching support"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixes admin bar compatibility issue with BuddyPress on public pages"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Dashboard -&gt; Updates submenu item can be hidden now"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added address bar option for debugging"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Internal links changes, support for the new support site domain"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Support up to WordPress 4.1"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Improved branding"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed issue with Colorizer. Updated plugin colors."
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed issue on Dashboard widgets page: Disabled third-party widget cannot be re-enabled"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Central alignment for smaller login images, and for different form widths"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Option to remove \"WordPress News\" dashboard widget"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Better \"Error Caught\" message with more useful information"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed issues with custom dashboard content"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed issues with special characters in admin menu editor"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Prepared for WordPress 3.9"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed style for custom Howdy name"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed add_filter undefined function error"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Better exception handling"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed compatibility issues with MailPoet plugin"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Bug fixes"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "First production version with AGCA Themes"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Introducing AG Custom Admin Themes"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed PHP errors in DEBUG mode"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed remove admin submenu arrow option in WordPress 3.8"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed admin menu bug"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Updated options labels"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Better checkbox and radio box styles"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Some additional style improvements"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Updated option for auto folding admin menu on mobile devices"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed AGCA error popup on reset password page"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Better style for close button"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed bugs when adding new admin menu buttons"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Removed deprecated jQuery live function"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Including jQuery migrate plugin on Advanced tab"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Removing submenu box on mouseover, if all submenu items are hidden (Fixed empty box issue)"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added WYSIWYG editor for Dashboard page"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed single quote character escaping on several settings"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added option for removing AGCA JS warning message"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed \"Illegal string offset\" server error"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Escaping characters (like single quote) in footer text"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed AGCA alert message issue"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Prepared for 3.6. WordPress release"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Other bug fixes."
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Removed AGCA script on site pages automatically, if user is not logged in"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Custom WordPress admin title. Using custom title templates"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added option for removing blog title from top bar"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed misaligned menu when using custom content types plugins"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed bug \"Save button does not work\" caused by unescaped characters in footer text and custom button names"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Updated AGCA buttons styles"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "WordPress 3.5 compatible"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added login page background color"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Resolving jQuery script"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added feedback buttons (positive/negative)"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Better user's experience (updated form buttons and textbooks)"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed problem with Howdy renaming"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "using capabilities instead of user levels"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "define who is admin with choosing capability (Advanced tab)"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "added option to hide admin bar on front end only"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "added option to remove all AGCA customizations on front end"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "added option to remove register button on login page"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "added option to change hyperlink on register button on login page"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "added option to remove \"Lost Password\" link on login page"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "added support for collapse button on customized admin menu"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "option to show/hide collapse button on admin menu"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "added styles for collapsed menu"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "added WP filter to remove admin bar on front page"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "applying admin bar colors on front page"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "fixed blank space in admin panel when admin bar is removed"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "fixed some bugs in Colorizer, better updating of input box colors, triggering colors on input box change, improved realtime color updating"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "adding jQuery script on login page only if it is not already loaded"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "fixed background-size issue on login page image in chrome and some other browsers"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "updated important message on admin menu tab"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Removing plugin options on plugin uninstall instead of on plugin deactivation"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Refreshed some button styles"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "\"But show logout button\" option auto-hiding"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed repeat login image bug"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed bug on loading news"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Included Colorizer ON/OFF option to exported settings"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Automatically saving settings after importing"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed issue with admin bar on site pages"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added option for switching between admin and site pages(on WP logo, top left corner on admin bar)"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed custom Howdy text for other languages than English."
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added custom brand logo url"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added %BLOG% variables for custom urls"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Option for removing custom admin menu settings in export"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added +/- indicators to admin menu editor"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Custom top bar logo can be of any width. Height is expanded to 28px"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Saving custom scripts to database instead of saving to files"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed error message on WordPress thick-box window"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Removed About WordPress message on top bar logo(on mouseover)"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Using %BLOG% variable as hyperlink on login page image"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Few other fixes on WordPress top bar"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed color bug on admin menu hover()"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed hiding top bar issue for site pages"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed issues with custom content on Dashboard page. Any custom HTML can be used now."
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Custom CSS script support"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Custom JAvaScript support"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Exporting / importing AG Custom Admin customizations"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added custom branding field above the admin menu for adding custom brand images"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Rounding admin menu popups and login page"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Option for removing Welcome dashboard widget"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "New Colorizer options for admin menu, top bar"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "New AGCA info area"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed caching issues on updates"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed fatal error from version 1.2.5.3"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed issues related to WP 3.3.1 version"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed bug: Hiding/changing top admin bar WP icon"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Advanced customization of admin top bar"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added options for hiding admin top bar elements"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Login page background same as admin background"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added target options for custom admin buttons"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed several issues with WP 3.3"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added options for hiding \"comments\" and \"new\" from admin bar"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Support for custom admin bar images"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Support for custom Log Out text"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Hide everything except Log Out button works now"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Removed few obsolete options"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Removing \"Edit My Profile\""
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed bug when trying to edit custom buttons in admin menu"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Plugin tested up to 3.3"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed major issues with WP 3.3. version"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Plugin tested up to 3.2.1"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed some compatibility issues with other plugins"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Tested compatibility with Ozh' Admin Drop Down Menu v3.6.1"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Tested compatibility with SexyBookmarks (by Shareaholic) v4.0.5.6"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed blank screen of death if an error from outside of plugin is thrown"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Improved error handling and showing"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Improved versioning"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Plugin is now fully compatible with WordPress version 3.2"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed update notification bar for lower WP versions"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Login image can be now of any size."
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Improved error management"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added options in 3.2 for changing background behind admin menu"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added option in 3.2 for removing \"Your profile\" from admin bar"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added invalid characters escaping when adding new custom buttons"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed few minor issues"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added Colorizer options for changing widgets colors."
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added option for changing logo image in admin bar with custom image."
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed bug on add new post page: After clicking on buttons Add new image, Add new media pop-up window is blank."
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added info bar for displaying news and information about plugin."
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed few issues."
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added Colorizer for changing colors in admin and login panel"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added option for excluding admin from settings."
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Fixed bug for slow computers: Default settings are visible few moments before applying custom settings."
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added option for removing icons from admin menu buttons"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Improved accessibility"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Optimization for screen readers"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added sub-page titles"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Updated styles in edit admin menu table"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "All elements are grouped into small pages for better navigation."
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added color styles and improved user experience."
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added settings page for fully control of main admin menu."
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added support for hiding items from admin menu."
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added support for changing items in admin menu."
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added support for adding new custom items in admin menu."
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added tool tips on option labels for better explanation of option."
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Deprecated 'Hide Dashboard button from main menu' in 'Dashboard settings'. This option can be used now in 'Admin menu settings'."
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added settings for hiding/showing Dashboard widgets:\"Recent Comments\", \"Incoming Links\", \"Plugins\", \"Quick Press\", \"Right Now\", \"Recent Drafts\", primary widget area, secondary widget area."
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added option \"(but show 'Log Out' button)\" for displaying 'Log Out' button if admin top bar is completely removed."
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added option \"Hide footer text\"."
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Added support for hiding new WordPress release notification."
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Changed text in Settings page to be more clearer."
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Updated list of options on plugin page"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Removed blank characters in text areas"
+msgstr ""
+
+#. Found in change log list item, changelog list item.
+msgid "Initial version"
+msgstr ""
+
+#. Found in faq header.
+msgid "I see errors on my page. What can I do?"
+msgstr ""
+
+#. Found in faq header.
+msgid "Plugin does not work after upgrading to new version. What should I do?"
+msgstr ""
+
+#. Found in faq header.
+msgid "I use older version of WordPress, can I still use this plugin?"
+msgstr ""
+
+#. Found in faq header.
+msgid "Admin Menu buttons are misaligned"
+msgstr ""
+
+#. Found in faq header.
+msgid "Some options are not working"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid ""
+"Please follow these steps:\n"
+"<br />* Open browser's console and try to find JavaScript errors.\n"
+"<br />* Check if you can locate the plugin that throws the error, if so, try disabling that plugin and contacting their support.\n"
+"<br />* Try disabling plugins one-by-one to see when this problem occurs. If you can't access login page, please temporary disable JavaScript in your browser and refresh the page.\n"
+"<br />* Try updating WordPress core and plugins\n"
+"<br />* If problem still persists, please contact the support"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "Make sure to have latest WordPress version installed. If nothing of these solutions help, please contact support."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "Yes, just make sure to install older version of AGCA that works for you."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "Please use 'Reset Settings' button on Admin Menu page to reset menu configuration to defaults. Make sure to use latest plugin version with latest patches."
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "If you have the latest WordPress and plugin versions and you still experience some issues, please contact us and report the issue."
+msgstr ""
