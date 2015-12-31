@@ -38,9 +38,11 @@ $( document ).ready(function() {
 
 	// NAV HEIGHTS — CALCULATE ON RESIZE
 
-	var liH = $("#nav_home").outerHeight() + 8;
-	console.log(liH);
+	function liHCalc () {
+		return $("#nav_home").outerHeight() + 8;		
+	}
 
+	var liH = liHCalc();
 
 	// NAV DROPDOWN 
 
@@ -115,16 +117,70 @@ $( document ).ready(function() {
 		// 2B. Append random number of images between 2 and 6
 		// Until all images are placed
 	 
+	function imagesPrep () {
+		var noImages = $(".page_collection li").length;
+		var total = 0;
+		// while loop corresponds to each row
+		while ( total < noImages ) {
+			var number;
+			// If less than 6 until end
+			if ( ( noImages - total ) <= 6 ) {
+				var max = noImages - total - 2;
+				number = parseInt( Math.random() * max ) + 2;
+				if ( max <= 0 ) {
+					number = noImages-total;
+				}
+			} else {
+				// random number between 2 and 6
+				number = parseInt( Math.random() * 4 ) + 2;
+			}
+			
+			$(".page_collection li").slice( total, total+number ).wrapAll("<div class='row'></div>").addClass("child-" + number);
+			console.log(number);
+			total += number; 
+		}
+		
+	}
 
+	// if on collection page, run function
+	if ( $(".page_collection").length ) {
+		imagesPrep();
+	} 
 
+	/* 
+
+	CART
+
+	*/
+
+	// QUANTITY TOGGLE
+
+	$(".product-quantity-default").on("click", function(){
+		$(this).hide().next(".product-quantity-input").show();
+	});
+
+	// BUTTON STYLING
+
+	function buttonResize () {
+		$("a.button").each( function(){
+	 		var thisW = $(this).width();
+			$(this).parent().addClass("button_wrapper").css(
+				"max-width", thisW
+			);
+		});		
+	}
 
 	// WINDOW EVENTS
 
 	$(window).on("load", function(){
 		navJustifyInit();
 		navJustifyCalc();
+		liHCalc();
+		buttonResize(); 
 	}).on("resize", function(){
 		navJustifyCalc();
+		liHCalc();
+		buttonResize(); 
 	}).on("scroll", function(){
 
 	});

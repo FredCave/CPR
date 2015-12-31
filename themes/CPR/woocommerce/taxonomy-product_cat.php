@@ -13,7 +13,7 @@ $cat = get_the_terms($post->id, 'product_cat');
 
 	<span class="sketch"><!-- Collection Page --></span>
 
-<div class="page page-collection" data-collection="<?php echo $cat[0]->slug; ?>">
+<div class="page page_collection" data-collection="<?php echo $cat[0]->slug; ?>">
 
 	<?php if ( have_posts() ) : ?>
 

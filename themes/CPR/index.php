@@ -25,16 +25,15 @@
 		NEED TO ABLE TO FILTER PRODUCTS
 	-->
 
-	<div id="home" class="page page-collection" data-collection="<?php echo $latest[0]->slug; ?>">
+	<div id="home" class="page page_collection" data-collection="<?php echo $latest[0]->slug; ?>">
+		
 		<ul>
 		<?php	
 		if ( $the_query->have_posts() ) {
 			while ( $the_query->have_posts() ) {
 				$the_query->the_post(); 
                 ?>
-
 				<?php wc_get_template_part( 'content', 'product' ); ?>
-			
 			<?php 
 			}
 		} 

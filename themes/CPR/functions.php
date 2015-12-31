@@ -43,6 +43,10 @@ function create_post_types() {
     );
 }
 
+// ADD CUSTOM IMAGE SIZE
+
+add_image_size( 'extra-large', 1024, 1024 ); 
+
 // Set max. number of products per page (80)
 add_filter( 'loop_shop_per_page', create_function( '$cols', 'return 80;' ), 20 );
 

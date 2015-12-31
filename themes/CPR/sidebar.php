@@ -41,6 +41,9 @@
 		<li><a href="<?php bloginfo( 'url' ); ?>/cart/">Cart</a></li>	
 		<li><a href="<?php bloginfo( 'url' ); ?>/my-account/">Account</a></li>
 		<!-- OPTIONAL ON CATEGORY PAGES -->
-		<li>Filter</li>	
+		<?php if ( is_product_category() || is_front_page() ) { ?>
+			<li>Filter</li>	
+		<?php } ?>
+		
 	</ul>
 </div>
