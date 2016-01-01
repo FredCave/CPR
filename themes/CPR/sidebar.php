@@ -11,7 +11,7 @@
 <!-- NAVIGATION -->
 <div id="nav">
 	<ul>
-		<li id="nav_home" class=""><a href="<?php bloginfo( 'url' ); ?>/">Can Pep Rey</a></li>
+		<li id="nav_home" class="wrap"><a href="<?php bloginfo( 'url' ); ?>/">Can Pep Rey</a></li>
 
 	<?php if ( is_front_page() ) { ?>
 		<span id="nav_dropdown" class="front_dropdown">
@@ -19,17 +19,17 @@
 		<span id="nav_dropdown">
 	<?php } ?>
 
-		<li class="nav_collection" data-length="<?php echo count( $all_cats ); ?>"><a href="">Collections:</a></li>
+		<li class="nav_collection wrap" data-length="<?php echo count( $all_cats ); ?>"><a href="">Collections:</a></li>
 
-		<?php foreach ( $all_cats as $cat  ) { ?>
-			<li id="<?php echo $cat->slug; ?>" class="nav_collection_2 nav_hidden">
+		<?php foreach ( $all_cats as $cat ) { ?>
+			<li id="<?php echo $cat->slug; ?>" class="nav_collection_2 nav_hidden wrap">
 				<a data-href="<?php bloginfo( 'url' ); ?>/collection/<?php echo $cat->slug; ?>"><?php echo $cat->name; ?></a>
 			</li>
 		<?php } ?>
 
-		<li class=""><a href="<?php bloginfo( 'url' ); ?>/_news/">News</a></li>
+		<li class="wrap"><a href="<?php bloginfo( 'url' ); ?>/_news/">News</a></li>
 
-		<li class=""><a href="<?php bloginfo( 'url' ); ?>/_information/">Information</a></li>
+		<li class="wrap"><a href="<?php bloginfo( 'url' ); ?>/_information/">Information</a></li>
 
 		</span>
 

@@ -75,6 +75,22 @@ b, strong {
     margin: 0 auto;
 }
 
+p {
+    line-height: 1.3;
+    margin-bottom: 12px;
+}
+
+h1 {
+    text-transform: uppercase;
+    margin-top: 6px;
+    margin-bottom: 48px;
+}
+
+h2 {
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
 /************************************************
     NAV
 ************************************************/
@@ -91,6 +107,11 @@ b, strong {
     padding-bottom: 8px;
     font-size: 4em;
     font-weight: bold;
+    text-transform: lowercase;
+}
+
+#nav_home {
+    text-transform: uppercase;    
 }
 
 #nav_dropdown {
@@ -118,11 +139,12 @@ b, strong {
 
 #nav li span:last-child {
     display: inline-block;
-    margin-left: -35px; /* This is mysterious why 35?? */
+    /*margin-left: -35px;*/ /* This is mysterious why 35?? */
 }
 
 #secondary_nav {
     position: fixed;
+    z-index: 999;
     bottom: 24px;
     width: 95.5%;
     left: 2.25%;
@@ -283,6 +305,64 @@ b, strong {
 }
 
 /************************************************
+    INFO / NEWS
+************************************************/
+
+.info_column {
+/*    border: 1px solid yellow;*/
+    width: 48%;
+    margin-right: 2%;
+    display: inline-block;
+    vertical-align: top;    
+}
+
+#info_text {
+
+}
+
+#info_right {
+    margin-right: 0%;
+    font-size: 0.8em;
+}
+
+.sub_col {
+/*    border: 1px solid orange;*/
+    display: inline-block;
+    vertical-align: top;
+    width: 48%;
+    margin-right: 2%;
+}
+
+.sub_col_right {
+    margin-right: 0%;
+    width: 49%;
+}
+
+.news_post {
+    margin-bottom: 64px;
+}
+
+.news_date {
+    display: block;
+    width: 100%;
+    font-weight: bold;
+    font-size: 2em;
+    text-transform: uppercase;
+}
+
+.news_images {
+    margin-right: 0%;
+    font-size: 0.8em;
+    float: right;
+}
+
+.news_images img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 24px;
+}
+
+/************************************************
     CART / CHECKOUT
 ************************************************/
 
@@ -293,7 +373,7 @@ table {
     text-align: left;
 } 
 
-input, .button_wrapper {
+input, .button_wrapper, button, select {
     border: 2px solid black;
     font-family: inherit;
     font-size: 1em;
@@ -301,6 +381,10 @@ input, .button_wrapper {
     background-color: transparent;
     padding: 2px 4px;
     display: inline-block;
+}
+
+select {
+    font-size: 0.8em;    
 }
 
 .input-text {
@@ -403,6 +487,7 @@ th, td {
 .amount {
     letter-spacing: 0.2em;
 }
+
 
 
 

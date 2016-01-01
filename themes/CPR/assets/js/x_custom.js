@@ -1,5 +1,66 @@
 $( document ).ready(function() {
 
+	// GLOBAL WRAP FUNCTION
+
+	function textWrapInit () {
+		// Apply lettering to words if string
+		$(".wrap").each( function(){
+			var target;
+			if ( $(this).has("a").length ) {
+				// target is child
+				target = $(this).find("a");
+			} else {
+				target = $(this);
+			}
+			target.lettering("words");
+			$(this).addClass("lettering-words");
+			// if only one word
+			if ( target.find("span").length === 1 ) {
+				target.text( $.trim( target.text() ) ).lettering().removeClass("lettering-words");
+			}
+		});
+	}	
+
+	function textWrapCalc () {
+		
+		/* 
+
+		THIS NEEDS FIXING 
+
+		*/
+
+		$(".wrap").each( function(){
+			var target;
+			if ( $(this).has("a").length ) {
+				// target is child
+				target = $(this).find("a");
+			} else {
+				target = $(this);
+			}
+
+			var wrapperW = target.parent().width();
+			var textW = 0;
+			var elemCount = 0;
+			target.find("span").each( function(){
+				textW += target.width();
+				elemCount++;
+			});
+			// console.log( wrapperW - textW );
+			
+			// How to take into account letter-spacing??
+
+			var diff = ( wrapperW - textW ) / ( elemCount - 1 );
+			//$(this).find("span").css("margin-right", diff * 1.02);
+			target.find("span").css("margin-right", diff * 0.95);
+			$(".lettering-words").find("span:last-child").css({
+				"margin-right" : "0px"
+				// "float" :  "right"
+			});
+		});
+	}
+
+
+	
 	// NAV ONE LINE JUSTIFY
 
 	function navJustifyInit() {
@@ -12,9 +73,6 @@ $( document ).ready(function() {
 
 	function navJustifyCalc() {
 		var wrapperW = $("#nav").width();
-		// set height - necessary??
-		//var liH = $("#nav li:first-child").height();	
-		//$("#nav li").css("height", liH);
 
 		// set spacing
 
@@ -162,7 +220,7 @@ $( document ).ready(function() {
 	// BUTTON STYLING
 
 	function buttonResize () {
-		$("a.button").each( function(){
+		$("a.button, a.shipping-calculator-button").each( function(){
 	 		var thisW = $(this).width();
 			$(this).parent().addClass("button_wrapper").css(
 				"max-width", thisW
@@ -170,15 +228,21 @@ $( document ).ready(function() {
 		});		
 	}
 
+	// NEWS
+
+	$(".news_text").each( function(){
+		$(this).find("img").appendTo( $(this).next(".news_images") )
+	});
+
 	// WINDOW EVENTS
 
 	$(window).on("load", function(){
-		navJustifyInit();
-		navJustifyCalc();
+		textWrapInit();
+		//textWrapCalc();
 		liHCalc();
 		buttonResize(); 
 	}).on("resize", function(){
-		navJustifyCalc();
+		//textWrapCalc();
 		liHCalc();
 		buttonResize(); 
 	}).on("scroll", function(){
