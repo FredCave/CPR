@@ -104,21 +104,25 @@ $( document ).ready(function() {
 
 	// NAV DROPDOWN 
 
+	function navHide () {
+		$("#nav").addClass("hidden");
+		$("#nav_dropdown").css("height", "0px");
+		// hide collections
+		$(".nav_hidden").each( function(){
+			var thisHref = $(this).find("a").data("href");
+			$(this).css("height","").find("a").attr("href", "").css("cursor","text");	
+		});
+	}
+
 	$("#nav_home").on("click", function(e){
 		e.preventDefault();
-		if ( !$(this).hasClass("clicked") ) {
-			$(this).addClass("clicked");
+		if ( $("#nav").hasClass("hidden") ) {
+			$("#nav").removeClass("hidden");
 			$("#nav_dropdown").css({
 				"height" : liH * 4
 			});
 		} else {
-			$(this).removeClass("clicked");
-			$("#nav_dropdown").css("height", "0px");
-			// hide collections
-			$(".nav_hidden").each( function(){
-				var thisHref = $(this).find("a").data("href");
-				$(this).css("height","").find("a").attr("href", "").css("cursor","text");	
-			});
+			navHide();
 		}
 	});
 
@@ -246,7 +250,7 @@ $( document ).ready(function() {
 		liHCalc();
 		buttonResize(); 
 	}).on("scroll", function(){
-
+		navHide();
 	});
     
 });
