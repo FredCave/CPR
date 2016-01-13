@@ -3,8 +3,12 @@
 <?php get_header(); ?>
 <?php get_sidebar(); ?>
 
-	<?php while ( have_posts() ) : the_post();
-		the_content();
-	endwhile; ?>
+	<div class="page">
+
+		<?php while ( have_posts() ) : the_post();
+			the_content();
+		endwhile; ?>
+
+	</div>
 
 <?php get_footer(); ?>

@@ -10,7 +10,7 @@
 	        while ( $the_query -> have_posts() ) : $the_query-> the_post(); ?>
 
 	    		<li class="news_post">
-	    			<span class="news_date wrap"><?php the_date('M d Y'); ?></span>
+	    			<div class="news_date"><?php the_date('M d Y'); ?><span class="break"></span></div>
 	    			<div class="news_content">
 	    				<div class="news_text info_column">
 	    					<?php the_content(); ?>

@@ -48,26 +48,32 @@ if ( 0 == $woocommerce_loop['loop'] % $woocommerce_loop['columns'] ) {
 
 	<a href="<?php the_permalink(); ?>" class="open_single">
 
-		<?php do_action( 'woocommerce_before_shop_loop_item' ); ?>
+		<?php if ( have_rows("product_images") ) : 
+			
+			while ( have_rows("product_images") ) : the_row();
 
-		<?php
-		$image = get_field('main_image'); 
-        if( !empty($image) ): 
-            $thumb = $image['sizes'][ "thumbnail" ];
-            $medium = $image['sizes'][ "medium" ];
-            $large = $image['sizes'][ "large" ];
-            $extralarge = $image['sizes'][ "extra-large" ];
-            $full = $image['url'];
-        endif;
-        ?>
+				$image = get_sub_field('product_image');
+				if( !empty($image) ): 
+		            $thumb = $image['sizes'][ "thumbnail" ]; // 300
+		            $medium = $image['sizes'][ "medium" ]; // 600
+		            $large = $image['sizes'][ "large" ]; // 800
+		            $extralarge = $image['sizes'][ "extra-large" ]; // 1024
+		        endif;
+		        ?>
 
-        <div class="picturefill-background">
-		    <span data-src="<?php echo $thumb; ?>"></span>
-		    <span data-src="<?php echo $medium; ?>" data-media="(min-width: 300px)"></span>
-		    <span data-src="<?php echo $large; ?>" data-media="(min-width: 600px)"></span>
-		    <span data-src="<?php echo $extralarge; ?>" data-media="(min-width: 800px)"></span>
-		    <span data-src="<?php echo $full; ?>" data-media="(min-width: 1024px)"></span>
-		</div>
+		        	<?php do_action( 'woocommerce_before_shop_loop_item' ); ?>
+
+			        <div class="picturefill-background">
+			        	<!-- CURRENTLY REFERRING TO WINDOW WIDTH, NOT IMAGE WIDTH ???? -->
+					    <span data-src="<?php echo $thumb; ?>"></span>
+					    <span data-src="<?php echo $medium; ?>" data-media="(min-width: 300px)"></span>
+					    <span data-src="<?php echo $large; ?>" data-media="(min-width: 600px)"></span>
+					    <span data-src="<?php echo $extralarge; ?>" data-media="(min-width: 800px)"></span>
+					</div>			
+
+			<?php         
+			endwhile;
+		endif; ?>
 
 		<?php
 			/**

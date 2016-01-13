@@ -1,3 +1,10 @@
+<?php 
+// Redirects if user not logged in
+if (!is_user_logged_in()) {
+   wp_redirect( home_url() ); 
+   exit;
+} 
+?>
 <?php get_header(); ?>
 <?php get_sidebar(); ?>
 

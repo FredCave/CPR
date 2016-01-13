@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 } ?>
 
-<div id="cart" class="page">
+<div id="cart">
 
 	<?php 
 	//wc_print_notices();

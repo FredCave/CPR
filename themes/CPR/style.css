@@ -26,6 +26,29 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
     FONTS
 ************************************************/
 
+@font-face {
+    font-family: 'VREGULAR';
+    src: url('fonts/vonnes-2-webfont.eot');
+    src: url('fonts/vonnes-2-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/vonnes-2-webfont.woff2') format('woff2'),
+         url('fonts/vonnes-2-webfont.woff') format('woff'),
+         url('fonts/vonnes-2-webfont.ttf') format('truetype'),
+         url('fonts/vonnes-2-webfont.svg#vonnesbook') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'VBLACK';
+    src: url('fonts/vonnes-black_1-webfont.eot');
+    src: url('fonts/vonnes-black_1-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/vonnes-black_1-webfont.woff2') format('woff2'),
+         url('fonts/vonnes-black_1-webfont.woff') format('woff'),
+         url('fonts/vonnes-black_1-webfont.ttf') format('truetype'),
+         url('fonts/vonnes-black_1-webfont.svg#vonnesregular') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
 
 /************************************************
     GENERAL
@@ -36,7 +59,7 @@ html, body {
     height: 100%;
     top: 0;
     margin-top: 0;
-    font-family: helvetica, arial, sans-serif;
+    font-family: VREGULAR, Vonnes, helvetica, arial, sans-serif;
     font-size: 1.2em;
     background-color: #efebe8; /* FOR ALL PAGES - JUST HOME ?? */
 }
@@ -75,20 +98,33 @@ b, strong {
     margin: 0 auto;
 }
 
-p {
+p, h3 {
     line-height: 1.3;
     margin-bottom: 12px;
+    text-align: justify;
 }
 
 h1 {
     text-transform: uppercase;
     margin-top: 6px;
-    margin-bottom: 48px;
+    margin-bottom: 42px;
 }
 
 h2 {
     text-transform: uppercase;
     margin-bottom: 12px;
+}
+
+li {
+    margin-bottom: 4px;
+}
+
+.wrap {
+    text-align: justify;
+}
+
+.stretch_it {
+    white-space: nowrap;
 }
 
 /************************************************
@@ -97,49 +133,85 @@ h2 {
 
 #nav {
 /*    border: 1px solid green;*/
-    overflow: hidden;
+ /*   overflow: hidden;*/
+    font-family: VBLACK, Vonnes, helvetica, arial, sans-serif;
     height: auto;
     position: fixed;
     z-index: 999;
-    top: 0;
+    top: 12px;
     width: 96%;
     left: 2%;
     padding-bottom: 8px;
     font-size: 4em;
     font-weight: bold;
     text-transform: lowercase;
+    letter-spacing: 0.1em;
+/*    white-space: nowrap;*/
+    text-align: justify;
+/*    display: none;*/
 }
 
-#nav_home {
+.liH {
+    height: 100%;
+}
+
+#nav_home, .nav_collection_2 {
     text-transform: uppercase;    
 }
 
 #nav_dropdown {
     height: auto;
-    -webkit-transition: height 2s;
-    transition: height 2s;
+/*    height: 100vh;*/
+    -webkit-transition: height 1s;
+    transition: height 1s;
     display: block;
     overflow: hidden;
 }
 
-#nav_dropdown.front_dropdown {
-    /*height: 0px; */   
+#nav_dropdown.dropdown_hide {
+    height: 0px;    
 }
 
-.nav_hidden {
+#nav li {
+/*    border: 1px solid red;*/
+    text-align: justify;
+    overflow: hidden;
+    height: 100px; /* need to set this with js */
+    padding-bottom: 4px;
+    margin-bottom: 0px;
+}
+
+.word_wrap {
+    text-align: center;
+}
+
+#nav .nav_hidden {
     height: 0px;
     overflow: hidden;
     -webkit-transition: height 1s;
     transition: height 1s;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
 }
 
-#nav li {
-    white-space: nowrap; 
+#nav li > span {
+    height: auto; 
 }
 
-#nav li span:last-child {
+/*#nav li span:last-child {
     display: inline-block;
-    /*margin-left: -35px;*/ /* This is mysterious why 35?? */
+    margin-left: -35px; 
+}*/
+
+.break {
+/*    border: 1px solid purple;*/
+    width: 100%;
+    display: inline-block;
+/*    height: 0px;*/
+}
+
+.justify {
+    text-align: center;
 }
 
 #secondary_nav {
@@ -148,6 +220,7 @@ h2 {
     bottom: 24px;
     width: 95.5%;
     left: 2.25%;
+    font-family: VBLACK, Vonnes, helvetica, arial, sans-serif;
     font-size: 1.5em;
     font-weight: bold;    
 }
@@ -194,114 +267,134 @@ h2 {
 .row {
 /*    border: 1px solid green;*/
     position: relative;
+    height: 600px;
     height: 66vh;
+    overflow: hidden;
 }
 
 /* ONE */
 
-.page_collection .child-1 {
+.child-1 {
     left: 50%;
     transform: translateX(-50%);
 }
 
 /* TWO */
 
-.page_collection .child-2:nth-child(1) {
+.child-2:nth-child(1) {
     left: 0%;
 }
 
-.page_collection .child-2:nth-child(2) {
+.child-2:nth-child(2) {
     right: 0%;
 }
 
 /* THREE */
 
-.page_collection .child-3:nth-child(1) {
+.child-3:nth-child(1) {
     left: 0%;
 }
 
-.page_collection .child-3:nth-child(2) {
+.child-3:nth-child(2) {
     left: 50%;
     transform: translateX(-50%);
 }
 
-.page_collection .child-3:nth-child(3) {
+.child-3:nth-child(3) {
     right: 0%;
 }
 
 /* FOUR */
 
-.page_collection .child-4:nth-child(1) {
+.child-4:nth-child(1) {
     left: 0%;
 }
 
-.page_collection .child-4:nth-child(2) {
+.child-4:nth-child(2) {
     left: 37.5%;
     transform: translateX(-50%);
 }
 
-.page_collection .child-4:nth-child(3) {
+.child-4:nth-child(3) {
     left: 62.5%;
     transform: translateX(-50%);
 }
 
-.page_collection .child-4:nth-child(4) {
+.child-4:nth-child(4) {
     right: 0%;
 }
 
 /* FIVE */
 
-.page_collection .child-5:nth-child(1) {
+.child-5:nth-child(1) {
     left: 0%;
 }
 
-.page_collection .child-5:nth-child(2) {
+.child-5:nth-child(2) {
     left: 30%;
     transform: translateX(-50%);
 }
 
-.page_collection .child-5:nth-child(3) {
+.child-5:nth-child(3) {
     left: 50%;
     transform: translateX(-50%);
 }
 
-.page_collection .child-5:nth-child(4) {
+.child-5:nth-child(4) {
     left: 70%;
     transform: translateX(-50%);
 }
 
-.page_collection .child-5:nth-child(5) {
+.child-5:nth-child(5) {
     right: 0%;
 }
 
 /* SIX */
 
-.page_collection .child-6:nth-child(1) {
+.child-6:nth-child(1) {
     left: 0%;
 }
 
-.page_collection .child-6:nth-child(2) {
+.child-6:nth-child(2) {
     left: 20%;
     transform: translateX(-50%);
 }
 
-.page_collection .child-6:nth-child(3) {
+.child-6:nth-child(3) {
     left: 40%;
     transform: translateX(-50%);
 }
 
-.page_collection .child-6:nth-child(4) {
+.child-6:nth-child(4) {
     left: 60%;
     transform: translateX(-50%);
 }
 
-.page_collection .child-6:nth-child(5) {
+.child-6:nth-child(5) {
     left: 80%;
     transform: translateX(-50%);
 }
 
-.page_collection .child-6:nth-child(6) {
+.child-6:nth-child(6) {
     right: 0%;
+}
+
+#collection_filter {
+/*    border: 1px solid purple;*/
+    bottom: 64px;
+    width: 50%;
+    position: fixed;
+    z-index: 999;
+    font-family: VBLACK, Vonnes, helvetica, arial, sans-serif;
+    font-size: 1.5em;
+    font-weight: bold; 
+    left: 25%;
+    text-align: center;
+    display: none;
+}
+
+#collection_filter li {
+    margin-bottom: 8px;
 }
 
 /************************************************
@@ -325,17 +418,28 @@ h2 {
     font-size: 0.8em;
 }
 
+#info_right > div {
+    /*margin-bottom: 24px;*/
+}
+
+.info_row {
+    margin-bottom: 36px;    
+}
+
 .sub_col {
 /*    border: 1px solid orange;*/
     display: inline-block;
     vertical-align: top;
-    width: 48%;
-    margin-right: 2%;
+    width: 47%;
+    margin-right: 5%;
 }
 
-.sub_col_right {
+#info_colophon, .sub_col_right {
     margin-right: 0%;
-    width: 49%;
+}
+
+#info_image {
+    margin-bottom: 24px;
 }
 
 .news_post {
@@ -348,6 +452,8 @@ h2 {
     font-weight: bold;
     font-size: 2em;
     text-transform: uppercase;
+    text-align: justify;
+    letter-spacing: 0.2em;
 }
 
 .news_images {
@@ -362,9 +468,21 @@ h2 {
     margin-bottom: 24px;
 }
 
+#info_image, #info_image img {
+    width: 100%;
+}
+
 /************************************************
-    CART / CHECKOUT
+    PAGES
 ************************************************/
+
+.page a {
+    border-bottom: 2px solid transparent;
+}
+
+.page a:hover {
+    border-bottom: 2px solid black;
+}
 
 table {
 /*    border: 1px solid purple;*/
@@ -389,10 +507,10 @@ select {
 
 .input-text {
     margin-left: -2px; /* APPLY TO ALL INPUT-TEXTS ?? */
-    width: 80%;
+    /*width: 80%;*/ /* WHAT WAS THIS FOR AGAIN ?? */
 }
 
-input[type="submit"]:hover, input[Type="button"]:hover, .button_wrapper:hover { 
+input[type="submit"]:hover, input[Type="button"]:hover, .button_wrapper:hover, .button:hover { 
     background-color: black;
     color: #efebe8;
     cursor: pointer;
@@ -488,7 +606,71 @@ th, td {
     letter-spacing: 0.2em;
 }
 
+.col2-set > div {
+    width: 48%;
+    display: inline-block;
+    margin-right: 2%;
+    vertical-align: top;
+}
 
+.col-2 {
+    margin-right: 0% !important;
+} 
+
+.address * {
+    margin-bottom: 12px;
+}
+
+/************************************************
+    SINGLE
+************************************************/
+
+#single_main_image {
+/*    border: 1px solid red;*/
+    width: 100%;
+    height: auto;
+    margin-bottom: 48px;
+} 
+
+#single_main_image img {
+    width: 100%;
+    height: auto;
+} 
+
+#single_additional_images {
+/*    border: 1px solid purple;*/
+    width: 100%;
+    margin-bottom: 48px;
+    position: relative;
+} 
+
+#single_additional_images .picturefill-background {
+    display: inline;
+    height: 100%;
+    width: 25%;
+    position: absolute;
+} 
+
+#single_info {
+/*    border: 1px solid green;*/
+    top: 0px;
+    left: 26%;
+    width: 48%;
+    height: 100%;
+    position: absolute;  
+    letter-spacing: 0.2em; 
+}
+
+#single_info li:first-child {
+    text-transform: uppercase;
+}
+
+.add_to_cart {
+/*    border: 1px solid green;*/
+    position: absolute;
+    bottom: -4px;
+    width: 100%;
+}
 
 
 

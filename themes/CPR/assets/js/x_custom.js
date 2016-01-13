@@ -2,107 +2,108 @@ $( document ).ready(function() {
 
 	// GLOBAL WRAP FUNCTION
 
-	function textWrapInit () {
-		// Apply lettering to words if string
+	function hasWhiteSpace(s) {
+		return s.indexOf(' ') >= 0;
+	}
+
+	function textWrapInit () {	
 		$(".wrap").each( function(){
-			var target;
+			var elmt;
 			if ( $(this).has("a").length ) {
 				// target is child
-				target = $(this).find("a");
+				elmt = $(this).find("a");
 			} else {
-				target = $(this);
-			}
-			target.lettering("words");
-			$(this).addClass("lettering-words");
-			// if only one word
-			if ( target.find("span").length === 1 ) {
-				target.text( $.trim( target.text() ) ).lettering().removeClass("lettering-words");
+				elmt = $(this);
+			}		
+			var txt = elmt.text().trim();
+			if ( hasWhiteSpace( txt ) ) {
+				// STRING
+				elmt.wrapInner("<span class='string_wrap'></span>").append("<span class='break'></span>");
+			} else {
+				elmt.wrapInner("<span class='word_wrap'></span>");
 			}
 		});
-	}	
+	}
+
+	$.fn.stretch_text = function(){
+
+		var elmt;
+		if ( $(this).has("a").length ) {
+			// target is child
+			elmt = $(this).find("a");
+		} else {
+			elmt = $(this);
+		}	    
+	    var cont_width;
+	    
+    	if ( $(this).parents("#nav").length ) {
+			cont_width = $("#nav").width();	
+    	} else {
+    		cont_width = elmt.parent(".wrap").width();
+    		console.log( $(this).text(), cont_width );
+    	} 
+	    var txt           = elmt.text(),
+	        one_line      = $('<span class="stretch_it">' + txt + '</span>'),
+	        nb_char       = elmt.text().length,
+	        spacing       = cont_width/nb_char,
+	        txt_width;
+   	    
+    	elmt.html(one_line).css({'letter-spacing': "0"});
+   		txt_width = one_line.width();
+   		// console.log(txt, cont_width, nb_char, txt_width);
+	
+	    if (txt_width < cont_width){
+	        var char_width = txt_width/nb_char,
+	            ltr_spacing = spacing - char_width + (spacing - char_width)/nb_char;   
+	        one_line.css({'letter-spacing': ltr_spacing});
+	    } else {
+	        one_line.contents().unwrap();
+	        // elmt.addClass('justify');
+	    }
+
+	};
+
+	var liH;
 
 	function textWrapCalc () {
 		
-		/* 
-
-		THIS NEEDS FIXING 
-
-		*/
-
-		$(".wrap").each( function(){
-			var target;
+		// JUST FOR SINGLE WORDS
+		
+		$(".word_wrap").each( function(){			
+			var elmt;
 			if ( $(this).has("a").length ) {
 				// target is child
-				target = $(this).find("a");
+				elmt = $(this).find("a");
 			} else {
-				target = $(this);
+				elmt = $(this);
+			}		
+			// console.log( $(this).text() );
+			$(this).css("text-align","center").stretch_text()				
+		});
+
+		// CALCULATE LI HEIGHT HERE
+
+		liH = $("#nav_home .string_wrap").height() - 12;
+		console.log( liH );
+		$("#nav li").css("height", liH);
+
+		$(".string_wrap").each( function(){
+			if ( $(this).parent("h2").length ) {
+				$("h2").css( "height", $(this).height() );
+			} else if ( $(this).parent("h3").length ) {
+				$("h3").css( "height", $(this).height() );
+			} else {
+				$(this).parent(".wrap").css( "height", $(this).height() );
 			}
 
-			var wrapperW = target.parent().width();
-			var textW = 0;
-			var elemCount = 0;
-			target.find("span").each( function(){
-				textW += target.width();
-				elemCount++;
-			});
-			// console.log( wrapperW - textW );
-			
-			// How to take into account letter-spacing??
-
-			var diff = ( wrapperW - textW ) / ( elemCount - 1 );
-			//$(this).find("span").css("margin-right", diff * 1.02);
-			target.find("span").css("margin-right", diff * 0.95);
-			$(".lettering-words").find("span:last-child").css({
-				"margin-right" : "0px"
-				// "float" :  "right"
-			});
 		});
+
 	}
 
-
-	
-	// NAV ONE LINE JUSTIFY
-
-	function navJustifyInit() {
-		$("#nav a").lettering('words').each( function(){
-			if ( $(this).find("span").length === 1 ) {
-				$(this).text( $.trim( $(this).text() ) ).lettering();
-			}
-		});
-	}
-
-	function navJustifyCalc() {
-		var wrapperW = $("#nav").width();
-
-		// set spacing
-
-		$("#nav a").each( function(){
-			var textW = 0;
-			var elemCount = 0;
-			$(this).find("span").each( function(){
-				textW += $(this).width();
-				elemCount++;
-			});
-			// console.log( wrapperW - textW );
-			
-			var diff = ( wrapperW - textW ) / ( elemCount - 1 );
-			$(this).find("span").css("margin-right", diff * 0.95);
-			$(this).find("span:last-child").css({
-				"margin-right" : "0px",
-				"float" :  "right"
-			});
-		});
-	}
-
-	// NAV HEIGHTS — CALCULATE ON RESIZE
-
-	function liHCalc () {
-		return $("#nav_home").outerHeight() + 8;		
-	}
-
-	var liH = liHCalc();
 
 	// NAV DROPDOWN 
+
+	// $("#nav_dropdown").css("height", 5 * liH);
 
 	function navHide () {
 		$("#nav").addClass("hidden");
@@ -114,17 +115,27 @@ $( document ).ready(function() {
 		});
 	}
 
-	$("#nav_home").on("click", function(e){
-		e.preventDefault();
-		if ( $("#nav").hasClass("hidden") ) {
-			$("#nav").removeClass("hidden");
-			$("#nav_dropdown").css({
-				"height" : liH * 4
-			});
-		} else {
-			navHide();
-		}
+	$("#nav").hover( function(){
+		$("#nav").removeClass("hidden");
+		$("#nav_dropdown").css({
+			"height" : liH * 4
+		});
+	}, function () {
+		navHide();
 	});
+
+
+		// ON SCROLL
+
+	var lastScrollTop = 0;
+	function scrollDetect () {
+		var current = $(this).scrollTop();
+		// console.log(current, lastScrollTop);
+	   	if (current > (lastScrollTop + 100) ){
+	       navHide();
+	   	} 
+	   	lastScrollTop = current;
+	}
 
 	// NAV COLLECTION DROPDOWN + VISIBILITY
 
@@ -198,7 +209,7 @@ $( document ).ready(function() {
 			}
 			
 			$(".page_collection li").slice( total, total+number ).wrapAll("<div class='row'></div>").addClass("child-" + number);
-			console.log(number);
+			// console.log(number);
 			total += number; 
 		}
 		
@@ -208,6 +219,45 @@ $( document ).ready(function() {
 	if ( $(".page_collection").length ) {
 		imagesPrep();
 	} 
+
+	// COLLECTION FILTER
+
+		// TOGGLE
+
+	var filterVis = false;
+	$("#filter_toggle").on("click", function(e){
+		e.preventDefault();
+		if ( !filterVis ) {
+			$("#collection_filter").show();
+			filterVis = true;	
+		} else {
+			$("#collection_filter").hide();
+			filterVis = false;
+		}
+	});
+
+		// FILTER REVEAL ON SINGLE PAGE
+
+	if ( $("#single_collection").length ) {	
+		// get offset of collection section
+		var thisTop = $("#single_collection").offset().top;	
+		$(window).on("scroll", function(){
+			if ( $(window).scrollTop() > thisTop ) {
+				$("#filter_toggle").show();
+			} else {
+				$("#filter_toggle").hide();
+			}			
+		});
+	}
+
+	/* 
+
+	SINGLE
+
+	*/
+
+	$(".price").wrap("<div class='wrap'></div>");
+
 
 	/* 
 
@@ -232,6 +282,14 @@ $( document ).ready(function() {
 		});		
 	}
 
+	$(".button_wrapper").hover( function(){
+		console.log("hover");
+		//$(this).children().css("color", "#efebe8");
+	}, function(){
+		//$(this).children().css("color", "");
+	}); //// ?????
+
+
 	// NEWS
 
 	$(".news_text").each( function(){
@@ -242,15 +300,16 @@ $( document ).ready(function() {
 
 	$(window).on("load", function(){
 		textWrapInit();
-		//textWrapCalc();
-		liHCalc();
+		textWrapCalc();
 		buttonResize(); 
 	}).on("resize", function(){
-		//textWrapCalc();
-		liHCalc();
+		textWrapCalc();
 		buttonResize(); 
-	}).on("scroll", function(){
-		navHide();
 	});
+
+		// THROTTLED SCROLL DETECT
+	$(window).on('scroll', _.throttle(function() {
+		scrollDetect();
+	}, 1000));
     
 });

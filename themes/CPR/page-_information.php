@@ -24,10 +24,10 @@
 					    while ( have_rows("info_stockists") ) : the_row();			        
 							if ( $left ) {
 								$left = false;
-								echo "<div class='sub_col_left sub_col'>";
+								echo "<div class='sub_col_left sub_col info_row'>";
 							} else {
 								$left = true;
-								echo "<div class='sub_col_right sub_col'>";
+								echo "<div class='sub_col_right sub_col info_row'>";
 							}
 							?>
 					        <h2 class="wrap"><?php the_sub_field("info_stockists_country"); ?></h2>
@@ -36,7 +36,7 @@
 								while ( have_rows("info_stockists_names") ) : the_row(); 
 								
 								?>
-									<p class="wrap"><?php the_sub_field("info_stockists_name"); ?></p>
+									<h3 class="wrap"><?php the_sub_field("info_stockists_name"); ?></h3>
 
 								<?php endwhile;
 					        }
@@ -46,24 +46,50 @@
 					endif; ?>
 				</div>
 
-				<!-- IMAGE??? -->
+				<div id="info_image" class="">
+					<?php $image = get_field( "info_image" ); 
+					if( !empty($image) ): 
+			            $thumb = $image["sizes"][ "thumbnail" ]; // 300
+			            $medium = $image["sizes"][ "medium" ]; // 600
+			            $large = $image["sizes"][ "large" ]; // 800
+			            $extralarge = $image["sizes"][ "extra-large" ]; // 1024
+			            $full = $image["url"];
+			        endif; ?>
 
-				<div id="info_contact" class="hide">
+			        <img class="" 
+		                sizes="100vw" 
+		                srcset="<?php echo $full; ?> 2000w,
+		                		<?php echo $extralarge; ?> 1024w,
+		                		<?php echo $large; ?> 800w,
+		                        <?php echo $medium; ?> 600w,
+		                        <?php echo $thumb; ?> 300w"
+		                src="<?php echo $extralarge; ?>"
+		                alt="Can Pep Rey portrait"
+		            />	
+				</div>
+
+				<div id="info_contact" class="sub_col_left sub_col">
 					<!-- CONTACT -->
 					<?php if( have_rows("info_contact") ):
-					    while ( have_rows("info_contact") ) : the_row();
-					        the_sub_field("info_contact_name");
-					        the_sub_field("info_contact_address");
+					    while ( have_rows("info_contact") ) : the_row(); ?>
+					    	<div class="info_row">
+						        <h2 class="wrap"><?php the_sub_field("info_contact_name"); ?></h2>
+						        <h3 class="wrap"><?php the_sub_field("info_contact_address"); ?></h3>
+						    </div>
+					<?php
 					    endwhile;
 					endif; ?>
 				</div>
 
-				<div class="hide">
+				<div id="info_colophon" class="sub_col_left sub_col">
 					<!-- COLOPHON -->
 					<?php if( have_rows("info_colophon") ):
-					    while ( have_rows("info_colophon") ) : the_row();
-					        the_sub_field("info_colophon_title");
-					        the_sub_field("info_colophon_name");
+					    while ( have_rows("info_colophon") ) : the_row(); ?>
+					    	<div class="info_row">
+						        <h2 class="wrap"><?php the_sub_field("info_colophon_title"); ?></h2>
+						        <h3 class="wrap"><?php the_sub_field("info_colophon_name"); ?></h3>
+						    </div>
+					<?php
 					    endwhile;
 					endif; ?>
 				</div>

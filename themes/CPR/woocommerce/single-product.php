@@ -6,7 +6,7 @@ get_header();
 get_sidebar();
 ?>
 
-<div id="single_product" class="page">
+<div id="single_product" class="">
 
 	<?php while ( have_posts() ) : the_post(); ?>
 
@@ -26,6 +26,12 @@ get_sidebar();
 
 		<div itemscope itemtype="<?php echo woocommerce_get_product_schema(); ?>" id="product-<?php the_ID(); ?>" <?php post_class(); ?>>
 
+			<!-- CONTENT HERE -->
+
+			<?php wc_get_template_part( 'content', 'single-product' ); ?>
+
+			<!-- FOLLWING HAS BEEN REMOVED -->
+
 			<?php remove_action( 'woocommerce_before_single_product_summary', 'woocommerce_show_product_sale_flash', 10 ); ?>
 
 			<?php
@@ -35,7 +41,7 @@ get_sidebar();
 				 * @hooked woocommerce_show_product_sale_flash - 10
 				 * @hooked woocommerce_show_product_images - 20
 				 */
-				do_action( 'woocommerce_before_single_product_summary' );
+				// do_action( 'woocommerce_before_single_product_summary' );
 			?>
 
 			<div class="summary entry-summary">
@@ -54,7 +60,7 @@ get_sidebar();
 					 * @hooked woocommerce_template_single_meta - 40
 					 * @hooked woocommerce_template_single_sharing - 50
 					 */
-					do_action( 'woocommerce_single_product_summary' );
+					//do_action( 'woocommerce_single_product_summary' );
 				?>
 
 			</div><!-- .summary -->
@@ -85,7 +91,7 @@ get_sidebar();
 
 </div><!-- end of #single_product -->
 
-<div id="single_collection">
+<div id="single_collection" class="page_collection">
 
 	<?php
 	/* GET THIS PRODUCT CATEGORY */ 
@@ -111,9 +117,7 @@ get_sidebar();
 		if ( $the_query->have_posts() ) {
 			while ( $the_query->have_posts() ) {
 				$the_query->the_post(); ?>
-				<li>
-					<?php the_title(); ?>
-				</li>
+					<?php wc_get_template_part( 'content', 'product' ); ?>
 				<?php	
 			}
 		} 

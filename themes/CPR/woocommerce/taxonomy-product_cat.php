@@ -13,6 +13,14 @@ $cat = get_the_terms($post->id, 'product_cat');
 
 	<span class="sketch"><!-- Collection Page --></span>
 
+	<ul id="collection_filter">
+	<?php 
+		$tags = get_terms ( "product_tag", "orderby=name" ); 
+	    foreach ( $tags as $tag ) { ?>
+			<li><a href=""><?php echo $tag->name; ?></a></li>
+		<?php } ?> 
+	</ul>
+
 <div class="page page_collection" data-collection="<?php echo $cat[0]->slug; ?>">
 
 	<?php if ( have_posts() ) : ?>
@@ -21,6 +29,9 @@ $cat = get_the_terms($post->id, 'product_cat');
 
 			<?php while ( have_posts() ) : the_post(); ?>
 
+				<?php wc_get_template_part( 'content', 'product' ); ?>
+
+				<!-- TEMP TO HAVE MORE PRODUCTS -->
 				<?php wc_get_template_part( 'content', 'product' ); ?>
 				
 			<?php endwhile; // end of the loop. ?>
