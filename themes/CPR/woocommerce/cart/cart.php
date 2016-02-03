@@ -61,23 +61,40 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 						<td class="product-thumbnail">
 							<?php
-								$thumbnail = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image(), $cart_item, $cart_item_key );
+								if ( get_field( 'product_images', $product_id ) ) :
 
-								if ( ! $_product->is_visible() ) {
-									echo $thumbnail;
-								} else {
-									printf( '<a href="%s">%s</a>', esc_url( $_product->get_permalink( $cart_item ) ), $thumbnail );
-								}
-							?>
+										$image = get_field( "product_images", $product_id )[0]["product_image"];
+										if( !empty($image) ): 
+								            $thumb = $image['sizes'][ "thumbnail" ]; // 300
+								            $medium = $image['sizes'][ "medium" ]; // 600
+								            $large = $image['sizes'][ "large" ]; // 800
+								            $extralarge = $image['sizes'][ "extra-large" ]; // 1024
+								        endif;
+								        ?>
+
+										<img class="" 
+							                sizes="100vw" 
+							                srcset="<?php echo $extralarge; ?> 1024w,
+							                		<?php echo $large; ?> 800w,
+							                        <?php echo $medium; ?> 600w,
+							                        <?php echo $thumb; ?> 300w"
+							                src="<?php echo $extralarge; ?>"
+							                alt="Can Pep Rey — <?php the_title(); ?>"
+							            />		
+
+							<?php endif; ?>
 						</td>
 
 						<td class="product-name">
 							<?php
+								/*
 								if ( ! $_product->is_visible() ) {
 									echo apply_filters( 'woocommerce_cart_item_name', $_product->get_title(), $cart_item, $cart_item_key ) . '&nbsp;';
 								} else {
 									echo apply_filters( 'woocommerce_cart_item_name', sprintf( '<a href="%s">%s </a>', esc_url( $_product->get_permalink( $cart_item ) ), $_product->get_title() ), $cart_item, $cart_item_key );
 								}
+								*/
+								echo $_product->get_title();
 
 								// Meta data
 								echo WC()->cart->get_item_data( $cart_item );

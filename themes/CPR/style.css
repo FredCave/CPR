@@ -8,13 +8,11 @@ Author URI:		http://www.fredcave.com
     display: none !important;
 }
 
-/* TMP */
-.sketch {
-    color: red;
-    font-size: 2em;
-    font-family: Times;
-}
-/* END OF TMP */
+/* BACKEND */
+
+#visible_col {
+    min-width: 200px;
+} 
 
 /************************************************
     CSS RESET
@@ -50,6 +48,18 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'CPR';
+    src: url('fonts/cprt-webfont.eot');
+    src: url('fonts/cprt-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/cprt-webfont.woff2') format('woff2'),
+         url('fonts/cprt-webfont.woff') format('woff'),
+         url('fonts/cprt-webfont.ttf') format('truetype'),
+         url('fonts/cprt-webfont.svg#cprregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /************************************************
     GENERAL
 ************************************************/
@@ -60,7 +70,7 @@ html, body {
     top: 0;
     margin-top: 0;
     font-family: VREGULAR, Vonnes, helvetica, arial, sans-serif;
-    font-size: 1.2em;
+    font-size: 1.1em;
     background-color: #efebe8; /* FOR ALL PAGES - JUST HOME ?? */
 }
 
@@ -93,29 +103,47 @@ b, strong {
 
 .page {
     padding: 120px 0 200px 0;
-    min-height: 100%;
+/*    min-height: 100%;*/
     width: 95%;
     margin: 0 auto;
 }
 
 p, h3 {
-    line-height: 1.3;
+    line-height: 1.4;
     margin-bottom: 12px;
     text-align: justify;
 }
 
+h3 {
+    letter-spacing: 0.2em;
+}
+
+td {
+    letter-spacing: 0.2em;
+    line-height: 1.3;    
+}
+
 h1 {
     text-transform: uppercase;
-    margin-top: 6px;
-    margin-bottom: 42px;
+    margin-bottom: 8px;
+    font-family: VBLACK, Vonnes, helvetica, arial, sans-serif;
+    letter-spacing: 0.4em;
+    line-height: 1.4;
 }
 
 h2 {
     text-transform: uppercase;
     margin-bottom: 12px;
+    letter-spacing: 0.4em;
+    line-height: 1.4;
 }
 
 li {
+    margin-bottom: 4px;
+}
+
+label {
+    display: block;
     margin-bottom: 4px;
 }
 
@@ -134,7 +162,7 @@ li {
 #nav {
 /*    border: 1px solid green;*/
  /*   overflow: hidden;*/
-    font-family: VBLACK, Vonnes, helvetica, arial, sans-serif;
+    font-family: Vonnes, helvetica, arial, sans-serif;
     height: auto;
     position: fixed;
     z-index: 999;
@@ -143,11 +171,10 @@ li {
     left: 2%;
     padding-bottom: 8px;
     font-size: 4em;
+    font-size: 6.5vw;
     font-weight: bold;
     text-transform: lowercase;
     letter-spacing: 0.1em;
-/*    white-space: nowrap;*/
-    text-align: justify;
 /*    display: none;*/
 }
 
@@ -155,11 +182,17 @@ li {
     height: 100%;
 }
 
+#nav_home {
+    font-family: CPR, VBLACK, Vonnes, helvetica, arial, sans-serif;   
+    font-weight: normal;
+}
+
 #nav_home, .nav_collection_2 {
     text-transform: uppercase;    
 }
 
 #nav_dropdown {
+/*    border: 1px solid orange;*/
     height: auto;
 /*    height: 100vh;*/
     -webkit-transition: height 1s;
@@ -173,12 +206,49 @@ li {
 }
 
 #nav li {
-/*    border: 1px solid red;*/
+/*    border: 1px solid blue;*/
     text-align: justify;
     overflow: hidden;
     height: 100px; /* need to set this with js */
     padding-bottom: 4px;
     margin-bottom: 0px;
+}
+
+#nav a {
+/*    border: 1px solid red;*/
+    width: 100%;
+}
+
+.nav_share {
+/*    border: 1px solid red;  */ 
+    position: relative; 
+    text-align: center;
+}
+
+.nav_share img {
+/*    border: 1px solid orange;*/
+    height: 60%;
+    margin: 0% 60px;
+}
+
+.wrapped {
+    position: absolute; 
+    top: 10%;
+    margin: 0px !important;    
+}
+
+.nav_share a:nth-child(1) .wrapped {
+    left: 0%;
+}
+
+.nav_share a:nth-child(2) .wrapped {
+    left: 50%;
+    transform: translateX(-50%);
+
+}
+
+.nav_share a:nth-child(3) .wrapped { 
+    right: 0;     
 }
 
 .word_wrap {
@@ -221,7 +291,7 @@ li {
     width: 95.5%;
     left: 2.25%;
     font-family: VBLACK, Vonnes, helvetica, arial, sans-serif;
-    font-size: 1.5em;
+    font-size: 1.4em;
     font-weight: bold;    
 }
 
@@ -249,6 +319,7 @@ li {
 
 .page_collection {
     padding: 0;
+    padding-top: 120px;
     width: 100%;
 }
 
@@ -262,6 +333,13 @@ li {
 .page_collection .picturefill-background {
     height: 100%;
     width: 100%;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+}
+
+.page_collection .picturefill-background:first-child {
+    opacity: 1;
 }
 
 .row {
@@ -326,6 +404,10 @@ li {
 
 /* FIVE */
 
+.child-5 {
+    width: 20% !important;
+}
+
 .child-5:nth-child(1) {
     left: 0%;
 }
@@ -350,6 +432,10 @@ li {
 }
 
 /* SIX */
+
+.child-6 {
+    width: 16.66% !important;
+}
 
 .child-6:nth-child(1) {
     left: 0%;
@@ -376,6 +462,50 @@ li {
 }
 
 .child-6:nth-child(6) {
+    right: 0%;
+}
+
+/* EIGHT */
+
+.child-8 {
+    width: 12.5% !important;
+}
+
+.child-8:nth-child(1) {
+    left: 0%;
+}
+
+.child-8:nth-child(2) {
+    left: 18.75%;
+    transform: translateX(-50%);
+}
+
+.child-8:nth-child(3) {
+    left: 31.25%;
+    transform: translateX(-50%);
+}
+
+.child-8:nth-child(4) {
+    left: 43.75%;
+    transform: translateX(-50%);
+}
+
+.child-8:nth-child(5) {
+    left: 56.25%;
+    transform: translateX(-50%);
+}
+
+.child-8:nth-child(6) {
+    left: 68.75%;
+    transform: translateX(-50%);
+}
+
+.child-8:nth-child(7) {
+    left: 81.25%;
+    transform: translateX(-50%);
+}
+
+.child-8:nth-child(8) {
     right: 0%;
 }
 
@@ -410,11 +540,12 @@ li {
 }
 
 #info_text {
-
+    font-size: 1.2em;
 }
 
 #info_right {
     margin-right: 0%;
+    margin-top: 8px;
     font-size: 0.8em;
 }
 
@@ -423,7 +554,7 @@ li {
 }
 
 .info_row {
-    margin-bottom: 36px;    
+    margin-bottom: 24px;    
 }
 
 .sub_col {
@@ -442,6 +573,25 @@ li {
     margin-bottom: 24px;
 }
 
+#campaign_list {
+    margin-bottom: 48px; 
+}
+
+.campaign_title {
+    font-family: VBLACK, Vonnes, helvetica, arial, sans-serif;   
+    font-weight: bold;
+    font-size: 3em;
+    text-transform: lowercase;  
+    letter-spacing: 0.2em;     
+}
+
+.campaign_image {
+    background-color: gray;
+    width: 67%;
+    height: 400px;
+    margin: 36px auto;
+}
+
 .news_post {
     margin-bottom: 64px;
 }
@@ -449,17 +599,23 @@ li {
 .news_date {
     display: block;
     width: 100%;
+    font-family: VBLACK, Vonnes, helvetica, arial, sans-serif;   
     font-weight: bold;
-    font-size: 2em;
+    font-size: 1.4em;
     text-transform: uppercase;
     text-align: justify;
     letter-spacing: 0.2em;
 }
 
+.news_content {
+/*    margin-top: -24px;*/
+}
+
 .news_images {
     margin-right: 0%;
     font-size: 0.8em;
-    float: right;
+/*    float: right;*/
+/*    margin-top: 18px;*/
 }
 
 .news_images img {
@@ -499,6 +655,8 @@ input, .button_wrapper, button, select {
     background-color: transparent;
     padding: 2px 4px;
     display: inline-block;
+    margin-left: -6px;
+    letter-spacing: 0.2em;
 }
 
 select {
@@ -506,8 +664,13 @@ select {
 }
 
 .input-text {
-    margin-left: -2px; /* APPLY TO ALL INPUT-TEXTS ?? */
-    /*width: 80%;*/ /* WHAT WAS THIS FOR AGAIN ?? */
+    margin-left: -6px; 
+    width: 80%; 
+}
+
+.login input {
+    width: auto;
+    margin-left: 0px; 
 }
 
 input[type="submit"]:hover, input[Type="button"]:hover, .button_wrapper:hover, .button:hover { 
@@ -517,7 +680,7 @@ input[type="submit"]:hover, input[Type="button"]:hover, .button_wrapper:hover, .
 }
 
 tr {
-    border-bottom: 4px solid black;
+    border-bottom: 2px solid black;
 }
 
 th {
@@ -621,6 +784,38 @@ th, td {
     margin-bottom: 12px;
 }
 
+a.remove:hover {
+    border-bottom: 1px solid transparent;
+} 
+
+.shipping { 
+    position: relative; 
+}
+
+.checkout div {
+    margin-bottom: 12px;
+}
+
+.checkout input {
+    margin-left: 0px;
+}
+
+.shop_table, .payment_methods {
+    margin-bottom: 24px;
+}
+
+.payment_methods label {
+    display: inline-block;
+}
+
+.select2-choice:hover {
+    border: 1px solid transparent;
+}
+
+#password {
+    margin-bottom: 16px;
+}
+
 /************************************************
     SINGLE
 ************************************************/
@@ -642,6 +837,7 @@ th, td {
     width: 100%;
     margin-bottom: 48px;
     position: relative;
+    overflow: visible;
 } 
 
 #single_additional_images .picturefill-background {
@@ -666,10 +862,18 @@ th, td {
 }
 
 .add_to_cart {
-/*    border: 1px solid green;*/
+    border-bottom: 2px solid transparent;
     position: absolute;
+    padding-bottom: 4px;
     bottom: -4px;
     width: 100%;
+    text-transform: uppercase;
+    height: 1em;
+    overflow: hidden;
+}
+
+.add_to_cart:hover {
+    border-bottom: 2px solid black;
 }
 
 

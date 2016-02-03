@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 
-<div itemscope itemtype="<?php echo woocommerce_get_product_schema(); ?>" id="product-<?php the_ID(); ?>" <?php post_class(); ?>>
+<div itemscope itemtype="<?php echo woocommerce_get_product_schema(); ?>" id="product-<?php the_ID(); ?>" <?php /*post_class();*/ ?>>
 
 	<div class="custom-content">
 
@@ -84,7 +84,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<li class="wrap">Blue Stone Ivory Red</span></li>
 				</ul>
 
-				<div class="add_to_cart">
+				<div class="add_to_cart wrap">
+					<a href="">
+						Add to Cart
+					</a>
+
 					<?php remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_title', 5 ); ?>					
 					<?php remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 ); ?>
 					<?php
@@ -99,7 +103,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						 * @hooked woocommerce_template_single_meta - 40
 						 * @hooked woocommerce_template_single_sharing - 50
 						 */
-						do_action( 'woocommerce_single_product_summary' );
+						// do_action( 'woocommerce_single_product_summary' );
 					?>
 				</div>
 			</div>	

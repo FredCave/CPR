@@ -11,8 +11,6 @@ global $post;
 $cat = get_the_terms($post->id, 'product_cat');
 ?>
 
-	<span class="sketch"><!-- Collection Page --></span>
-
 	<ul id="collection_filter">
 	<?php 
 		$tags = get_terms ( "product_tag", "orderby=name" ); 
@@ -29,9 +27,6 @@ $cat = get_the_terms($post->id, 'product_cat');
 
 			<?php while ( have_posts() ) : the_post(); ?>
 
-				<?php wc_get_template_part( 'content', 'product' ); ?>
-
-				<!-- TEMP TO HAVE MORE PRODUCTS -->
 				<?php wc_get_template_part( 'content', 'product' ); ?>
 				
 			<?php endwhile; // end of the loop. ?>

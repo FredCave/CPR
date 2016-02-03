@@ -40,7 +40,7 @@ $( document ).ready(function() {
 			cont_width = $("#nav").width();	
     	} else {
     		cont_width = elmt.parent(".wrap").width();
-    		console.log( $(this).text(), cont_width );
+    		//console.log( $(this).text(), cont_width );
     	} 
 	    var txt           = elmt.text(),
 	        one_line      = $('<span class="stretch_it">' + txt + '</span>'),
@@ -83,8 +83,8 @@ $( document ).ready(function() {
 
 		// CALCULATE LI HEIGHT HERE
 
-		liH = $("#nav_home .string_wrap").height() - 12;
-		console.log( liH );
+		liH = $("#nav_dropdown .string_wrap").height() + 18;
+		//console.log( liH );
 		$("#nav li").css("height", liH);
 
 		$(".string_wrap").each( function(){
@@ -99,7 +99,6 @@ $( document ).ready(function() {
 		});
 
 	}
-
 
 	// NAV DROPDOWN 
 
@@ -116,14 +115,37 @@ $( document ).ready(function() {
 	}
 
 	$("#nav").hover( function(){
+		/*
 		$("#nav").removeClass("hidden");
 		$("#nav_dropdown").css({
-			"height" : liH * 4
+			"height" : (liH * 5) + 12
 		});
+		*/
 	}, function () {
 		navHide();
 	});
 
+	// NAV LI HOVER + CENTER
+
+	var spacing;
+	$("#nav li").not("#nav_home").hover( function(){
+		// string wrap
+		$(this).css("text-align","center");
+		// record calculated letter-spacing
+		spacing = parseInt( $(this).find(".stretch_it").css("letter-spacing") );
+		$(this).find(".stretch_it").css("letter-spacing","0.2em").attr("data-spacing", spacing);
+	}, function () {
+		$(this).css("text-align","");	
+		$(this).find(".stretch_it").css("letter-spacing", spacing);
+	});
+
+		// IMGs HOVER
+
+	$(".nav_share").hover( function(){
+		$(this).find("img").removeClass("wrapped");
+	}, function(){
+		$(this).find("img").addClass("wrapped");
+	});
 
 		// ON SCROLL
 
@@ -180,7 +202,7 @@ $( document ).ready(function() {
 		// toggle visibility
 	$(".nav_collection").on("click", function(e){
 		e.preventDefault();
-		collToggle();
+		//collToggle();
 	});
 
 	// COLLECTION IMAGES
@@ -193,25 +215,36 @@ $( document ).ready(function() {
 	function imagesPrep () {
 		var noImages = $(".page_collection li").length;
 		var total = 0;
+		/*
+		recalculated on resize
+		*/
+		var arrayLarge = [3,8,2,5];
+		var arrayMid = [3,1,5,2];
+		var arraySmall = [3,1,2,1];
+
 		// while loop corresponds to each row
+		var i = 0;
 		while ( total < noImages ) {
-			var number;
-			// If less than 6 until end
-			if ( ( noImages - total ) <= 6 ) {
-				var max = noImages - total - 2;
-				number = parseInt( Math.random() * max ) + 2;
-				if ( max <= 0 ) {
-					number = noImages-total;
-				}
-			} else {
-				// random number between 2 and 6
-				number = parseInt( Math.random() * 4 ) + 2;
+			
+			number = arrayLarge[ i ];
+
+			// if number of images left is less than array number
+			if ( ( noImages - total ) < number ) {
+				number = noImages - total;
 			}
 			
 			$(".page_collection li").slice( total, total+number ).wrapAll("<div class='row'></div>").addClass("child-" + number);
-			// console.log(number);
 			total += number; 
-		}
+
+			console.log(total, number, noImages);
+
+			if ( i === 3 ) {
+				i = 0;
+			} else {
+				i++;	
+			}
+
+		} // end of while
 		
 	}
 
@@ -219,6 +252,15 @@ $( document ).ready(function() {
 	if ( $(".page_collection").length ) {
 		imagesPrep();
 	} 
+
+	// IMAGE HOVER
+
+	$(".product").hover( function(){	
+		$(this).find(".picturefill-background:first-child").css("opacity","0");
+		$(this).find(".picturefill-background:last-child").css("opacity","1");
+	}, function(){
+		$(this).find(".picturefill-background").css("opacity","");
+	});
 
 	// COLLECTION FILTER
 
@@ -275,20 +317,37 @@ $( document ).ready(function() {
 
 	function buttonResize () {
 		$("a.button, a.shipping-calculator-button").each( function(){
-	 		var thisW = $(this).width();
+	 		// var thisW = $(this).width();
 			$(this).parent().addClass("button_wrapper").css(
-				"max-width", thisW
+				"max-width", $(this).width()
 			);
 		});		
 	}
 
-	$(".button_wrapper").hover( function(){
-		console.log("hover");
-		//$(this).children().css("color", "#efebe8");
-	}, function(){
-		//$(this).children().css("color", "");
-	}); //// ?????
+	$("body").on("mouseover", ".button_wrapper", function(){
+		$(this).children().css("color", "#efebe8");
+	}).on("mouseleave", ".button_wrapper", function(){
+		$(this).children().css("color", "");
+	});
 
+	// SHIPPING FORM
+
+		// ON BUTTON CLICK
+	$(".shipping-calculator-button").on("click", function(){
+		// fix height
+		var thisH = $("tr.shipping").height();
+		$("tr.shipping").css("height", thisH);
+		// remove text + button
+		$(this).parent(".button_wrapper").hide();
+		$(".shipping td p:first-child").hide();
+		$(".shipping-calculator-form p").show();
+		$(".woocommerce-shipping-calculator").css({
+			"position": "absolute",
+			"width": "50%",
+			"right": "0"
+		});
+		
+	});
 
 	// NEWS
 

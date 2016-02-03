@@ -16,16 +16,20 @@
         'post_type' => 'product',
         'taxonomy' => 'product_cat',
         'field' => 'slug',
-        'term' => $latest[0]->slug
+        'term' => $latest[1]->slug, /* WHY 1 NOT 0 ??? */
+		'orderby' => 'rand'
         );
     $the_query = new WP_Query( $args2 ); ?>
 
-    <!-- 
-    	LOAD JUST IMAGES 
-		NEED TO ABLE TO FILTER PRODUCTS
-	-->
+	<ul id="collection_filter">
+		<?php 
+		$tags = get_terms ( "product_tag", "orderby=name" ); 
+	    foreach ( $tags as $tag ) { ?>
+			<li><a href=""><?php echo $tag->name; ?></a></li>
+		<?php } ?> 
+	</ul>
 
-	<div id="home" class="page page_collection" data-collection="<?php echo $latest[0]->slug; ?>">
+	<div id="home" class="page page_collection" data-collection="<?php echo $latest[1]->slug; ?>">
 		
 		<ul>
 		<?php	

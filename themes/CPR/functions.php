@@ -12,9 +12,9 @@ add_action('wp_print_styles', 'remove_assets', 99999);
 // ENQUEUE CUSTOM SCRIPTS
 function enqueue_cpr_scripts() {
   
-    wp_deregister_script( 'jquery' );
-    wp_register_script( 'jquery', '//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js');
-    wp_enqueue_script( 'jquery' );  
+    // wp_deregister_script( 'jquery' );
+    // wp_register_script( 'jquery', '//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js');
+    // wp_enqueue_script( 'jquery' );  
     
     wp_enqueue_script('all_scripts', get_template_directory_uri() . '/js/scripts.min.js', array('jquery'), true);
 
@@ -41,6 +41,17 @@ function create_post_types() {
         'menu_position' => 5
         )
     );
+    register_post_type( 'campaign',
+    array(
+        'labels' => array(
+            'name' => __( 'Campaigns' )
+        ),
+        'public' => true,
+        'has_archive' => true,
+        'supports' => array('editor','title'),
+        'menu_position' => 6
+        )
+    );
 }
 
 // ADD CUSTOM IMAGE SIZE
@@ -58,57 +69,18 @@ remove_action( "woocommerce_before_shop_loop_item_title", "woocommerce_show_prod
     /* COLLECTION PAGE — REMOVE ADD TO CART */
 remove_action( "woocommerce_after_shop_loop_item", "woocommerce_template_loop_add_to_cart", 10 );
 
-// WHOLESALE USER REDIRECT ON LOGIN
+// ADD COLUMN IN PRODUCT CATEGORY TABLE
 
-/**
- * Redirect user after successful login.
- *
- * @param string $redirect_to URL to redirect to.
- * @param string $request URL the user is coming from.
- * @param object $user Logged user's data.
- * @return string
- */
-function my_login_redirect( $redirect_to, $request, $user ) {
-    //is there a user to check?
-    global $user;
-    if ( isset( $user->roles ) && is_array( $user->roles ) ) {
-        //check for admins
-        if ( in_array( 'administrator', $user->roles ) ) {
-            // redirect them to the default place
-            return $redirect_to;
-        } else {
-            return home_url() . "/wholesale/";
-        }
-    } else {
-        return $redirect_to;
-    }
+add_filter( 'manage_edit-product_cat_columns', 'show_product_order', 15 );
+function show_product_order($columns){
+
+   //remove column
+   unset( $columns['tags'] );
+
+   //add column
+   $columns['visible_col'] = __( 'Visible');  
+
+   return $columns;
 }
-
-add_filter( 'login_redirect', 'my_login_redirect', 10, 3 );
-
-// CREATE CUSTOM USER - TO DO
-
-/*
-$result = add_role(
-    'basic_contributor', // pro
-    __( 'Basic Contributor' ),
-    array(
-        'read'         => true,  // true allows this capability
-        'edit_posts'   => true,
-        'delete_posts' => false, // Use false to explicitly deny
-    )
-);
-if ( null !== $result ) {
-    echo 'Yay! New role created!';
-}
-else {
-    echo 'Oh... the basic_contributor role already exists.';
-}
-*/
-
-
-
-
-
 
 ?>
