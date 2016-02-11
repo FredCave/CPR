@@ -6,7 +6,7 @@ get_header();
 get_sidebar();
 ?>
 
-<div id="single_product" class="">
+<div class="single_product">
 
 	<?php while ( have_posts() ) : the_post(); ?>
 
@@ -103,9 +103,13 @@ get_sidebar();
 	}
 	$args = array(
         'post_type' => 'product',
-        'taxonomy' => 'product_cat',
-        'field' => 'slug',
-        'term' => $this_cat
+		"tax_query" => array(
+			array(
+				'taxonomy' => "product_cat",
+				'field'    => "slug",
+				'terms'    => $this_cat
+			),
+		)
         );
     $the_query = new WP_Query( $args ); 
 	?>

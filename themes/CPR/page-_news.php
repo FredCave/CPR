@@ -26,9 +26,9 @@
 	    			
 	    			<div class="news_content">
 	    				<div class="news_text info_column">
-							<div class="news_date wrap">
+							<h4 class="news_date wrap">
 								<?php the_date('M d Y'); ?></span>
-							</div>
+							</h4>
 
 	    					<?php the_content(); ?>
 	    				</div>

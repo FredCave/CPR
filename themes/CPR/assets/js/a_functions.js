@@ -1,6 +1,19 @@
-$( document ).ready(function() {
+/*****************************************************************************
+    
+	1. FUNCTIONS
+		1.1. GLOBAL WRAP FUNCTION
+		1.2. NAV SHOW / HIDE
+		1.3. SCROLL DETECT
+		1.4. TOGGLE COLLECTIONS
+		1.5. POSITION COLLECTION IMAGES
+		1.6. STYLE BUTTONS
+		1.7. MOVE NEWS IMAGES TO RIGHT-HAND COLUMN
+		1.8. SINGLE IMAGE SLIDESHOW
+		1.9. FILTER PRODUCTS
 
-	// GLOBAL WRAP FUNCTION
+*****************************************************************************/
+
+	// 1.1. GLOBAL WRAP FUNCTION
 
 	function hasWhiteSpace(s) {
 		return s.indexOf(' ') >= 0;
@@ -26,7 +39,6 @@ $( document ).ready(function() {
 	}
 
 	$.fn.stretch_text = function(){
-
 		var elmt;
 		if ( $(this).has("a").length ) {
 			// target is child
@@ -95,16 +107,30 @@ $( document ).ready(function() {
 			} else {
 				$(this).parent(".wrap").css( "height", $(this).height() );
 			}
-
 		});
 
 	}
 
-	// NAV DROPDOWN 
+	// 1.2. NAV SHOW / HIDE
+
+
+
+	function navShow () {
+		console.log("navShow");
+		$("#nav").removeClass("hidden");
+		$("#nav_dropdown").css({
+			"height" : (liH * 5) + 12
+		});
+	
+		// SHOW CLOSE BUTTON
+		$("#secondary_nav ul").fadeOut();
+		$("#nav_close").fadeIn();
+
+	}
 
 	// $("#nav_dropdown").css("height", 5 * liH);
-
 	function navHide () {
+		console.log("navHide");
 		$("#nav").addClass("hidden");
 		$("#nav_dropdown").css("height", "0px");
 		// hide collections
@@ -112,42 +138,14 @@ $( document ).ready(function() {
 			var thisHref = $(this).find("a").data("href");
 			$(this).css("height","").find("a").attr("href", "").css("cursor","text");	
 		});
+		
+		// HIDE CLOSE BUTTON
+		$("#secondary_nav ul").fadeIn();
+		$("#nav_close").fadeOut();
+
 	}
 
-	$("#nav").hover( function(){
-		/*
-		$("#nav").removeClass("hidden");
-		$("#nav_dropdown").css({
-			"height" : (liH * 5) + 12
-		});
-		*/
-	}, function () {
-		navHide();
-	});
-
-	// NAV LI HOVER + CENTER
-
-	var spacing;
-	$("#nav li").not("#nav_home").hover( function(){
-		// string wrap
-		$(this).css("text-align","center");
-		// record calculated letter-spacing
-		spacing = parseInt( $(this).find(".stretch_it").css("letter-spacing") );
-		$(this).find(".stretch_it").css("letter-spacing","0.2em").attr("data-spacing", spacing);
-	}, function () {
-		$(this).css("text-align","");	
-		$(this).find(".stretch_it").css("letter-spacing", spacing);
-	});
-
-		// IMGs HOVER
-
-	$(".nav_share").hover( function(){
-		$(this).find("img").removeClass("wrapped");
-	}, function(){
-		$(this).find("img").addClass("wrapped");
-	});
-
-		// ON SCROLL
+	// 1.3. SCROLL DETECT
 
 	var lastScrollTop = 0;
 	function scrollDetect () {
@@ -159,16 +157,7 @@ $( document ).ready(function() {
 	   	lastScrollTop = current;
 	}
 
-	// NAV COLLECTION DROPDOWN + VISIBILITY
-
-	// init - on each page — check data-collection attribute
-	var currentVis = $(".page").attr("data-collection");
-	$(".nav_collection_2").each( function(){
-		$(this).css("cursor","text");
-		if ( $(this).attr("id") === currentVis ) {
-			$(this).removeClass("nav_hidden");
-		}
-	});
+	// 1.4. TOGGLE COLLECTIONS
 
 	function collToggle ( main ) {
 		var colls;
@@ -198,26 +187,21 @@ $( document ).ready(function() {
 		}, 1000);
 	}
 
-	// On .nav_collection click
-		// toggle visibility
-	$(".nav_collection").on("click", function(e){
-		e.preventDefault();
-		//collToggle();
-	});
+	// 1.5. POSITION COLLECTION IMAGES
 
-	// COLLECTION IMAGES
-
-	// 1. Get number of images
-	// 2. Create row loop
-		// 2B. Append random number of images between 2 and 6
-		// Until all images are placed
-	 
 	function imagesPrep () {
-		var noImages = $(".page_collection li").length;
+		console.log("imagesPrep");
+		// HIDE IMAGES
+		$(".page_collection li").hide();
+
+		// NEED TO REMOVE PREVIOUSLY ADDED ROWS
+		$(".row").each( function(){
+			$(this).find(".product").prependTo( $(this).parents("ul") );
+		}).remove();
+
+		var noImages = $(".selected-product").length;
 		var total = 0;
-		/*
-		recalculated on resize
-		*/
+		/* recalculated on resize */
 		var arrayLarge = [3,8,2,5];
 		var arrayMid = [3,1,5,2];
 		var arraySmall = [3,1,2,1];
@@ -225,95 +209,27 @@ $( document ).ready(function() {
 		// while loop corresponds to each row
 		var i = 0;
 		while ( total < noImages ) {
-			
 			number = arrayLarge[ i ];
-
 			// if number of images left is less than array number
 			if ( ( noImages - total ) < number ) {
 				number = noImages - total;
-			}
-			
-			$(".page_collection li").slice( total, total+number ).wrapAll("<div class='row'></div>").addClass("child-" + number);
+			}	
+			// REMOVE EXISTING CLASSES BEGINNING WITH CHILD-*
+			$(".selected-product").slice( total, total+number ).wrapAll("<div class='row'></div>").alterClass("child-*", "child-" + number);
 			total += number; 
-
-			console.log(total, number, noImages);
 
 			if ( i === 3 ) {
 				i = 0;
 			} else {
 				i++;	
 			}
+		} // end of while	
 
-		} // end of while
-		
+		// SHOW IMAGES
+		$(".page_collection .selected-product").fadeIn("slow");
 	}
 
-	// if on collection page, run function
-	if ( $(".page_collection").length ) {
-		imagesPrep();
-	} 
-
-	// IMAGE HOVER
-
-	$(".product").hover( function(){	
-		$(this).find(".picturefill-background:first-child").css("opacity","0");
-		$(this).find(".picturefill-background:last-child").css("opacity","1");
-	}, function(){
-		$(this).find(".picturefill-background").css("opacity","");
-	});
-
-	// COLLECTION FILTER
-
-		// TOGGLE
-
-	var filterVis = false;
-	$("#filter_toggle").on("click", function(e){
-		e.preventDefault();
-		if ( !filterVis ) {
-			$("#collection_filter").show();
-			filterVis = true;	
-		} else {
-			$("#collection_filter").hide();
-			filterVis = false;
-		}
-	});
-
-		// FILTER REVEAL ON SINGLE PAGE
-
-	if ( $("#single_collection").length ) {	
-		// get offset of collection section
-		var thisTop = $("#single_collection").offset().top;	
-		$(window).on("scroll", function(){
-			if ( $(window).scrollTop() > thisTop ) {
-				$("#filter_toggle").show();
-			} else {
-				$("#filter_toggle").hide();
-			}			
-		});
-	}
-
-	/* 
-
-	SINGLE
-
-	*/
-
-	$(".price").wrap("<div class='wrap'></div>");
-
-
-	/* 
-
-	CART
-
-	*/
-
-	// QUANTITY TOGGLE
-
-	$(".product-quantity-default").on("click", function(){
-		$(this).hide().next(".product-quantity-input").show();
-	});
-
-	// BUTTON STYLING
+	// 1.6. STYLE BUTTONS
 
 	function buttonResize () {
 		$("a.button, a.shipping-calculator-button").each( function(){
@@ -324,51 +240,87 @@ $( document ).ready(function() {
 		});		
 	}
 
-	$("body").on("mouseover", ".button_wrapper", function(){
-		$(this).children().css("color", "#efebe8");
-	}).on("mouseleave", ".button_wrapper", function(){
-		$(this).children().css("color", "");
-	});
-
-	// SHIPPING FORM
-
-		// ON BUTTON CLICK
-	$(".shipping-calculator-button").on("click", function(){
-		// fix height
-		var thisH = $("tr.shipping").height();
-		$("tr.shipping").css("height", thisH);
-		// remove text + button
-		$(this).parent(".button_wrapper").hide();
-		$(".shipping td p:first-child").hide();
-		$(".shipping-calculator-form p").show();
-		$(".woocommerce-shipping-calculator").css({
-			"position": "absolute",
-			"width": "50%",
-			"right": "0"
-		});
-		
-	});
-
-	// NEWS
+	// 1.7. MOVE NEWS IMAGES TO RIGHT-HAND COLUMN
 
 	$(".news_text").each( function(){
 		$(this).find("img").appendTo( $(this).next(".news_images") )
 	});
 
-	// WINDOW EVENTS
+	// 1.8. SINGLE IMAGE SLIDESHOW
 
-	$(window).on("load", function(){
-		textWrapInit();
-		textWrapCalc();
-		buttonResize(); 
-	}).on("resize", function(){
-		textWrapCalc();
-		buttonResize(); 
-	});
+	function slideShowInit () {
+		
+		$(".single_additional_images").each( function(){
+			var count = $(this).find(".position_right").length;
+			if ( count > 1 ) {
+				// IF MORE THAN ONE IMAGE START GALLERY
+				//$(this).find(".position_right").css("cursor","e-resize").addClass("gallery");
+				$(this).find(".position_right").wrapAll("<span class='gallery'></span>");
+			}
+		});
+		
+	}
 
-		// THROTTLED SCROLL DETECT
-	$(window).on('scroll', _.throttle(function() {
-		scrollDetect();
-	}, 1000));
-    
-});
+	function slideShowGo ( click ) {
+		var gall = click.parents(".gallery");
+		click.find(".position_right:last-child").prependTo( click );
+	}
+
+	// 1.9. FILTER PRODUCTS
+
+	function filterProducts ( click ) {
+		console.log("filterProducts");
+
+		var thisTag = click.text().toLowerCase();
+		var thisClass = "product-tag-" + thisTag;
+				
+		$(".product").hide();
+		$(".selected-product").removeClass("selected-product");	
+		
+		// LOOP THROUGH ITEMS ON PAGE
+		$(".product").each( function(){
+			if ( $(this).hasClass( thisClass ) ) {
+				$(this).show().addClass("selected-product");
+			}
+		});	
+
+		// SCROLL TO TOP
+		$("html,body").animate({
+			scrollTop: 0
+		}, 500);
+
+		$(".selected").removeClass("selected");
+		$(".clear_filter").hide();
+
+		// IF ON COLLECTION PAGE RUN IMG PREP
+		if ( click.parents("#collection_filter").attr("data-page") === "collection" ) {
+			imagesPrep();			
+		}
+
+		click.addClass("selected").next("img").show();
+	}
+
+	function filterClear( click ) {
+		console.log("filterClear");
+		// RESET 
+		$(".product").show();
+		$(".product").addClass("selected-product");	
+		$(".selected").removeClass("selected");
+		$(".clear_filter").hide();	
+
+		imagesPrep();
+	}
+
+	// 1.10. RESET QUANTITY INPUTS
+
+	function resetQuantities () {
+		console.log("resetQuantities");
+		$(".quantity").each( function(){
+			$(this).find("input").attr("value", 1);
+		});		
+	}
+
+
+
+
+

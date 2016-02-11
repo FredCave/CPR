@@ -14,7 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 get_header();
 get_sidebar();
 
-wc_print_notices(); ?>
+// wc_print_notices(); 
+?>
 
 <!-- WHOLESALE LOGIN HERE -->
 

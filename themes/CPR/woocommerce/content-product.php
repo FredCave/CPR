@@ -41,6 +41,8 @@ if ( 0 == ( $woocommerce_loop['loop'] - 1 ) % $woocommerce_loop['columns'] || 1 
 if ( 0 == $woocommerce_loop['loop'] % $woocommerce_loop['columns'] ) {
 	$classes[] = 'last';
 }
+// FOR IMAGE PLACEMENT
+$classes[] = "selected-product";
 
 ?>
 
@@ -63,7 +65,7 @@ if ( 0 == $woocommerce_loop['loop'] % $woocommerce_loop['columns'] ) {
 			        endif;
 			        ?>
 
-			        	<?php do_action( 'woocommerce_before_shop_loop_item' ); ?>
+			        	<?php // do_action( 'woocommerce_before_shop_loop_item' ); ?>
 
 				        <div class="picturefill-background">
 				        	<!-- CURRENTLY REFERRING TO WINDOW WIDTH, NOT IMAGE WIDTH ???? -->

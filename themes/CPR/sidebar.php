@@ -53,14 +53,32 @@
 
 <div id="secondary_nav">
 	<ul>
-		<li><a href="<?php bloginfo( 'url' ); ?>/cart/">Cart</a></li>	
+		<li>
+			<div id="cart_container">
+			    <a class="cart-contents" href="<?php echo WC()->cart->get_cart_url(); ?>" title="<?php _e( 'View your shopping cart' ); ?>">
+			        <?php 
+			        $cart_total = intval ( WC()->cart->get_cart_total() ) ;
+			        echo WC()->cart->cart_contents_count . "/ " . $cart_total; ?>
+			    </a> 
+			</div>
+
+			<!--<a href="<?php bloginfo( 'url' ); ?>/cart/">
+				Cart <span class="cart_count"><?php echo "(" . WC()->cart->cart_contents_count . ") / " . WC()->cart->get_cart_total(); ?></span>
+			</a>-->
+		</li>	
 		<li><a href="<?php bloginfo( 'url' ); ?>/my-account/">Account</a></li>
 		<!-- OPTIONAL ON CATEGORY PAGES -->
-		<?php if ( is_product_category() || is_front_page() ) { ?>
+		<?php if ( is_product_category() || is_front_page() || is_page( "wholesale" ) ) { ?>
 			<li><a href="" id="filter_toggle">Filter</a></li>	
 		<?php } else if ( is_single() ) { ?>
 			<li><a href="" id="filter_toggle" class="hide">Filter</a></li>
 		<?php } ?>
 		
 	</ul>
+
 </div>
+
+<div id="nav_close">
+	<img src="<?php bloginfo( 'template_url' ); ?>/img/filter_clear.png" />
+</div>
+

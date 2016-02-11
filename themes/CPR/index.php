@@ -21,13 +21,9 @@
         );
     $the_query = new WP_Query( $args2 ); ?>
 
-	<ul id="collection_filter">
-		<?php 
-		$tags = get_terms ( "product_tag", "orderby=name" ); 
-	    foreach ( $tags as $tag ) { ?>
-			<li><a href=""><?php echo $tag->name; ?></a></li>
-		<?php } ?> 
-	</ul>
+	<!-- COLLECTION FILTER -->
+	<?php product_filter(); ?>
+	<!-- END OF COLLECTION FILTER -->
 
 	<div id="home" class="page page_collection" data-collection="<?php echo $latest[1]->slug; ?>">
 		

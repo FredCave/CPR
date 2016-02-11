@@ -118,6 +118,18 @@ h3 {
     letter-spacing: 0.2em;
 }
 
+h4 {
+/*    border: 1px solid red;*/
+    display: block;
+    width: 100%;
+    font-family: VBLACK, Vonnes, helvetica, arial, sans-serif;   
+    font-weight: bold;
+    font-size: 1.4em;
+    text-transform: uppercase;
+    text-align: justify;
+    letter-spacing: 0.4em;  
+}
+
 td {
     letter-spacing: 0.2em;
     line-height: 1.3;    
@@ -229,6 +241,8 @@ label {
 /*    border: 1px solid orange;*/
     height: 60%;
     margin: 0% 60px;
+    top: 10%;
+    position: absolute; 
 }
 
 .wrapped {
@@ -244,7 +258,6 @@ label {
 .nav_share a:nth-child(2) .wrapped {
     left: 50%;
     transform: translateX(-50%);
-
 }
 
 .nav_share a:nth-child(3) .wrapped { 
@@ -292,7 +305,8 @@ label {
     left: 2.25%;
     font-family: VBLACK, Vonnes, helvetica, arial, sans-serif;
     font-size: 1.4em;
-    font-weight: bold;    
+    font-weight: bold; 
+    letter-spacing: 0.4em;   
 }
 
 #secondary_nav li {
@@ -312,6 +326,25 @@ label {
     left: 50%;
     transform: translateX(-50%);
 }
+
+#nav_close {
+/*    border: 1px solid orange;*/
+    height: 40px;
+    width: 40px;
+    position: fixed;
+    z-index: 99;
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%);
+    cursor: pointer;
+    display: none;
+}
+
+#nav_close img {
+    height: 100%;
+    width: 100%;
+}
+
 
 /************************************************
     COLLECTION PAGES
@@ -520,11 +553,24 @@ label {
     font-weight: bold; 
     left: 25%;
     text-align: center;
+    letter-spacing: 0.4em;
     display: none;
 }
 
 #collection_filter li {
-    margin-bottom: 8px;
+/*    border: 1px solid green;*/
+    display: inline-block;
+    clear: both;
+    margin: 0 25% 8px 25%;
+    position: relative;
+}
+
+.clear_filter {
+    position: absolute;
+    top: -8px;
+    right: -20px;
+    cursor: pointer;
+    display: none;
 }
 
 /************************************************
@@ -597,14 +643,14 @@ label {
 }
 
 .news_date {
-    display: block;
+/*    display: block;
     width: 100%;
     font-family: VBLACK, Vonnes, helvetica, arial, sans-serif;   
     font-weight: bold;
     font-size: 1.4em;
     text-transform: uppercase;
     text-align: justify;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.2em;*/
 }
 
 .news_content {
@@ -690,6 +736,10 @@ th {
 th, td {
     vertical-align: top;
     padding: 12px 0;
+}
+
+.product {
+    margin-bottom: 36px;
 }
 
 .product-remove {
@@ -832,7 +882,7 @@ a.remove:hover {
     height: auto;
 } 
 
-#single_additional_images {
+.single_additional_images {
 /*    border: 1px solid purple;*/
     width: 100%;
     margin-bottom: 48px;
@@ -840,7 +890,20 @@ a.remove:hover {
     overflow: visible;
 } 
 
-#single_additional_images .picturefill-background {
+.position_right {
+    right: 0;
+    z-index: 1;
+} 
+
+.gallery {
+    cursor: e-resize;
+}
+
+.gallery:last-child {
+    z-index: 99;
+}
+
+.single_additional_images .picturefill-background {
     display: inline;
     height: 100%;
     width: 25%;
@@ -861,20 +924,43 @@ a.remove:hover {
     text-transform: uppercase;
 }
 
-.add_to_cart {
-    border-bottom: 2px solid transparent;
+.single_add_to_cart_button {
+    border: 2px solid transparent;
     position: absolute;
-    padding-bottom: 4px;
-    bottom: -4px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    bottom: 0px;
     width: 100%;
+    margin-left: 0px;
     text-transform: uppercase;
-    height: 1em;
-    overflow: hidden;
+    height: auto;
+    overflow: visible;
 }
 
 .add_to_cart:hover {
+    background-color: transparent;
     border-bottom: 2px solid black;
 }
+
+/************************************************
+    WHOLESALE
+************************************************/
+
+#wholesale {
+    padding: 120px 0 200px 0;
+}
+
+.wholesale_cat {
+/*    border: 1px solid green;*/
+    margin-bottom: 64px;
+}
+
+.wholesale_cat h4 {
+    width: 95%;
+    margin: 0 auto;
+    margin-bottom: 24px;
+}
+
 
 
 
