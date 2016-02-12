@@ -15,105 +15,56 @@
 
 	// 1.1. GLOBAL WRAP FUNCTION
 
-	function hasWhiteSpace(s) {
-		return s.indexOf(' ') >= 0;
+	/* WORD COUNTER */
+	function wordCount(str) { 
+	  return str.split(" ").length;
 	}
 
-	function textWrapInit () {	
+	function textWrap ( ) {
+		console.log("textWrap");
 		$(".wrap").each( function(){
-			var elmt;
-			if ( $(this).has("a").length ) {
-				// target is child
-				elmt = $(this).find("a");
+			var txt = $(this).text().trim();
+			var noWords = wordCount( txt );
+			if ( noWords === 1 ) {
+				// ONE WORD
+				$(this).wrapInner("<span class='last_word'></span>");
 			} else {
-				elmt = $(this);
-			}		
-			var txt = elmt.text().trim();
-			if ( hasWhiteSpace( txt ) ) {
-				// STRING
-				elmt.wrapInner("<span class='string_wrap'></span>").append("<span class='break'></span>");
-			} else {
-				elmt.wrapInner("<span class='word_wrap'></span>");
+				// MULTIPLE WORDS
+				if ( noWords === 3 ) {
+					// REMOVE LAST WORD
+					var wordArray = txt.split(" ");
+					var lastWord = wordArray[2];
+					var lastIndex = txt.lastIndexOf(" ");
+					txt = txt.substring( 0, lastIndex );
+					$(this).html(txt + " <span class='last_word'>" + lastWord + "</span>");
+					// lastWord.wrap("<span class='last_word'></span>").appendTo( $(this) );
+				} else {
+					$(this).widowFix();										
+				}				
 			}
+
 		});
+		// ONE WORD LOOP
+		oneWord();
 	}
 
-	$.fn.stretch_text = function(){
-		var elmt;
-		if ( $(this).has("a").length ) {
-			// target is child
-			elmt = $(this).find("a");
-		} else {
-			elmt = $(this);
-		}	    
-	    var cont_width;
-	    
-    	if ( $(this).parents("#nav").length ) {
-			cont_width = $("#nav").width();	
-    	} else {
-    		cont_width = elmt.parent(".wrap").width();
-    		//console.log( $(this).text(), cont_width );
-    	} 
-	    var txt           = elmt.text(),
-	        one_line      = $('<span class="stretch_it">' + txt + '</span>'),
-	        nb_char       = elmt.text().length,
-	        spacing       = cont_width/nb_char,
-	        txt_width;
-   	    
-    	elmt.html(one_line).css({'letter-spacing': "0"});
-   		txt_width = one_line.width();
-   		// console.log(txt, cont_width, nb_char, txt_width);
-	
-	    if (txt_width < cont_width){
-	        var char_width = txt_width/nb_char,
-	            ltr_spacing = spacing - char_width + (spacing - char_width)/nb_char;   
-	        one_line.css({'letter-spacing': ltr_spacing});
-	    } else {
-	        one_line.contents().unwrap();
-	        // elmt.addClass('justify');
-	    }
-
-	};
-
-	var liH;
-
-	function textWrapCalc () {
-		
-		// JUST FOR SINGLE WORDS
-		
-		$(".word_wrap").each( function(){			
-			var elmt;
-			if ( $(this).has("a").length ) {
-				// target is child
-				elmt = $(this).find("a");
-			} else {
-				elmt = $(this);
-			}		
+	function oneWord () {
+		$(".last_word").each( function(){
 			// console.log( $(this).text() );
-			$(this).css("text-align","center").stretch_text()				
-		});
-
-		// CALCULATE LI HEIGHT HERE
-
-		liH = $("#nav_dropdown .string_wrap").height() + 18;
-		//console.log( liH );
-		$("#nav li").css("height", liH);
-
-		$(".string_wrap").each( function(){
-			if ( $(this).parent("h2").length ) {
-				$("h2").css( "height", $(this).height() );
-			} else if ( $(this).parent("h3").length ) {
-				$("h3").css( "height", $(this).height() );
+			if ( $(this).has("a").length ) {
+				// target is child
+				var elmt = $(this).find("a");
 			} else {
-				$(this).parent(".wrap").css( "height", $(this).height() );
-			}
+				var elmt = $(this);
+			}	
+			elmt.css("text-align","center").stretch_text();	
 		});
-
 	}
+	
+
+
 
 	// 1.2. NAV SHOW / HIDE
-
-
 
 	function navShow () {
 		console.log("navShow");
@@ -160,9 +111,11 @@
 	// 1.4. TOGGLE COLLECTIONS
 
 	function collToggle ( main ) {
+		console.log("collToggle");
 		var colls;
 		$("#nav_dropdown").css("height", "auto");
 		if ( !$(".nav_collection").hasClass("clicked") && main !== "main" ) {
+			console.log(165);
 			// get number of collections
 			var colls = parseInt( $(".nav_collection").attr("data-length") );
 			$(".nav_collection").addClass("clicked");
@@ -173,6 +126,7 @@
 				$(this).css("height", liH).find("a").attr("href", thisHref).css("cursor","");	
 			});
 		} else {
+			console.log(176);
 			colls = 1;
 			$(".nav_collection").removeClass("clicked");
 			// hide hidden
@@ -195,7 +149,7 @@
 		$(".page_collection li").hide();
 
 		// NEED TO REMOVE PREVIOUSLY ADDED ROWS
-		$(".row").each( function(){
+		$(".collection_row").each( function(){
 			$(this).find(".product").prependTo( $(this).parents("ul") );
 		}).remove();
 
@@ -215,7 +169,7 @@
 				number = noImages - total;
 			}	
 			// REMOVE EXISTING CLASSES BEGINNING WITH CHILD-*
-			$(".selected-product").slice( total, total+number ).wrapAll("<div class='row'></div>").alterClass("child-*", "child-" + number);
+			$(".selected-product").slice( total, total+number ).wrapAll("<div class='collection_row'></div>").alterClass("child-*", "child-" + number);
 			total += number; 
 
 			if ( i === 3 ) {
@@ -242,9 +196,14 @@
 
 	// 1.7. MOVE NEWS IMAGES TO RIGHT-HAND COLUMN
 
-	$(".news_text").each( function(){
-		$(this).find("img").appendTo( $(this).next(".news_images") )
-	});
+	function newsPrep () {
+		if ( $("#news").length ) {
+			console.log("newsPrep");
+			$(".news_text").each( function(){
+				$(this).find("img").appendTo( $(this).next(".news_images") )
+			});		
+		}
+	}
 
 	// 1.8. SINGLE IMAGE SLIDESHOW
 
@@ -314,12 +273,26 @@
 	// 1.10. RESET QUANTITY INPUTS
 
 	function resetQuantities () {
-		console.log("resetQuantities");
-		$(".quantity").each( function(){
-			$(this).find("input").attr("value", 1);
-		});		
+		// CHECK NOT ON CART PAGE
+		if ( $("#cart").length === 0 && $(".quantity").length ) {
+			console.log("resetQuantities");
+			$(".quantity").each( function(){
+				$(this).find("input").attr("value", 1);
+			});			
+		} 
 	}
 
+	// 1.XX. PAGE INIT
+
+	function pageInit () {
+		//textWrapInit();
+		//textWrapCalc();
+		textWrap();
+		buttonResize();
+		slideShowInit(); 
+		resetQuantities();
+		newsPrep();		
+	}
 
 
 

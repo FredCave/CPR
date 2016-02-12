@@ -24,13 +24,13 @@ get_sidebar();
 			 // }
 		?>
 
-		<div itemscope itemtype="<?php echo woocommerce_get_product_schema(); ?>" id="product-<?php the_ID(); ?>" <?php /*post_class();*/ ?>>
+		<?php /* <div itemscope itemtype="<?php echo woocommerce_get_product_schema(); ?>" id="product-<?php the_ID(); ?>" > */ ?>
 
 			<!-- CONTENT HERE -->
 
 			<?php wc_get_template_part( 'content', 'single-product' ); ?>
 
-			<!-- FOLLWING HAS BEEN REMOVED -->
+			<!-- FOLLOWING HAS BEEN REMOVED -->
 
 			<?php remove_action( 'woocommerce_before_single_product_summary', 'woocommerce_show_product_sale_flash', 10 ); ?>
 
@@ -78,7 +78,7 @@ get_sidebar();
 
 			<meta itemprop="url" content="<?php the_permalink(); ?>" />
 
-		</div><!-- #product-<?php the_ID(); ?> -->
+		<?php /* </div><!-- #product-<?php the_ID(); ?> --> */ ?>
 
 		<?php do_action( 'woocommerce_after_single_product' ); ?>
 

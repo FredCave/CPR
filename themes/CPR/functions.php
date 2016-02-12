@@ -87,9 +87,10 @@ function show_product_order($columns){
     NEEDS CLEANING UP
 ************************/
 
+/*
 add_action('wp_enqueue_scripts', 'cpp_enqueue_scripts');
 function cpp_enqueue_scripts() {
-    /* Other enqueue/registers */
+    // Other enqueue/registers 
     wp_register_script('diy_kits', get_template_directory_uri().'/js/diy_kit.js');
     wp_enqueue_script('diy_kits');
     wp_localize_script(
@@ -101,6 +102,7 @@ function cpp_enqueue_scripts() {
         )
     );
 }
+*/
 
 /*
 // FUNCTION TO CALCULATE WHICH ITEMS ARE IN CART ON ADD TO CART
@@ -112,6 +114,7 @@ function woo_custom_cart_quantities ( $product_id ) {
     }
 }*/
 
+/*
 add_action('wp_ajax_nopriv_cpp_ajax-submit', 'cpp_ajax_submit');
 add_action('wp_ajax_cpp_ajax-submit', 'cpp_ajax_submit');
 // THIS IS THE DATA SENT
@@ -140,8 +143,10 @@ function cpp_ajax_submit() {
     echo $response; 
     exit;
 }
+*/
 
-add_filter('woocommerce_add_to_cart_fragments', 'cpp_header_add_to_cart_fragment');
+// add_filter('woocommerce_add_to_cart_fragments', 'cpp_header_add_to_cart_fragment');
+/*
 function cpp_header_add_to_cart_fragment( $fragments ) {
     global $woocommerce;
     ob_start(); ?>
@@ -153,6 +158,7 @@ function cpp_header_add_to_cart_fragment( $fragments ) {
     $fragments['a.cart-contents'] = ob_get_clean();
     return $fragments;
 }
+*/
 
 
 /**

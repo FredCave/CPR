@@ -35,6 +35,7 @@ $(document).ready( function(){
 	var currentVis = $(".page").attr("data-collection");
 	$(".nav_collection_2").each( function(){
 		$(this).css("cursor","text");
+		// console.log( $(this).attr("id"), currentVis );
 		if ( $(this).attr("id") === currentVis ) {
 			$(this).removeClass("nav_hidden");
 		}
@@ -65,12 +66,13 @@ $(document).ready( function(){
 
 	var spacing;
 	$("#nav li").not("#nav_home").hover( function(){
-		// string wrap
+	// CONDENSE
 		$(this).css("text-align","center");
 		// record calculated letter-spacing
 		spacing = parseInt( $(this).find(".stretch_it").css("letter-spacing") );
 		$(this).find(".stretch_it").css("letter-spacing","0.2em").attr("data-spacing", spacing);
 	}, function () {
+	// STRETCH
 		$(this).css("text-align","");	
 		$(this).find(".stretch_it").css("letter-spacing", spacing);
 	});
@@ -79,18 +81,16 @@ $(document).ready( function(){
 
 	$(".nav_share").hover( function(){
 		console.log("hova");
-		$(this).find("img").removeClass("wrapped");
+		$(this).find("a").addClass("hover");
 	}, function(){
-		$(this).find("img").addClass("wrapped");
+		$(this).find("a").removeClass("hover");
 	});
 
 	// 2.2.4. TOGGLE COLLECTIONS	
 
-	// On .nav_collection click
-		// toggle visibility
 	$(".nav_collection").on("click", function(e){
 		e.preventDefault();
-		//collToggle();
+		collToggle();
 	});
 
 	// 2.2.5. IMAGE HOVER
@@ -147,12 +147,6 @@ $(document).ready( function(){
 
 	$(".product-quantity-default").on("click", function(){
 		$(this).hide().next(".product-quantity-input").show();
-	});
-
-	$("body").on("mouseover", ".button_wrapper", function(){
-		$(this).children().css("color", "#efebe8");
-	}).on("mouseleave", ".button_wrapper", function(){
-		$(this).children().css("color", "");
 	});
 
 	// 2.2.9. TOGGLE SHIPPING FORM
@@ -225,16 +219,20 @@ $(document).ready( function(){
     });
 */
 
+	// 2.2.XX. BUTTON HOVER
+	
+	$("body").on("mouseover", ".button_wrapper", function(){
+		$(this).children().css("color", "#efebe8");
+	}).on("mouseleave", ".button_wrapper", function(){
+		$(this).children().css("color", "");
+	});
+
 	// 2.2.12. WINDOW EVENTS
 
 	$(window).on("load", function(){
-		textWrapInit();
-		textWrapCalc();
-		buttonResize();
-		slideShowInit(); 
-		resetQuantities();
+		pageInit();
 	}).on("resize", function(){
-		textWrapCalc();
+		// textWrapCalc();
 		buttonResize(); 
 	});
 

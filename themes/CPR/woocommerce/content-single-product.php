@@ -12,14 +12,13 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
-
 ?>
 
 <div itemscope itemtype="<?php echo woocommerce_get_product_schema(); ?>" id="product-<?php the_ID(); ?>" <?php post_class( ); ?>>
 
 	<div class="custom-content">
 
-		<?php if ( is_single() ) : ?>
+		<?php if ( is_single() ) { ?>
 
 			<div id="single_main_image">
 
@@ -46,9 +45,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 			</div><!-- end of #single_main_image -->
 
-		<?php endif; ?>
-
+		<?php } ?>
+		
 		<div id="" class="single_additional_images row">
+
 			<?php if ( have_rows("product_images") ):				
 				$i = 0; 
 				while ( have_rows("product_images") ) : the_row();
@@ -93,14 +93,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<li class="">
 						<?php
 						global $product;
-						echo "Retail Price: " . $product->regular_price;
-						?>
+						$retail_price = $product->regular_price;
+						if ( is_page( "wholesale" ) ) {
+							echo "Retail Price: " . $retail_price;
+						} else {
+							echo "Price: " . $retail_price;
+						} ?>
 					</li>
-					<li class="">
-						<?php
-						echo "Wholesale Price: " . $product->price;
-						?>
-					</li>	
+					<!-- IF WHOLESALE -->
+					<?php if ( is_page( "wholesale" ) ) : ?>
+						<li class="">
+							<?php
+							echo "Wholesale Price: " . $product->price;
+							?>
+						</li>
+					<?php endif; ?>
+					<!-- ENDIF -->	
 					</li>
 					<!-- HOW MANY IN CART -->
 					<li class="">

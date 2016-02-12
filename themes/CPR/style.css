@@ -14,6 +14,40 @@ Author URI:		http://www.fredcave.com
     min-width: 200px;
 } 
 
+/* TMP */
+
+.test {
+    border: 1px solid gray;
+    margin-bottom: 48px;
+    margin-left: 15%;
+    line-height: 1.4;
+}
+
+#test_1 {
+    margin-top: 24px;
+    width: 60%;
+}
+
+#test_2 {
+    width: 40%;    
+}
+
+#test_3 {
+    width: 30%;      
+}
+
+#test_4 {
+    width: 15%;     
+}
+
+#test_5 {
+    width: 15%;     
+}
+
+.last_word {
+    margin-right: -4px;
+}
+
 /************************************************
     CSS RESET
 ************************************************/
@@ -109,7 +143,7 @@ b, strong {
 }
 
 p, h3 {
-    line-height: 1.4;
+    line-height: 1.5;
     margin-bottom: 12px;
     text-align: justify;
 }
@@ -161,11 +195,19 @@ label {
 
 .wrap {
     text-align: justify;
+    -moz-text-align-last: justify;
+         text-align-last: justify;
 }
 
-.stretch_it {
-    white-space: nowrap;
+.wrap:after {
+   content: "";
+   display: inline-block;
+   width: 100%;
 }
+
+/*.stretch_it {
+    white-space: nowrap;
+}*/
 
 /************************************************
     NAV
@@ -206,7 +248,7 @@ label {
 #nav_dropdown {
 /*    border: 1px solid orange;*/
     height: auto;
-/*    height: 100vh;*/
+/*    height: 100vh !important;*/
     -webkit-transition: height 1s;
     transition: height 1s;
     display: block;
@@ -224,44 +266,56 @@ label {
     height: 100px; /* need to set this with js */
     padding-bottom: 4px;
     margin-bottom: 0px;
+    width: 100%;
 }
 
 #nav a {
 /*    border: 1px solid red;*/
     width: 100%;
+    display: block;
+}
+
+#nav .word_wrap {
+/*    border: 1px solid green;  */ 
 }
 
 .nav_share {
-/*    border: 1px solid red;  */ 
+ /*   border: 1px solid red;*/
     position: relative; 
     text-align: center;
 }
 
-.nav_share img {
+#nav .nav_share a {
 /*    border: 1px solid orange;*/
-    height: 60%;
-    margin: 0% 60px;
-    top: 10%;
-    position: absolute; 
+    height: 75%;
+    width: auto !important;
+    display: inline-block;
 }
 
-.wrapped {
-    position: absolute; 
-    top: 10%;
-    margin: 0px !important;    
+.nav_share img {
+    width: 60px;
 }
 
-.nav_share a:nth-child(1) .wrapped {
+.nav_share a:nth-child(1) {
     left: 0%;
 }
 
-.nav_share a:nth-child(2) .wrapped {
+.nav_share a:nth-child(2) {
+    position: absolute;
     left: 50%;
     transform: translateX(-50%);
 }
 
-.nav_share a:nth-child(3) .wrapped { 
-    right: 0;     
+.nav_share a:nth-child(3) { 
+    float: right;     
+}
+
+.nav_share a.hover {
+    position: relative !important;
+    left: inherit;
+    float: inherit;
+    transform: translateX(0%);
+    margin: -2px 30px;
 }
 
 .word_wrap {
@@ -375,7 +429,7 @@ label {
     opacity: 1;
 }
 
-.row {
+.row, .collection_row {
 /*    border: 1px solid green;*/
     position: relative;
     height: 600px;
@@ -567,8 +621,10 @@ label {
 
 .clear_filter {
     position: absolute;
-    top: -8px;
-    right: -20px;
+    height: 20px;
+    width: 20px;
+    top: -6px;
+    right: -16px;
     cursor: pointer;
     display: none;
 }
@@ -624,11 +680,11 @@ label {
 }
 
 .campaign_title {
-    font-family: VBLACK, Vonnes, helvetica, arial, sans-serif;   
+/*    font-family: VBLACK, Vonnes, helvetica, arial, sans-serif;   
     font-weight: bold;
     font-size: 3em;
     text-transform: lowercase;  
-    letter-spacing: 0.2em;     
+    letter-spacing: 0.2em;  */   
 }
 
 .campaign_image {

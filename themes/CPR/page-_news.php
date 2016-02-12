@@ -10,7 +10,7 @@
 			if ( $the_query -> have_posts() ) :
 		        while ( $the_query -> have_posts() ) : $the_query-> the_post(); ?>
 
-		    		<a href="<?php the_permalink(); ?>"><li class="campaign_title wrap">Campaign <?php the_title(); ?></li></a>
+		    		<a href="<?php the_permalink(); ?>"><h4 class="campaign_title wrap">Campaign <?php the_title(); ?></h4></a>
 
 		    <?php endwhile;
 		    endif; ?>		

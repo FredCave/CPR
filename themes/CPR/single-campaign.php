@@ -5,8 +5,8 @@
 	<div class="page">
 
 		<!-- TITLE -->
-		<div class="campaign_title wrap">
-			Campaign <?php the_title(); ?>
+		<div class="campaign_title">
+			<h4 class="wrap">Campaign <?php the_title(); ?></h4>
 		</div>
 
 		<!-- IMAGE -->
@@ -16,8 +16,8 @@
 
 		<!-- BACK LINK -->	
 		<a href="<?php bloginfo('url'); ?>/_news">
-			<div class="campaign_title wrap">
-					Back to News	
+			<div class="campaign_title">
+				<h4 class="wrap">Back to News</h4>
 			</div>
 		</a>
 
