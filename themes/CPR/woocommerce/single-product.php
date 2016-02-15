@@ -3,6 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 get_header();
+$nav_bg = true;
 get_sidebar();
 ?>
 

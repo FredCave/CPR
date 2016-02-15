@@ -15,39 +15,12 @@
 
 	// 1.1. GLOBAL WRAP FUNCTION
 
-	/* WORD COUNTER */
+		// WORD COUNTER
 	function wordCount(str) { 
 	  return str.split(" ").length;
 	}
 
-	function textWrap ( ) {
-		console.log("textWrap");
-		$(".wrap").each( function(){
-			var txt = $(this).text().trim();
-			var noWords = wordCount( txt );
-			if ( noWords === 1 ) {
-				// ONE WORD
-				$(this).wrapInner("<span class='last_word'></span>");
-			} else {
-				// MULTIPLE WORDS
-				if ( noWords === 3 ) {
-					// REMOVE LAST WORD
-					var wordArray = txt.split(" ");
-					var lastWord = wordArray[2];
-					var lastIndex = txt.lastIndexOf(" ");
-					txt = txt.substring( 0, lastIndex );
-					$(this).html(txt + " <span class='last_word'>" + lastWord + "</span>");
-					// lastWord.wrap("<span class='last_word'></span>").appendTo( $(this) );
-				} else {
-					$(this).widowFix();										
-				}				
-			}
-
-		});
-		// ONE WORD LOOP
-		oneWord();
-	}
-
+		// ONE WORD FUNCTION
 	function oneWord () {
 		$(".last_word").each( function(){
 			// console.log( $(this).text() );
@@ -60,8 +33,51 @@
 			elmt.css("text-align","center").stretch_text();	
 		});
 	}
-	
 
+	var liH;
+	function textWrap () {
+		console.log("textWrap");
+		$(".wrap").each( function(){
+			// CHECK IF THIS CONTAINS A TAG
+			if ( $(this).has("a").length ) {
+				// console.log( $(this).text(), " link" );
+				elmt = $(this).find("a");
+			} else {
+				// console.log( $(this).text() );
+				elmt = $(this);
+			}
+
+			var txt = elmt.text().trim();
+			var noWords = wordCount( txt );
+			if ( noWords === 1 ) {
+				// ONE WORD
+				elmt.wrapInner("<span class='last_word'></span>");
+			} else {
+				// MULTIPLE WORDS
+					// IF 3 WORDS AND NOT IN NAV
+				if ( noWords === 3 && !$(this).hasClass("no_break") ) {
+					// REMOVE LAST WORD
+					var wordArray = txt.split(" ");
+					var lastWord = wordArray[2];
+					var lastIndex = txt.lastIndexOf(" ");
+					txt = txt.substring( 0, lastIndex );
+					elmt.html(txt + " <span class='last_word'>" + lastWord + "</span>");
+					// lastWord.wrap("<span class='last_word'></span>").appendTo( $(this) );
+				} else {
+					elmt.widowFix();										
+				}				
+			}
+
+		});
+		// ONE WORD LOOP
+		oneWord();
+		// DEFINE LI HEIGHT
+		liH = parseInt ( $("#nav_home").css("font-size") ) + 18;
+		//console.log( liH );
+		$("#nav li").not(".nav_hidden").css("height", liH);
+	}
+
+	// DEFINE liH
 
 
 	// 1.2. NAV SHOW / HIDE
@@ -70,12 +86,16 @@
 		console.log("navShow");
 		$("#nav").removeClass("hidden");
 		$("#nav_dropdown").css({
-			"height" : (liH * 5) + 12
+			// "height" : (liH * 5) + 12
+			"height" : "100vh"
 		});
 	
 		// SHOW CLOSE BUTTON
 		$("#secondary_nav ul").fadeOut();
 		$("#nav_close").fadeIn();
+
+		// BG
+		$("#nav_bg").css("height","100vh");
 
 	}
 
@@ -93,6 +113,9 @@
 		// HIDE CLOSE BUTTON
 		$("#secondary_nav ul").fadeIn();
 		$("#nav_close").fadeOut();
+
+		// BG
+		$("#nav_bg").css("height","0vh");
 
 	}
 

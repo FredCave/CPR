@@ -12,10 +12,23 @@
 <!-- NAVIGATION -->
 <div id="nav" class="hidden" >
 
+	<?php $cpr_title = "Can Pep Rey."; ?>
+
+	<!-- IF IS NOT SINGLE OR COLLECTION PAGE -->
+	<?php if ( !is_product() && !is_product_category() && !is_front_page() ) { ?>
+		<div id="nav_bg">
+		</div>
+	<?php } ?>
+
 	<ul class="">
 
 <!-- HOME LINK -->
-		<li id="nav_home" class="wrap"><a href="<?php bloginfo( 'url' ); ?>/"><span class="liH"></span>Can Pep Rey.<span class="break"></span></a></li>
+		<li id="nav_home" class="no_break">
+			<a href="<?php bloginfo( 'url' ); ?>/">
+				<!-- <span class="liH"> -->Can Pep Rey.<!-- </li> -->
+				<span class="break"></span>
+			</a>
+		</li>
 
 		<span id="nav_dropdown" class="dropdown_hide">
 

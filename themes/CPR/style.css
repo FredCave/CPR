@@ -5,7 +5,7 @@ Author URI:		http://www.fredcave.com
 */
 
 #wpadminbar {
-    display: none !important;
+/*    display: none !important;*/
 }
 
 /* BACKEND */
@@ -232,13 +232,21 @@ label {
 /*    display: none;*/
 }
 
-.liH {
-    height: 100%;
-}
-
 #nav_home {
     font-family: CPR, VBLACK, Vonnes, helvetica, arial, sans-serif;   
     font-weight: normal;
+/*    height: auto;*/
+    height: 100px;
+    text-align: justify;
+}
+
+#nav_home a {
+/*    border: 1px solid green;*/
+    height: 100%;
+}
+
+.liH {
+    border: 1px solid green;
 }
 
 #nav_home, .nav_collection_2 {
@@ -246,9 +254,9 @@ label {
 }
 
 #nav_dropdown {
-/*    border: 1px solid orange;*/
     height: auto;
 /*    height: 100vh !important;*/
+    width: 100%;
     -webkit-transition: height 1s;
     transition: height 1s;
     display: block;
@@ -259,7 +267,7 @@ label {
     height: 0px;    
 }
 
-#nav li {
+#nav_dropdown li {
 /*    border: 1px solid blue;*/
     text-align: justify;
     overflow: hidden;
@@ -271,19 +279,35 @@ label {
 
 #nav a {
 /*    border: 1px solid red;*/
-    width: 100%;
+/*    width: 100%;*/
     display: block;
 }
 
-#nav .word_wrap {
-/*    border: 1px solid green;  */ 
+#nav_dropdown a > span {
+/*    border: 1px solid blue;*/
+    text-align: center;
+    width: auto;
+    margin: 0 auto;
+    /*display: inline-block;*/
 }
 
-.nav_share {
- /*   border: 1px solid red;*/
+#nav .li_hover .stretch_it, #nav .li_hover a {
+/*    border: 1px solid green;*/
+    letter-spacing: 0.2em !important;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#nav .nav_share {
+/*    border: 1px solid red;*/
     position: relative; 
     text-align: center;
 }
+
+/*#nav .nav_share:hover {
+    text-align: center;
+}*/
 
 #nav .nav_share a {
 /*    border: 1px solid orange;*/
@@ -297,6 +321,7 @@ label {
 }
 
 .nav_share a:nth-child(1) {
+    position: absolute;
     left: 0%;
 }
 
@@ -316,6 +341,19 @@ label {
     float: inherit;
     transform: translateX(0%);
     margin: -2px 30px;
+}
+
+#nav_bg {
+    height: 100vh;
+    width: 100%;
+    background-color: #efebe8;
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    height: 0px;
+    -webkit-transition: height 0.5s;
+            transition: height 0.5s;
 }
 
 .word_wrap {
@@ -386,7 +424,7 @@ label {
     height: 40px;
     width: 40px;
     position: fixed;
-    z-index: 99;
+    z-index: 999;
     left: 50%;
     bottom: 24px;
     transform: translateX(-50%);

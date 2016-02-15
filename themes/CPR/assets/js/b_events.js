@@ -63,24 +63,25 @@ $(document).ready( function(){
 	});
 
 	// 2.2.2. NAV LI HOVER / CENTER TEXT 
-
+	
 	var spacing;
-	$("#nav li").not("#nav_home").hover( function(){
-	// CONDENSE
-		$(this).css("text-align","center");
+	$("#nav li.wrap").hover( function(){
+		// CONDENSE
+		$(this).addClass("li_hover");
+	// 	$(this).css("text-align","center");
 		// record calculated letter-spacing
 		spacing = parseInt( $(this).find(".stretch_it").css("letter-spacing") );
-		$(this).find(".stretch_it").css("letter-spacing","0.2em").attr("data-spacing", spacing);
+		// $(this).find(".stretch_it").css("letter-spacing","0.2em").attr("data-spacing", spacing);
 	}, function () {
-	// STRETCH
-		$(this).css("text-align","");	
-		$(this).find(".stretch_it").css("letter-spacing", spacing);
+		$(this).removeClass("li_hover");
+		// STRETCH
+	// 	$(this).css("text-align","");	
+		// $(this).find(".stretch_it").css("letter-spacing", spacing);
 	});
 
 	// 2.2.3. HOVER OVER SOCIAL MEDIA ICONS
 
 	$(".nav_share").hover( function(){
-		console.log("hova");
 		$(this).find("a").addClass("hover");
 	}, function(){
 		$(this).find("a").removeClass("hover");
@@ -232,7 +233,7 @@ $(document).ready( function(){
 	$(window).on("load", function(){
 		pageInit();
 	}).on("resize", function(){
-		// textWrapCalc();
+		oneWord();
 		buttonResize(); 
 	});
 

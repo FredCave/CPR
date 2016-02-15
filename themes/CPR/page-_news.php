@@ -10,7 +10,7 @@
 			if ( $the_query -> have_posts() ) :
 		        while ( $the_query -> have_posts() ) : $the_query-> the_post(); ?>
 
-		    		<a href="<?php the_permalink(); ?>"><h4 class="campaign_title wrap">Campaign <?php the_title(); ?></h4></a>
+		    		<a href="<?php the_permalink(); ?>"><h4 class="campaign_title wrap no_break">Campaign <?php the_title(); ?></h4></a>
 
 		    <?php endwhile;
 		    endif; ?>		
@@ -26,7 +26,7 @@
 	    			
 	    			<div class="news_content">
 	    				<div class="news_text info_column">
-							<h4 class="news_date wrap">
+							<h4 class="news_date wrap no_break">
 								<?php the_date('M d Y'); ?></span>
 							</h4>
 
