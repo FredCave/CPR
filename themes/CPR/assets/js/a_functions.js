@@ -22,6 +22,14 @@
 
 		// ONE WORD FUNCTION
 	function oneWord () {
+		// LOGO 3 LINES — BEST PLACE FOR THIS??
+		// NEEDS CLEANING UP
+		// if ( $(window).width() < 780 ) {
+		// 	$("#nav_home span").addClass("last_word");
+		// } else {
+		// 	$("#nav_home span").removeClass("last_word").find(".stretch_it").css("letter-spacing","");
+		// }
+
 		$(".last_word").each( function(){
 			// console.log( $(this).text() );
 			if ( $(this).has("a").length ) {
@@ -166,44 +174,61 @@
 
 	// 1.5. POSITION COLLECTION IMAGES
 
-	function imagesPrep () {
-		console.log("imagesPrep");
-		// HIDE IMAGES
-		$(".page_collection li").hide();
-
-		// NEED TO REMOVE PREVIOUSLY ADDED ROWS
-		$(".collection_row").each( function(){
-			$(this).find(".product").prependTo( $(this).parents("ul") );
-		}).remove();
-
-		var noImages = $(".selected-product").length;
-		var total = 0;
-		/* recalculated on resize */
-		var arrayLarge = [3,8,2,5];
-		var arrayMid = [3,1,5,2];
-		var arraySmall = [3,1,2,1];
-
-		// while loop corresponds to each row
-		var i = 0;
-		while ( total < noImages ) {
-			number = arrayLarge[ i ];
-			// if number of images left is less than array number
-			if ( ( noImages - total ) < number ) {
-				number = noImages - total;
-			}	
-			// REMOVE EXISTING CLASSES BEGINNING WITH CHILD-*
-			$(".selected-product").slice( total, total+number ).wrapAll("<div class='collection_row'></div>").alterClass("child-*", "child-" + number);
-			total += number; 
-
-			if ( i === 3 ) {
-				i = 0;
+	function imagesPrep ( first ) {
+		// IF ON COLLECTION PAGE, POSITION IMAGES
+		if ( $(".page_collection").length ) {
+			// FIRST TIME TEST
+			if ( first ) {
+				first = false;
+				console.log("imagesPrep exit");
 			} else {
-				i++;	
-			}
-		} // end of while	
+				console.log("imagesPrep");
+				// HIDE IMAGES
+				$(".page_collection li").hide(); // IN CSS
 
-		// SHOW IMAGES
-		$(".page_collection .selected-product").fadeIn("slow");
+				// NEED TO REMOVE PREVIOUSLY ADDED ROWS
+				$(".collection_row").each( function(){
+					$(this).find(".product").prependTo( $(this).parents("ul") );
+				}).remove();
+
+				var noImages = $(".selected-product").length;
+				var total = 0;
+				/* recalculated on resize */
+				var arrayLarge = [3,8,2,5];
+				var arrayMid = [3,1,5,2];
+				var arraySmall = [3,1,2,1];
+
+				// while loop corresponds to each row
+				var i = 0;
+				while ( total < noImages ) {
+					if ( $(window).width() <= 600 ) {
+						number = arraySmall[ i ];
+					} else if ( $(window).width() <= 780 ) {
+						number = arrayMid[ i ];
+					} else {
+						number = arrayLarge[ i ];
+					}
+					// if number of images left is less than array number
+					if ( ( noImages - total ) < number ) {
+						number = noImages - total;
+					}	
+					// REMOVE EXISTING CLASSES BEGINNING WITH CHILD-*
+					$(".selected-product").slice( total, total+number ).wrapAll("<div class='collection_row'></div>").alterClass("child-*", "child-" + number);
+					total += number; 
+
+					if ( i === 3 ) {
+						i = 0;
+					} else {
+						i++;	
+					}
+				} // end of while	
+
+				// SHOW IMAGES
+				
+				$(".page_collection .selected-product").fadeIn("slow");
+			}
+
+		}
 	}
 
 	// 1.6. STYLE BUTTONS
@@ -256,19 +281,21 @@
 		var thisTag = click.text().toLowerCase();
 		var thisClass = "product-tag-" + thisTag;
 				
-		$(".product").hide();
+		$(".page_collection .product").hide();
 		$(".selected-product").removeClass("selected-product");	
 		
 		// LOOP THROUGH ITEMS ON PAGE
-		$(".product").each( function(){
+		$(".page_collection .product").each( function(){
 			if ( $(this).hasClass( thisClass ) ) {
 				$(this).show().addClass("selected-product");
 			}
 		});	
 
-		// SCROLL TO TOP
+		// SCROLL TO TOP OF COLLECTION
+		var collTop = $(".page_collection").offset().top;
+		console.log( collTop );
 		$("html,body").animate({
-			scrollTop: 0
+			scrollTop: collTop
 		}, 500);
 
 		$(".selected").removeClass("selected");
@@ -280,17 +307,23 @@
 		}
 
 		click.addClass("selected").next("img").show();
+
+		// ENSURE FILTER TOGGLE IS VISIBLE ON SINGLE PAGES
+		$("#filter_toggle").addClass("filter_vis");
 	}
 
-	function filterClear( click ) {
+	function filterClear() {
 		console.log("filterClear");
 		// RESET 
-		$(".product").show();
-		$(".product").addClass("selected-product");	
+		$(".page_collection .product").show();
+		$(".page_collection .product").addClass("selected-product");	
 		$(".selected").removeClass("selected");
 		$(".clear_filter").hide();	
+		$("#filter_toggle").removeClass("filter_vis");
 
 		imagesPrep();
+
+		// WHY DOES THIS CAUSE PAGE TO MOVE UP????
 	}
 
 	// 1.10. RESET QUANTITY INPUTS
@@ -311,10 +344,12 @@
 		//textWrapInit();
 		//textWrapCalc();
 		textWrap();
-		buttonResize();
+		buttonResize();	
+		imagesPrep();
 		slideShowInit(); 
 		resetQuantities();
-		newsPrep();		
+		newsPrep();
+
 	}
 
 

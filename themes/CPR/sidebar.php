@@ -61,26 +61,30 @@
 
 <div id="secondary_nav">
 	<ul>
-		<li>
+
+		<!-- FILTER: OPTIONAL ON CATEGORY PAGES -->
+		<?php if ( is_product_category() || is_front_page() || is_page( "wholesale" ) ) { ?>
+			<li id="secondary_filter"><a href="" id="filter_toggle">Filter</a></li>	
+		<?php } else if ( is_single() ) { ?>
+			<li id="secondary_filter"><a href="" id="filter_toggle" class="hide">Filter</a></li>
+		<?php } ?>
+
+		<!-- ACCOUNT -->	
+		<li id="secondary_account"><a href="<?php bloginfo( 'url' ); ?>/my-account/">Account</a></li>		
+
+		<!-- CART -->
+		<li id="secondary_cart">
 			<div id="cart_container">
 			    <a class="" href="<?php echo WC()->cart->get_cart_url(); ?>" title="<?php _e( 'View your shopping cart' ); ?>">
 			        <?php 
 			        echo WC()->cart->cart_contents_count . " / " . WC()->cart->get_cart_total(); ?>
 			    </a> 
 			</div>
-
 			<!--<a href="<?php bloginfo( 'url' ); ?>/cart/">
 				Cart <span class="cart_count"><?php echo "(" . WC()->cart->cart_contents_count . ") / " . WC()->cart->get_cart_total(); ?></span>
 			</a>-->
-		</li>	
-		<li><a href="<?php bloginfo( 'url' ); ?>/my-account/">Account</a></li>
-		<!-- OPTIONAL ON CATEGORY PAGES -->
-		<?php if ( is_product_category() || is_front_page() || is_page( "wholesale" ) ) { ?>
-			<li><a href="" id="filter_toggle">Filter</a></li>	
-		<?php } else if ( is_single() ) { ?>
-			<li><a href="" id="filter_toggle" class="hide">Filter</a></li>
-		<?php } ?>
-		
+		</li>
+
 	</ul>
 
 </div>

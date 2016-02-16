@@ -1,7 +1,7 @@
 $.fn.stretch_text = function(){
 
 	var	elmt = $(this);
-    console.log( elmt.text() );      
+    // console.log( elmt.text() );      
     var cont_width;
     
 	if ( $(this).parents("#nav").length ) {

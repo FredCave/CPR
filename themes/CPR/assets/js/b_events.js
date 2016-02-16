@@ -41,11 +41,6 @@ $(document).ready( function(){
 		}
 	});
 
-	// 2.1.3. IF ON COLLECTION PAGE, POSITION IMAGES
-	
-	if ( $(".page_collection").length ) {
-		imagesPrep();
-	} 
 
 // 2.2. EVENTS
 
@@ -96,7 +91,7 @@ $(document).ready( function(){
 
 	// 2.2.5. IMAGE HOVER
 
-	$("#home .product").hover( function(){	
+	$(".page_collection .product").hover( function(){	
 		$(this).find(".picturefill-background:first-child").css("opacity","0");
 		$(this).find(".picturefill-background:last-child").css("opacity","1");
 	}, function(){
@@ -108,16 +103,25 @@ $(document).ready( function(){
 	var filterVis = false;
 	$("#filter_toggle").on("click", function(e){
 		e.preventDefault();
+		console.log("filter_toggle");
 		if ( !filterVis ) {
 			$("#collection_filter").show();
 			filterVis = true;	
 		} else {
 			$("#collection_filter").hide();
+			// CHECK IF ONE OF THE CATEGORIES HAS BEEN SELECTED
+			$(".filter").each( function(){
+				if ( $(this).hasClass("selected") ) {
+					filterClear();	
+				}
+			});
 			filterVis = false;
 		}
 	});
 
 		// SHOW TOGGLE BUTTON ONCE THE COLLECTION IS VISIBLE 
+
+
 
 	if ( $("#single_collection").length ) {	
 		// get offset of collection section
@@ -242,7 +246,35 @@ $(document).ready( function(){
 		scrollDetect();
 	}, 1000));
 
+	// 2.2.XX. RESIZE HANDLER
 
+	var firstTime = true;
+	var handleMediaChange = function (mql) {
+		console.log("mql");
+	    // Gives number of columns for image injection
+	    if (mql.s.matches) {
+	        // Less than 600px wide     
+	    	imagesPrep( firstTime );
+	    } else if (mql.m.matches) {
+	        // More than 600px wide
+			imagesPrep( firstTime );
+	    } else {
+	    	// More than 780px wide
+			imagesPrep( firstTime );
+	    }
+	}
+
+	var mql = {};
+	mql.s = window.matchMedia("(max-width: 600px)");
+	mql.m = window.matchMedia("(max-width: 780px)");
+	mql.s.addListener(function(){
+		handleMediaChange(mql);
+	});
+	mql.m.addListener(function(){
+		handleMediaChange(mql);
+	});
+
+	handleMediaChange(mql);
 
 
 });

@@ -7,6 +7,10 @@ $nav_bg = true;
 get_sidebar();
 ?>
 
+<!-- COLLECTION FILTER -->
+<?php product_filter(); ?>
+<!-- END OF COLLECTION FILTER -->
+
 <div class="single_product">
 
 	<?php while ( have_posts() ) : the_post(); ?>

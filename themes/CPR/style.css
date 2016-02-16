@@ -5,7 +5,7 @@ Author URI:		http://www.fredcave.com
 */
 
 #wpadminbar {
-/*    display: none !important;*/
+    display: none !important;
 }
 
 /* BACKEND */
@@ -232,17 +232,40 @@ label {
 /*    display: none;*/
 }
 
+    @media ( max-width: 1000px ) {
+        #nav {
+            font-size: 3.3em;
+        }        
+    }
+
+    @media ( max-width: 780px ) {
+        #nav {
+            font-size: 8vw;
+        }    
+    }
+
 #nav_home {
+/*    border: 1px solid red;*/
     font-family: CPR, VBLACK, Vonnes, helvetica, arial, sans-serif;   
     font-weight: normal;
-/*    height: auto;*/
     height: 100px;
     text-align: justify;
 }
 
+#nav_home br {
+    display: none;
+}
+
+    @media ( max-width: 780px ) {
+        /* THREE LINES */  
+        #nav_home br {
+            /*display: block;*/
+        }     
+    }
+
 #nav_home a {
 /*    border: 1px solid green;*/
-    height: 100%;
+    height: 90%;
 }
 
 .liH {
@@ -310,7 +333,6 @@ label {
 }*/
 
 #nav .nav_share a {
-/*    border: 1px solid orange;*/
     height: 75%;
     width: auto !important;
     display: inline-block;
@@ -318,7 +340,20 @@ label {
 
 .nav_share img {
     width: 60px;
+    width: 5vw;
 }
+
+    @media ( max-width: 1120px ) {
+        .nav_share img {
+            width: 6vw;
+        }    
+    }
+
+    @media ( max-width: 800px ) {
+        .nav_share img {
+            width: 45px;
+        }    
+    }
 
 .nav_share a:nth-child(1) {
     position: absolute;
@@ -401,22 +436,49 @@ label {
     letter-spacing: 0.4em;   
 }
 
+    @media ( max-width: 780px ) {
+        #secondary_nav {
+            font-size: 1.2em;
+            letter-spacing: 0.2em;   
+        }     
+    }
+
 #secondary_nav li {
     display: inline-block;  
 }
 
-#secondary_nav li:nth-child(1) {
+    @media ( max-width: 500px ) {
+        #secondary_nav {
+            height: 90px;
+        }
+        #secondary_nav li {
+            display: block; 
+            width: 100%; 
+            text-align: center;
+            position: relative;
+            left: inherit;
+            transform: none;
+            float: none !important;
+            margin-bottom: 8px;
+        }     
+    }
+
+#secondary_cart {
     float: left; 
 }
 
-#secondary_nav li:nth-child(2) {
+#secondary_account {
     float: right; 
 }
 
-#secondary_nav li:nth-child(3) {
+#secondary_filter {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+}
+
+.filter_vis {
+    display: inline-block !important;
 }
 
 #nav_close {
@@ -437,6 +499,20 @@ label {
     width: 100%;
 }
 
+    @media ( max-width: 1120px ) {
+        #nav_close {
+            height: 35px;
+            width: 35px;
+        }    
+    }
+
+    @media ( max-width: 800px ) {
+        #nav_close {
+            height: 30px;
+            width: 30px;
+        }    
+    }
+
 
 /************************************************
     COLLECTION PAGES
@@ -445,15 +521,35 @@ label {
 .page_collection {
     padding: 0;
     padding-top: 120px;
+    padding-top: 9vw;
     width: 100%;
 }
+
+    @media ( max-width: 990px ) {
+        .page_collection {
+            padding-top: 11vw;
+        }     
+    }
+
+    @media ( max-width: 640px ) {
+        .page_collection {
+            padding-top: 12vw;
+        }     
+    }    
 
 .page_collection .product {   
     display: inline;
     height: 100%;
     width: 25%;
     position: absolute;
+    display: none;
 }
+
+    @media ( max-width: 600px ) {
+        .page_collection .product {   
+            width: 33%;
+        }       
+    }
 
 .page_collection .picturefill-background {
     height: 100%;
@@ -637,17 +733,23 @@ label {
 #collection_filter {
 /*    border: 1px solid purple;*/
     bottom: 64px;
-    width: 50%;
+    width: 100%;
+    left: 0%;
     position: fixed;
     z-index: 999;
     font-family: VBLACK, Vonnes, helvetica, arial, sans-serif;
     font-size: 1.5em;
     font-weight: bold; 
-    left: 25%;
     text-align: center;
     letter-spacing: 0.4em;
     display: none;
 }
+
+    @media ( max-width: 500px ) {
+        #collection_filter {
+            bottom: 120px;
+        }
+    }
 
 #collection_filter li {
 /*    border: 1px solid green;*/
@@ -656,6 +758,13 @@ label {
     margin: 0 25% 8px 25%;
     position: relative;
 }
+
+    @media ( max-width: 780px ) {
+        #collection_filter {
+            font-size: 1.2em;
+            letter-spacing: 0.2em;  
+        }
+    }
 
 .clear_filter {
     position: absolute;
@@ -666,6 +775,12 @@ label {
     cursor: pointer;
     display: none;
 }
+
+    @media ( max-width: 500px ) {
+        .clear_filter {
+            right: -24px;
+        }
+    }
 
 /************************************************
     INFO / NEWS
