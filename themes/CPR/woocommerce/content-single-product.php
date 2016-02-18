@@ -81,69 +81,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				endwhile;
 			endif; ?>
 
-			<div id="single_info">
-				<ul>
-					<!-- TITLE -->
-					<li class="wrap"><?php the_title(); ?></li>
-					<!-- SIZES -->
-					<li class="wrap">L S</li>
-					<!-- COLOURS -->
-					<li class="wrap">Blue Stone Ivory Red</li>
-					<!-- PRICES -->
-					<li class="">
-						<?php
-						global $product;
-						$retail_price = $product->regular_price;
-						if ( is_page( "wholesale" ) ) {
-							echo "Retail Price: " . $retail_price;
-						} else {
-							echo "Price: " . $retail_price;
-						} ?>
-					</li>
-					<!-- IF WHOLESALE -->
-					<?php if ( is_page( "wholesale" ) ) : ?>
-						<li class="">
-							<?php
-							echo "Wholesale Price: " . $product->price;
-							?>
-						</li>
-					<?php endif; ?>
-					<!-- ENDIF -->	
-					</li>
-					<!-- HOW MANY IN CART -->
-					<li class="">
-						<?php
-							foreach( WC()->cart->get_cart() as $cart_item_key => $values ) {
-						        if ( get_the_ID() === $values["product_id"] ) {
-						        	echo "In cart: " . $values["quantity"]; 
-						        }
-						    } 
-					    ?>
-			    	</li>
-				</ul>
-
-				<?php remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_title', 5 ); ?>					
-				<?php remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 ); ?>
-				<?php remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 ); ?>
-				<?php
-					/**
-					 * woocommerce_single_product_summary hook
-					 *
-					 * @hooked woocommerce_template_single_title - 5
-					 * @hooked woocommerce_template_single_rating - 10
-					 * @hooked woocommerce_template_single_price - 10
-					 * @hooked woocommerce_template_single_excerpt - 20
-					 * @hooked woocommerce_template_single_add_to_cart - 30
-					 * @hooked woocommerce_template_single_meta - 40
-					 * @hooked woocommerce_template_single_sharing - 50
-					 */
-					// do_action( 'woocommerce_single_product_summary' );
-				?>
-				<div class="wrap">
-					<?php woocommerce_template_single_add_to_cart(); ?>
-				</div>
-
-			</div>	
+			<?php wc_get_template_part( 'content', 'single-product-info' ); ?>
 
 		</div><!-- end of #single_additional_images -->
 

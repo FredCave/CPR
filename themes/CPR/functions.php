@@ -83,6 +83,33 @@ function show_product_order($columns){
    return $columns;
 }
 
+// ADD COLUMN IN PRODUCT TABLE
+
+add_filter( 'manage_edit-product_columns', 'cpr_show_product_order', 15 );
+function cpr_show_product_order ($columns) {
+
+   //remove columns
+   unset( $columns['featured'] );
+   unset( $columns['product_type'] );
+
+   //add column
+   $columns['related'] = __( 'Related Posts'); 
+
+   return $columns;
+}
+
+add_action( 'manage_product_posts_custom_column', 'cpr_product_column_related', 10, 2 );
+
+function cpr_product_column_related ( $column, $postid ) {
+    if ( $column == 'related' ) {
+        $post_info = get_post_meta( $postid, "other_item" );    
+        if ( $post_info[0] !== "" ) {
+            $post_title = get_the_title( $post_info[0][0] );
+            echo $post_title;
+        }
+    }
+}
+
 /************************
     NEEDS CLEANING UP
 ************************/
@@ -227,6 +254,83 @@ function product_filter () {
         <?php } ?>
         </ul>
     <?php
+}
+
+// ORDER PRODUCT CATALOGUE BY SKU
+
+// add_filter('woocommerce_get_catalog_ordering_args', 'am_woocommerce_catalog_orderby');
+// function am_woocommerce_catalog_orderby( $args ) {
+//     if(!$_GET['orderby']) {
+//         $args['meta_key'] = '_sku';
+//         $args['orderby'] = 'meta_value';
+//         $args['order'] = 'asc'; 
+//     }
+//     return $args;
+// }
+
+// add_filter('woocommerce_get_catalog_ordering_args', 'am_woocommerce_catalog_orderby');
+// function am_woocommerce_catalog_orderby( $args ) {
+//     $args['orderby'] = 'meta_value';
+//     $args['order'] = 'asc';
+//     $args['meta_key'] = 'sku'; 
+//     return $args;
+// }   
+
+// GET RELATED ITEMS — OTHER COLOURS
+
+function other_colours ( $the_id ) {
+    // GET SKU OF CURRENT PRODUCT
+    $product = wc_get_product( $the_id );
+    $this_sku = $product->get_sku();
+    // GET STUB OF SKU
+    $stubs = explode("-", $this_sku);
+    $stub = $stubs[0];
+    // LOOP THROUGH PRODUCTS
+    $args = array(
+        'post_type' => 'product'
+    );
+    $sku_query = new WP_Query( $args );
+    if ( $sku_query->have_posts() ) :
+        while ( $sku_query->have_posts() ) : $sku_query->the_post();
+            global $product;
+            $loop_sku = $product->get_sku();
+            $loop_stubs = explode("-", $loop_sku);
+            $loop_stub = $loop_stubs[0];
+            if ( $loop_stub === $stub && $loop_sku !== $this_sku ) {
+                // GET LINK 
+                ?>
+                <li class="wrap no_break"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
+            <?php
+            }
+        endwhile;
+    endif;
+    wp_reset_postdata();
+} 
+
+// PRICING ON SINGLE PRODUCT INFO
+
+    /*
+    IF LOGGED IN:
+        BOTH PRICES ARE SHOWN
+    ELSE:
+        RETAIL PRICE IS SHOWN
+            + USED!!!!!
+    */
+
+function get_prices ( $the_id ) {
+    
+    if (is_user_logged_in()){
+        // BOTH PRICES ARE SHOWN
+        global $product;
+        print_r ( $product );
+        //$sale_price = $product->price;
+        //return "<li>Retail price: " . $retail_price . "</li><li>Wholesale price: " . $sale_price . "</li>";
+    }
+    else {
+        // BOTH PRICES ARE SHOWN
+        return "logged out";
+        //$retail_price = $product->regular_price;
+    }
 }
 
 ?>

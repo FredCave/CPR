@@ -16,8 +16,8 @@
 
 	<!-- IF IS NOT SINGLE OR COLLECTION PAGE -->
 	<?php if ( !is_product() && !is_product_category() && !is_front_page() ) { ?>
-		<div id="nav_bg">
-		</div>
+		<div id="nav_bg_top"></div>
+		<div id="nav_bg"></div>
 	<?php } ?>
 
 	<ul class="">

@@ -22,14 +22,6 @@
 
 		// ONE WORD FUNCTION
 	function oneWord () {
-		// LOGO 3 LINES — BEST PLACE FOR THIS??
-		// NEEDS CLEANING UP
-		// if ( $(window).width() < 780 ) {
-		// 	$("#nav_home span").addClass("last_word");
-		// } else {
-		// 	$("#nav_home span").removeClass("last_word").find(".stretch_it").css("letter-spacing","");
-		// }
-
 		$(".last_word").each( function(){
 			// console.log( $(this).text() );
 			if ( $(this).has("a").length ) {
@@ -56,6 +48,7 @@
 			}
 
 			var txt = elmt.text().trim();
+			// console.log(txt);
 			var noWords = wordCount( txt );
 			if ( noWords === 1 ) {
 				// ONE WORD
@@ -79,14 +72,45 @@
 		});
 		// ONE WORD LOOP
 		oneWord();
+		// SET LI HEIGHT
+		liCalc();
+	}
+
+	// 1.XX. CHECK IF LINE BREAK — JUST IN INFO FOR THE TIME BEING
+
+	function breakCheck () {
+		$("#info .wrap").each( function(){
+			// CHECK IF MORE THAN ONE WORD
+			var thisTxt = $(this).text().trim();
+			var noWords = wordCount( thisTxt );
+			if ( noWords > 1 ) {
+				// GET CURRENT HEIGHT + FONT HEIGHT
+				var thisH = $(this).height();
+				var fontH = parseFloat ( $(this).css("font-size") );
+				// IF 2 FONT HEIGHTS CAN FIT
+				if ( thisH > ( 2 * fontH ) ) {
+					// console.log(thisH, fontH, thisTxt);
+					// IF 2 WORDS: WRAP EACH WORD IN LAST-WORD SPAN					
+					if ( noWords === 2 ) {
+						// $(this).find("span").unwrap();
+						$(this).lettering("words");
+						$(this).find("span").addClass("last_word");
+					}
+				}	
+			}		
+		});	
+		// ONE WORD LOOP
+		oneWord();	
+	}
+
+	// 1.XX. LI HEIGHT CALC
+
+	function liCalc () {
 		// DEFINE LI HEIGHT
 		liH = parseInt ( $("#nav_home").css("font-size") ) + 18;
 		//console.log( liH );
-		$("#nav li").not(".nav_hidden").css("height", liH);
+		$("#nav li").not(".nav_hidden").css("height", liH);		
 	}
-
-	// DEFINE liH
-
 
 	// 1.2. NAV SHOW / HIDE
 
@@ -102,8 +126,10 @@
 		$("#secondary_nav ul").fadeOut();
 		$("#nav_close").fadeIn();
 
-		// BG
+		// BG DROPDOWN
 		$("#nav_bg").css("height","100vh");
+			// + FADE-IN
+		$("#nav_bg_top").css("opacity","1");
 
 	}
 
@@ -122,8 +148,12 @@
 		$("#secondary_nav ul").fadeIn();
 		$("#nav_close").fadeOut();
 
-		// BG
+		// BG DROP-UP
 		$("#nav_bg").css("height","0vh");
+			// + FADE-OUT
+		setTimeout( function(){
+			$("#nav_bg_top").css("opacity","0");
+		}, 800);
 
 	}
 
@@ -174,12 +204,12 @@
 
 	// 1.5. POSITION COLLECTION IMAGES
 
-	function imagesPrep ( first ) {
+	function imagesPrep () {
 		// IF ON COLLECTION PAGE, POSITION IMAGES
 		if ( $(".page_collection").length ) {
 			// FIRST TIME TEST
-			if ( first ) {
-				first = false;
+			if ( $("body").hasClass("first_time") ) {
+				$("body").removeClass("first_time") 
 				console.log("imagesPrep exit");
 			} else {
 				console.log("imagesPrep");
@@ -338,6 +368,15 @@
 		} 
 	}
 
+	// 1.XX. SET SECONDARY NAV HEIGHT
+
+	function secNavH () {
+		if ( $(window).height <= 500 ) {
+			var navH = $("#secondary_nav ul").height();
+			$("#secondary_nav").css( "height", navH );
+		}
+	}
+
 	// 1.XX. PAGE INIT
 
 	function pageInit () {
@@ -349,7 +388,8 @@
 		slideShowInit(); 
 		resetQuantities();
 		newsPrep();
-
+		secNavH(); 
+		breakCheck();
 	}
 
 

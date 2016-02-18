@@ -41,6 +41,10 @@ $(document).ready( function(){
 		}
 	});
 
+	// 2.1.3. HYPHENATION
+
+	$("p, .s1").hyphenate('en-us');
+
 
 // 2.2. EVENTS
 
@@ -62,24 +66,18 @@ $(document).ready( function(){
 	var spacing;
 	$("#nav li.wrap").hover( function(){
 		// CONDENSE
-		$(this).addClass("li_hover");
-	// 	$(this).css("text-align","center");
-		// record calculated letter-spacing
-		spacing = parseInt( $(this).find(".stretch_it").css("letter-spacing") );
-		// $(this).find(".stretch_it").css("letter-spacing","0.2em").attr("data-spacing", spacing);
+		// $(this).addClass("li_hover");
 	}, function () {
-		$(this).removeClass("li_hover");
 		// STRETCH
-	// 	$(this).css("text-align","");	
-		// $(this).find(".stretch_it").css("letter-spacing", spacing);
+		// $(this).removeClass("li_hover");	
 	});
 
 	// 2.2.3. HOVER OVER SOCIAL MEDIA ICONS
 
 	$(".nav_share").hover( function(){
-		$(this).find("a").addClass("hover");
+		// $(this).find("a").addClass("hover");
 	}, function(){
-		$(this).find("a").removeClass("hover");
+		// $(this).find("a").removeClass("hover");
 	});
 
 	// 2.2.4. TOGGLE COLLECTIONS	
@@ -238,7 +236,10 @@ $(document).ready( function(){
 		pageInit();
 	}).on("resize", function(){
 		oneWord();
+		liCalc();
 		buttonResize(); 
+		secNavH();
+		breakCheck();
 	});
 
 		// THROTTLED SCROLL DETECT
@@ -248,19 +249,19 @@ $(document).ready( function(){
 
 	// 2.2.XX. RESIZE HANDLER
 
-	var firstTime = true;
+	$("body").addClass("first_time");
 	var handleMediaChange = function (mql) {
 		console.log("mql");
 	    // Gives number of columns for image injection
 	    if (mql.s.matches) {
 	        // Less than 600px wide     
-	    	imagesPrep( firstTime );
+	    	imagesPrep();
 	    } else if (mql.m.matches) {
 	        // More than 600px wide
-			imagesPrep( firstTime );
+			imagesPrep();
 	    } else {
 	    	// More than 780px wide
-			imagesPrep( firstTime );
+			imagesPrep();
 	    }
 	}
 
