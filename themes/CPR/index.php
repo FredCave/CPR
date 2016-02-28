@@ -12,11 +12,13 @@
         'number'			=> '1'
     );
     $latest = get_categories( $args );
+    // print_r($latest);
 	$args2 = array(
         'post_type' => 'product',
         'taxonomy' => 'product_cat',
         'field' => 'slug',
-        'term' => $latest[1]->slug, /* WHY 1 NOT 0 ??? */
+        // 'term' => $latest[1]->slug,/* WHY 1 NOT 0 ??? */
+        'term' => $latest[0]->slug, 
 		'orderby' => 'rand'
         );
     $the_query = new WP_Query( $args2 ); ?>

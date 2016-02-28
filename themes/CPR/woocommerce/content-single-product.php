@@ -14,7 +14,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 
-<div itemscope itemtype="<?php echo woocommerce_get_product_schema(); ?>" id="product-<?php the_ID(); ?>" <?php post_class( ); ?>>
+<?php if ( is_single() ) { 
+	$class = "single_product";
+} else { 
+	$class = "non_single_product";
+} ?>
+
+<div itemscope itemtype="<?php echo woocommerce_get_product_schema(); ?>" id="product-<?php the_ID(); ?>" <?php post_class( $class ); ?>>
 
 	<div class="custom-content">
 
@@ -47,12 +53,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<?php } ?>
 		
+		<?php /*
 		<div id="" class="single_additional_images row">
 
 			<?php if ( have_rows("product_images") ):				
 				$i = 0; 
 				while ( have_rows("product_images") ) : the_row();
-					/* FIRST IMAGE ON LEFT */
+					// FIRST IMAGE ON LEFT
 					if ( $i === 0 ) {
 						$position = "left";
 					} else {
@@ -79,11 +86,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 			        <?php
 			        
 				endwhile;
-			endif; ?>
+			endif; 
+			*/
+			?>
 
 			<?php wc_get_template_part( 'content', 'single-product-info' ); ?>
 
-		</div><!-- end of #single_additional_images -->
+		<?php /* </div><!-- end of #single_additional_images --> */ ?>
 
 	</div>
 

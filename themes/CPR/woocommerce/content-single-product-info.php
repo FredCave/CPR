@@ -12,13 +12,18 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
+/*
 ?>
 
 <div itemscope itemtype="<?php echo woocommerce_get_product_schema(); ?>" id="product-<?php the_ID(); ?>" <?php post_class( ); ?>>
 
-	<div class="custom-content">
+	<div class="custom-content"> */ ?>
 		
 		<div id="" class="single_additional_images row">
+
+			<div class="gallery_arrow">
+				<img src="<?php bloginfo('template_url'); ?>/img/gallery_arrow.svg" />
+			</div>
 
 			<?php if ( have_rows("product_images") ):				
 				$i = 0; 
@@ -56,46 +61,68 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<ul>
 					<!-- TITLE -->
 					<li class="wrap no_break product_title"><?php the_title(); ?></li>
+					<!-- SKU IF ON WHOLESALE -->
+					<?php if ( is_page( "wholesale" ) ) :
+						global $product; ?>
+						<li class="" style="text-align:center"><?php echo $product->sku; ?></li>
+			    	<?php endif; ?>
+					<!-- PRODUCT DESCRIPTION -->
+					<div class="product_desc_toggle">
+						<p class="wrap">Info</p>
+						<div class="product_desc">
+							<li class="wrap no_break">
+								<?php the_field("product_description"); ?>
+							</li>
+						</div>
+					</div>
 					<!-- FABRIC INFO -->
-					<li class="wrap">
+					<li class="wrap no_break">
 						<?php the_field("product_info"); ?>
 					</li>
-					<!-- SIZES -->
-					<li class="wrap">SIZES</li>
 			    	<!-- LINKS TO OTHER COLOURS -->
-			    	<?php echo other_colours( get_the_ID() ); ?>
+			    	<?php if ( !is_page( "wholesale" ) ) :
+						echo other_colours( get_the_ID() ); 
+			    	endif; ?>
+			    	
 					<!-- PRICES -->
-					<li class="">
-						<?php /*
-						global $product;
-						$retail_price = $product->regular_price;
-						if ( is_page( "wholesale" ) ) {
-							echo "Retail Price: " . $retail_price;
-						} else {
-							echo "Price: " . $retail_price;
-						} ?>
-					</li>
-					<!-- IF WHOLESALE -->
-					<?php if ( is_page( "wholesale" ) ) : ?>
-						<li class="">
-							<?php
-							echo "Wholesale Price: " . $product->price;
-							?>
-						</li>
-					<?php endif; */ ?>
+					<?php echo get_prices( get_the_ID() );
+					// the_ID();
+					// $meta = get_post_meta( get_the_ID() );
 
-					<?php 
+				    // print_r( $meta );
 
-					global $product;
+					// $this_post = the_post();
+					// $availability = $product->get_availability();
+					// print_r($availability);
+					// var_dump( $post );
 
-					echo "<pre>";
-					print_r( $product->price );
-					echo "</pre>";
+
+					// if ( ! $product->is_in_stock() ) {
+					//     echo "in stock";
+					// } else {
+					// 	echo "out of stock";
+					// }
+
+					remove_action( "woocommerce_single_product_summary", "woocommerce_template_single_title", 5 );
+					remove_action( "woocommerce_single_product_summary", "woocommerce_template_single_meta", 40 );
+
+					/**
+					 * woocommerce_single_product_summary hook.
+					 *
+					 * @hooked woocommerce_template_single_title - 5
+					 * @hooked woocommerce_template_single_rating - 10
+					 * @hooked woocommerce_template_single_price - 10
+					 * @hooked woocommerce_template_single_excerpt - 20
+					 * @hooked woocommerce_template_single_add_to_cart - 30
+					 * @hooked woocommerce_template_single_meta - 40
+					 * @hooked woocommerce_template_single_sharing - 50
+					 */
+					do_action( 'woocommerce_single_product_summary' );
+
 					?>
-					<!-- ENDIF -->	
-					</li>
+					
 					<!-- HOW MANY IN CART -->
-					<li class="">
+					<!--<li class="">
 						<?php
 							foreach( WC()->cart->get_cart() as $cart_item_key => $values ) {
 						        if ( get_the_ID() === $values["product_id"] ) {
@@ -103,20 +130,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 						        }
 						    } 
 					    ?>
-			    	</li>
+			    	</li>-->
 
 				</ul>
 
 				<div class="wrap">
-					<?php woocommerce_template_single_add_to_cart(); ?>
+					<?php /*woocommerce_template_single_add_to_cart();*/ ?>
 				</div>
 
 			</div><!-- end of .single_info -->	
 
 		</div><!-- end of #single_additional_images -->
 
+<?php /*
+
 	</div>
 
 </div><!-- #product-<?php the_ID(); ?> -->
+*/ ?>
 
 <?php do_action( 'woocommerce_after_single_product' ); ?>

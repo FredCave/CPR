@@ -190,7 +190,7 @@ function woo_wholesale_role_options(){
 	echo'<p class="howto">Please select which roles you would like to enable wholesale prices for. A seperate price field will be enabled for each role.</p>'; 	
 	if (isset($_REQUEST["settings-updated"])) {
 		global $wpdb;
-		$results = $wpdb->get_results( 'SELECT * FROM wp_options WHERE option_value = "enable_role"' );
+		$results = $wpdb->get_results( 'SELECT * FROM wp_cpr_options WHERE option_value = "enable_role"' );
 		$roles = array();
 		foreach ($results as $result){	
 			array_push($roles, $result->option_name);

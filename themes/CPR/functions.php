@@ -102,11 +102,13 @@ add_action( 'manage_product_posts_custom_column', 'cpr_product_column_related', 
 
 function cpr_product_column_related ( $column, $postid ) {
     if ( $column == 'related' ) {
-        $post_info = get_post_meta( $postid, "other_item" );    
-        if ( $post_info[0] !== "" ) {
-            $post_title = get_the_title( $post_info[0][0] );
-            echo $post_title;
-        }
+        $post_info = get_post_meta( $postid, "other_item" );
+        if ( $post_info ) {
+            if ( $post_info[0] !== "" ) {
+                $post_title = get_the_title( $post_info[0][0] );
+                echo $post_title;
+            }
+        }    
     }
 }
 
@@ -192,6 +194,7 @@ function cpp_header_add_to_cart_fragment( $fragments ) {
  * Change the add to cart text on single product pages
  */
 
+/*
 add_filter('woocommerce_product_single_add_to_cart_text', 'woo_custom_cart_button_text');
 function woo_custom_cart_button_text() {
     
@@ -201,13 +204,14 @@ function woo_custom_cart_button_text() {
     
         if( get_the_ID() == $_product->id ) {
             //return $values['quantity'] . ' — Add more?';
-            return __('Already in Cart — Add More?', 'woocommerce');
+            //return __('Already in Cart — Add More?', 'woocommerce');
+            return get_the_ID();
         }
     }
     
     return __('Add to cart', 'woocommerce');
 }
-
+*/
 
 // EXTRA AJAX CALLS
 
@@ -298,8 +302,33 @@ function other_colours ( $the_id ) {
             $loop_stub = $loop_stubs[0];
             if ( $loop_stub === $stub && $loop_sku !== $this_sku ) {
                 // GET LINK 
+                /*
+                $loop_title = get_the_title();
+                switch ( true ) {
+                    case stristr( $loop_title, "orange" ):
+                        $colour = "Orange";
+                        break;
+                    case stristr( $loop_title, "navy" ):
+                        $colour = "Navy";
+                        break;
+                    case stristr( $loop_title, "whisper" ):
+                        $colour = "Whisper White";
+                        break;
+                    case stristr( $loop_title, "anthracite" ):
+                        $colour = "Anthracite";
+                        break;
+                    case stristr( $loop_title, "cognac" ):
+                        $colour = "Cognac";
+                        break;
+                    case stristr( $loop_title, "grey" ):
+                        $colour = "Grey / White";
+                        break;
+                    case stristr( $loop_title, "moonbeam" ):
+                        $colour = "Moonbeam / White";
+                        break;
+                } */
                 ?>
-                <li class="wrap no_break"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
+                <li class="wrap no_break other_colours"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
             <?php
             }
         endwhile;
@@ -309,28 +338,32 @@ function other_colours ( $the_id ) {
 
 // PRICING ON SINGLE PRODUCT INFO
 
-    /*
-    IF LOGGED IN:
-        BOTH PRICES ARE SHOWN
-    ELSE:
-        RETAIL PRICE IS SHOWN
-            + USED!!!!!
+function get_prices ( $the_id ) {
+    /* DEBUGGING
+    $meta = get_post_meta( $the_id );
+    //print_r( $meta );
     */
 
-function get_prices ( $the_id ) {
-    
+    $price = get_post_meta( $the_id, '_regular_price');
+    $wholesale_price = get_post_meta( $the_id, '_wholesale_price');    
     if (is_user_logged_in()){
         // BOTH PRICES ARE SHOWN
-        global $product;
-        print_r ( $product );
-        //$sale_price = $product->price;
-        //return "<li>Retail price: " . $retail_price . "</li><li>Wholesale price: " . $sale_price . "</li>";
+        // return "<li class='wrap no_break'>Retail Price: " . $price[0] . "</li><li class='wrap no_break'>Wholesale Price: " . $wholesale_price[0] . "</li>";
+        // return "<li class='wrap no_break'>Retail Price: " . $price[0] . "€</li>";
     }
-    else {
-        // BOTH PRICES ARE SHOWN
-        return "logged out";
-        //$retail_price = $product->regular_price;
-    }
+
 }
+
+add_filter( 'woocommerce_get_price_html', 'cpr_price_html', 100, 2 );
+function cpr_price_html( $price, $product ){
+    return "<div class='wrap no_break'>Price: " . str_replace ( "<span class='amount'>", "", $price ) . "</div>";
+}
+
+// MAKE PRODUCTS VARIABLE BY DEFAULT
+
+function cpr_default_product_type(){
+    return "variable";
+}
+add_action( 'default_product_type', 'cpr_default_product_type' );
 
 ?>

@@ -26,14 +26,16 @@
 	    			
 	    			<div class="news_content">
 	    				<div class="news_text info_column">
-							<h4 class="news_date wrap no_break">
+							<h5 class="news_date wrap no_break">
 								<?php the_date('M d Y'); ?></span>
-							</h4>
-
+							</h5>
+							<p><?php the_title(); ?></p>
 	    					<?php the_content(); ?>
 	    				</div>
 	    				<div class="news_images info_column">
-	    					
+	    					<?php if ( get_field("embedded_media") ) {
+	    						the_field("embedded_media");
+	    					} ?>
 	    				</div>	    			
 	    			</div>
 	    		</li>

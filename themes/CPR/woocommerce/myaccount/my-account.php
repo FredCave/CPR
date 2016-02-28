@@ -28,13 +28,20 @@ get_sidebar();
 		wc_get_endpoint_url( 'customer-logout', '', wc_get_page_permalink( 'myaccount' ) )
 	);
 
+	/*
 	printf( __( 'From your account dashboard you can view your recent orders, manage your shipping and billing addresses and <a href="%s">edit your password and account details</a>.', 'woocommerce' ),
 		wc_customer_edit_account_url()
 	);
+	*/
 	?>
 </p>
 
-<?php do_action( 'woocommerce_before_my_account' ); ?>
+<div id="wholesale_link">
+	<a href="<?php bloginfo( 'url' ); ?>/wholesale/">Wholesale order page</a>
+</div>
+
+
+<?php /*do_action( 'woocommerce_before_my_account' ); ?>
 
 <?php wc_get_template( 'myaccount/my-downloads.php' ); ?>
 
@@ -42,4 +49,4 @@ get_sidebar();
 
 <?php wc_get_template( 'myaccount/my-address.php' ); ?>
 
-<?php do_action( 'woocommerce_after_my_account' ); ?>
+<?php do_action( 'woocommerce_after_my_account' ); */ ?>

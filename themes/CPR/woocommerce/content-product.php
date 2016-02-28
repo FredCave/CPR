@@ -46,7 +46,17 @@ $classes[] = "selected-product";
 
 ?>
 
-<li <?php post_class( $classes ); ?>>
+<?php 
+if ( get_field( "other_item" ) ) {
+	// echo get_field( "other_item" )[0]->guid;
+	// var_dump ( get_field( "other_item" )[0] );
+	$link_id = get_field( "other_item" )[0]->ID;
+} else {
+	$link_id = "";
+}
+?>
+
+<li <?php post_class( $classes ); ?> data-link="<?php echo $link_id; ?>">
 
 	<a href="<?php the_permalink(); ?>" class="open_single">
 

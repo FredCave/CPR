@@ -35,9 +35,12 @@ get_sidebar(); ?>
 					"post_type" => "product",
 					"tax_query" => array(
 						array(
-							'taxonomy' => "product_cat",
-							'field'    => "term_id",
-							'terms'    => $this_cat
+							'taxonomy' 	=> "product_cat",
+							'field'    	=> "term_id",
+							'terms'    	=> $this_cat,
+							'orderby'	=> 'meta_value',
+							'meta_key' 	=> '_sku',
+							'order'		=> 'ASC'
 						),
 					)
 				);

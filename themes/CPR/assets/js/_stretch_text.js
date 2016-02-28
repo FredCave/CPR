@@ -15,6 +15,7 @@ $.fn.stretch_text = function(){
         nb_char       = txt.length, 
         spacing       = cont_width/nb_char,
         txt_width;
+        console.log(txt, nb_char);
 
 	elmt.html(one_line).css({"letter-spacing": "0"});
 		txt_width = one_line.width();

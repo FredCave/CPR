@@ -11,6 +11,8 @@ get_sidebar();
 <?php product_filter(); ?>
 <!-- END OF COLLECTION FILTER -->
 
+<!-- MAIN IMAGE + INFO ROW -->
+
 <div class="single_product">
 
 	<?php while ( have_posts() ) : the_post(); ?>
@@ -25,7 +27,7 @@ get_sidebar();
 
 	<?php endwhile; // end of the loop. ?>
 
-<!-- GET RELATED ITEMS -->
+<!-- RELATED ITEMS -->
 
 <?php 
 global $post;
@@ -50,6 +52,8 @@ if ( $post_info[0] !== "" ) {
 ?>
 
 </div><!-- end of #single_product -->
+
+<!-- PARENT COLLECTION -->
 
 <div id="single_collection" class="page_collection">
 

@@ -1,0 +1,107 @@
+#wpbody-content #message{
+ display:none;
+}
+
+.excellikeattributeandtagmanagerforwoocommerceandwpecommercelight-settings {
+
+}
+
+.excellikeattributeandtagmanagerforwoocommerceandwpecommercelight-settings .plem_button{
+	background:#9b4f96; 
+	border:none; 
+	margin-top:15px;
+	padding:12px 26px;
+	font-size:16px;
+	color:white;
+	cursor:pointer;
+	min-height: 47px;
+}
+
+.excellikeattributeandtagmanagerforwoocommerceandwpecommercelight-settings .plem_button:hover{
+	background-color: #00bcF2;
+}
+
+.excellikeattributeandtagmanagerforwoocommerceandwpecommercelight-settings  .txt{
+	width:300px;
+	text-align:center;
+	border:1px solid #9b4f96; 
+	background:#dddddd;
+}
+
+.plem-mesage{
+	color:red;
+}
+
+.plem-mesage > span{
+	color:green;
+}
+
+DIV#wpbody-content > DIV.error{
+    display:none;
+}
+
+.excellikeattributeandtagmanagerforwoocommerceandwpecommercelight-settings .checkbox-list INPUT{
+    margin-left:5px;
+}
+
+.excellikeattributeandtagmanagerforwoocommerceandwpecommercelight-settings  table,
+.excellikeattributeandtagmanagerforwoocommerceandwpecommercelight-settings  table *,
+.excellikeattributeandtagmanagerforwoocommerceandwpecommercelight-settings .checkbox-list, 
+.excellikeattributeandtagmanagerforwoocommerceandwpecommercelight-settings .checkbox-list *{
+    text-align:left;
+	vertical-align:middle;
+}
+
+.excellikeattributeandtagmanagerforwoocommerceandwpecommercelight-settings  table TR TD{ 
+	padding:15px;
+}
+
+.excellikeattributeandtagmanagerforwoocommerceandwpecommercelight-settings  table table TR TD{ 
+	padding:3px;
+}
+
+.excellikeattributeandtagmanagerforwoocommerceandwpecommercelight-settings .checkbox-list{
+	padding-top:8px;
+}
+
+.excellikeattributeandtagmanagerforwoocommerceandwpecommercelight-settings .checkbox-list label{
+	display:inline-block;
+	min-width:90px;
+}
+
+
+.ui-autocomplete {
+    max-height: 220px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+  }
+
+* html  .ui-autocomplete {
+    height: 220px;
+}
+
+.excellikeattributeandtagmanagerforwoocommerceandwpecommercelight-settings  .editor-options .chk,
+.excellikeattributeandtagmanagerforwoocommerceandwpecommercelight-settings  .editor-options .rdo{
+    margin:4px 12px 4px 2px;
+}
+
+.excellikeattributeandtagmanagerforwoocommerceandwpecommercelight-settings  TABLE.table TR  TD{
+    border-bottom:1px dotted silver;
+}
+
+.update-nag, .updated, #message{
+	display:none!important;
+}
+
+a.upgrade_component{
+	color: cyan;
+	font-weight: bold;
+	font-size: 13px;
+	padding:1px 8px;
+	position:absolute;
+	right:0;
+	z-index: 100;
+	text-decoration:none;
+}
+

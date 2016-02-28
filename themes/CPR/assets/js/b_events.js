@@ -17,6 +17,7 @@
 			2.2.9. TOGGLE SHIPPING FORM
 			2.2.10. IMAGE SLIDESHOW
 			2.2.11. AJAX ADD TO CART
+			2.2.XX. PRODUCT DESCRIPTION TOGGLE
 			2.2.12. WINDOW EVENTS
 
 *****************************************************************************/
@@ -27,7 +28,7 @@ $(document).ready( function(){
 
 	// 2.1.1. VAR. ELEMENTS WRAP ON SINGLE PAGES
 	
-	$(".price").wrap("<div class='wrap'></div>");
+	// $(".price").wrap("<div class='wrap'></div>");
 	// $(".single_add_to_cart_button").innerHTML().wrap("<div class='wrap'></div>");
 
 	// 2.1.2. HIDE NAV COLLECTIONS DEPENDING ON CURRENT PAGE
@@ -63,21 +64,46 @@ $(document).ready( function(){
 
 	// 2.2.2. NAV LI HOVER / CENTER TEXT 
 	
-	var spacing;
 	$("#nav li.wrap").hover( function(){
 		// CONDENSE
 		// $(this).addClass("li_hover");
+		// RECORD CURRENT LETTER-SPACING
+		var currSpacing = parseFloat( $(this).find(".stretch_it").css("letter-spacing") );
+		$(this).removeClass("wrap")
+				.attr( "data-spacing", currSpacing )
+				.find(".stretch_it")
+				.css("letter-spacing","0.2em");
 	}, function () {
 		// STRETCH
 		// $(this).removeClass("li_hover");	
+		$(this).addClass("wrap")
+				.find(".stretch_it")
+				.css( "letter-spacing", $(this).attr( "data-spacing") + "px" );
+		// console.log("wrap");
+	});
+
+		// PRODUCT INFO HOVER
+
+	$(".single_info .wrap").hover( function(){
+		console.log(87);
+		$(this).css({
+			"text-align" : "center",
+			"text-align-last" : "center"
+		});
+	}, function(){
+		console.log(90);
+		$(this).css({
+			"text-align" : "",
+			"text-align-last" : ""
+		});
 	});
 
 	// 2.2.3. HOVER OVER SOCIAL MEDIA ICONS
 
 	$(".nav_share").hover( function(){
-		// $(this).find("a").addClass("hover");
+		$(this).find("a").addClass("hover");
 	}, function(){
-		// $(this).find("a").removeClass("hover");
+		$(this).find("a").removeClass("hover");
 	});
 
 	// 2.2.4. TOGGLE COLLECTIONS	
@@ -98,38 +124,41 @@ $(document).ready( function(){
 
 	// 2.2.6. PRODUCT FILTER TOGGLE ON COLLECTION PAGES + REVEAL ON SINGLE PAGES
 
-	var filterVis = false;
 	$("#filter_toggle").on("click", function(e){
 		e.preventDefault();
-		console.log("filter_toggle");
-		if ( !filterVis ) {
-			$("#collection_filter").show();
-			filterVis = true;	
-		} else {
-			$("#collection_filter").hide();
-			// CHECK IF ONE OF THE CATEGORIES HAS BEEN SELECTED
-			$(".filter").each( function(){
-				if ( $(this).hasClass("selected") ) {
-					filterClear();	
-				}
-			});
-			filterVis = false;
+		if ( $(this).text().toLowerCase() === "filter" ) {
+			console.log("filter_toggle");
+			if ( !$("#collection_filter").is(':visible') ) {
+				$("#collection_filter").show();	
+			} else {
+				$("#collection_filter").hide();
+				// CHECK IF ONE OF THE CATEGORIES HAS BEEN SELECTED
+				$(".filter").each( function(){
+					if ( $(this).hasClass("selected") ) {
+						filterClear();	
+					}
+				});
+			}
 		}
 	});
 
 		// SHOW TOGGLE BUTTON ONCE THE COLLECTION IS VISIBLE 
 
-
-
 	if ( $("#single_collection").length ) {	
+
 		// get offset of collection section
-		var thisTop = $("#single_collection").offset().top;	
+		// var thisTop = $("#single_collection").offset().top;	
 		$(window).on("scroll", function(){
+			console.log(128);
+			/*
 			if ( $(window).scrollTop() > thisTop ) {
+				console.log("SHOW");
 				$("#filter_toggle").show();
 			} else {
+				console.log("HIDE");
 				$("#filter_toggle").hide();
-			}			
+			}
+			*/			
 		});
 	}
 
@@ -276,6 +305,38 @@ $(document).ready( function(){
 	});
 
 	handleMediaChange(mql);
+
+	// 2.2.XX. PRODUCT DESCRIPTION TOGGLE
+
+	$(".product_desc_toggle p").on("click", function(){
+		descToggle( $(this) );
+	});
+
+	// 2.2.XX. RADIO BUTTON CLICK
+
+	$(".product-addon label").on("click", function(){
+		radioCheck( $(this) );
+	});
+
+
+
+	// 2.2.XX. GALLERY IMAGE HOVER
+
+
+
+
+	// FALLBACK FOR TOUCH SCREEN DEVICES
+
+	/*
+	$(".position_right").hover( function(){
+		if ( $(this).parents(".gallery").length ) {
+			console.log("hovvver");
+			$(this).parents(".row").find(".gallery_arrow").show();
+		}		
+	}, function(){
+		$(this).parents(".row").find(".gallery_arrow").hide();
+	});
+*/
 
 
 });

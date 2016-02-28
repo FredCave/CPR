@@ -16,36 +16,20 @@ Author URI:		http://www.fredcave.com
 
 /* TMP */
 
-.test {
-    border: 1px solid gray;
-    margin-bottom: 48px;
-    margin-left: 15%;
-    line-height: 1.4;
+.quantity {
+    display: none;
 }
 
-#test_1 {
-    margin-top: 24px;
-    width: 60%;
+.shipping p {
+    display: none;
 }
 
-#test_2 {
-    width: 40%;    
+.shipping form p {
+    display: block;
 }
 
-#test_3 {
-    width: 30%;      
-}
-
-#test_4 {
-    width: 15%;     
-}
-
-#test_5 {
-    width: 15%;     
-}
-
-.last_word {
-    margin-right: -4px;
+.woocommerce-message {
+    display: none;
 }
 
 /************************************************
@@ -100,12 +84,13 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 
 html, body {
     width: 100%;
-    height: 100%;
+/*    height: 100%;*/
     top: 0;
     margin-top: 0;
     font-family: VREGULAR, Vonnes, helvetica, arial, sans-serif;
     font-size: 1.1em;
-    background-color: #efebe8; /* FOR ALL PAGES - JUST HOME ?? */
+    background-color: #efebe8; 
+    overflow-x: hidden;
 }
 
 a {
@@ -152,29 +137,37 @@ h3 {
     letter-spacing: 0.2em;
 }
 
-h4 {
+h4, h5 {
 /*    border: 1px solid red;*/
     display: block;
     width: 100%;
     font-family: VBLACK, Vonnes, helvetica, arial, sans-serif;   
     font-weight: bold;
-    font-size: 1.4em;
     text-transform: uppercase;
     text-align: justify;
     letter-spacing: 0.4em;  
 }
 
+h4 {
+    font-size: 1.6em;    
+}
+
+h5 {
+    font-size: 1.2em;  
+}
+
     @media ( max-width: 780px ) {
         h4 {
-            font-size: 3.5vw;
+            font-size: 3.6vw;
         }   
     }
 
     @media ( max-width: 600px ) {
         h4 {
-            font-size: 1em;
+            font-size: 1.2em;
         }  
     }
+
 
 td {
     letter-spacing: 0.2em;
@@ -211,6 +204,10 @@ label {
          text-align-last: justify;
 }
 
+.last_word {
+    margin-right: -4px;
+}
+
 /*.wrap:after {
    content: "";
    display: inline-block;
@@ -231,6 +228,7 @@ label {
     font-family: Vonnes, helvetica, arial, sans-serif;
     height: auto;
     position: fixed;
+/*    position: absolute;*/
     z-index: 999;
     top: 12px;
     width: 96%;
@@ -263,6 +261,7 @@ label {
     height: 100px;
     text-align: justify;
     overflow: hidden;
+/*    position: fixed;*/
 }
 
 #nav_home br {
@@ -289,7 +288,13 @@ label {
     text-transform: uppercase;    
 }
 
+.nav_collection_2 a {
+    text-align: center;   
+}
+
 #nav_dropdown {
+/*    border: 1px solid blue;*/
+    position: absolute;
     height: auto;
 /*    height: 100vh !important;*/
     width: 100%;
@@ -306,15 +311,17 @@ label {
 #nav_dropdown li {
 /*    border: 1px solid blue;*/
     text-align: justify;
+/*    text-align: center;*/
     overflow: hidden;
     height: 100px; /* need to set this with js */
     padding-bottom: 4px;
     margin-bottom: 0px;
     width: 100%;
+/*    transition: letter-spacing 1s;*/
 }
 
 #nav_dropdown span {
-/*    transition: letter-spacing 0.5s;*/
+/*    transition: letter-spacing 0.2s;*/
 }
 
 #nav a {
@@ -331,13 +338,9 @@ label {
     /*display: inline-block;*/
 }
 
-#nav .li_hover .stretch_it, #nav .li_hover a {
-/*    border: 1px solid green;*/
-    letter-spacing: 0.2em !important;
-    /*transition: letter-spacing 0.5s;*/
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+#nav .stretch_it {
+    text-align: center;    
+/*    transition: letter-spacing 0.2s;*/
 }
 
 #nav .nav_share {
@@ -380,12 +383,8 @@ label {
 
 .nav_share a:nth-child(2) {
     position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-}
+    right: 0%;
 
-.nav_share a:nth-child(3) { 
-    float: right;     
 }
 
 .nav_share a.hover {
@@ -393,7 +392,7 @@ label {
     left: inherit;
     float: inherit;
     transform: translateX(0%);
-    margin: -2px 30px;
+    margin: -3px 30px;
 }
 
 #nav_bg {
@@ -467,13 +466,12 @@ label {
     font-family: VBLACK, Vonnes, helvetica, arial, sans-serif;
     font-size: 1.4em;
     font-weight: bold; 
-    letter-spacing: 0.4em;   
+    letter-spacing: 0.2em;   
 }
 
     @media ( max-width: 780px ) {
         #secondary_nav {
             font-size: 1.2em;
-            letter-spacing: 0.2em;   
         }     
     }
 
@@ -509,6 +507,10 @@ label {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+}
+
+#filter_toggle {
+    cursor: pointer;
 }
 
 .filter_vis {
@@ -584,10 +586,6 @@ label {
             width: 33%;
         }       
     }
-
-.product_title {
-    font-weight: bold;
-}
 
 .page_collection .picturefill-background {
     height: 100%;
@@ -779,7 +777,8 @@ label {
     font-size: 1.5em;
     font-weight: bold; 
     text-align: center;
-    letter-spacing: 0.4em;
+    letter-spacing: 0.2em;
+    pointer-events: none;
     display: none;
 }
 
@@ -795,12 +794,12 @@ label {
     clear: both;
     margin: 0 25% 8px 25%;
     position: relative;
+    pointer-events: auto;
 }
 
     @media ( max-width: 780px ) {
         #collection_filter {
             font-size: 1.2em;
-            letter-spacing: 0.2em;  
         }
     }
 
@@ -809,7 +808,7 @@ label {
     height: 20px;
     width: 20px;
     top: -6px;
-    right: -16px;
+    right: -20px;
     cursor: pointer;
     display: none;
 }
@@ -825,7 +824,7 @@ label {
 ************************************************/
 
 .info_column {
-/*    border: 1px solid yellow;*/
+    border: 1px solid transparent;
     width: 48%;
     margin-right: 2%;
     display: inline-block;
@@ -897,18 +896,11 @@ label {
 }
 
 .news_date {
-/*    display: block;
-    width: 100%;
-    font-family: VBLACK, Vonnes, helvetica, arial, sans-serif;   
-    font-weight: bold;
-    font-size: 1.4em;
-    text-transform: uppercase;
-    text-align: justify;
-    letter-spacing: 0.2em;*/
+    margin-bottom: 18px;
 }
 
-.news_content {
-/*    margin-top: -24px;*/
+.news_content p {
+    margin-bottom: 18px;
 }
 
 .news_images {
@@ -918,7 +910,7 @@ label {
 /*    margin-top: 18px;*/
 }
 
-.news_images img {
+.news_images img, .news_images iframe {
     width: 100%;
     height: auto;
     margin-bottom: 24px;
@@ -1117,6 +1109,18 @@ a.remove:hover {
     position: relative; 
 }
 
+.shipping-calculator-form {
+    border: 2px solid black;
+    background-color: #efebe8; 
+    position: fixed;
+    width: 50%;
+    right: 25%;
+    padding: 12px;
+    left: 25%;
+    top: 48%;
+    transform: translateY(-50%);
+}
+
 .checkout div {
     margin-bottom: 12px;
 }
@@ -1145,10 +1149,15 @@ a.remove:hover {
     SINGLE
 ************************************************/
 
+#single_collection {
+    padding-top: 0px;
+}
+
 #single_main_image {
 /*    border: 1px solid red;*/
     width: 100%;
     height: auto;
+    min-height: 100vh;
     margin-bottom: 48px;
 } 
 
@@ -1170,12 +1179,30 @@ a.remove:hover {
     z-index: 1;
 } 
 
-.gallery {
-    cursor: e-resize;
-}
+.gallery .position_right {
+    cursor: pointer;
+} 
 
 .gallery:last-child {
     z-index: 99;
+}
+
+.gallery_arrow {
+ /*   border: 1px solid red;*/
+    position: absolute;
+    z-index: 999;
+    right: 12%;
+    height: 40px;
+    width: 40px;
+    top: 48%;
+    transform: translateY(-50%) translateX(50%);
+    pointer-events: none;
+/*    display: none;*/
+}
+
+.gallery_arrow img {
+    width: 100%;
+    height: auto;
 }
 
 .single_additional_images .picturefill-background {
@@ -1194,6 +1221,7 @@ a.remove:hover {
     position: absolute;  
     letter-spacing: 0.2em; 
     line-height: 1.4;
+    overflow: hidden;
 }
 
     @media ( max-width: 800px ) {
@@ -1215,6 +1243,11 @@ a.remove:hover {
             left: 0;
             right: inherit;
         } 
+        .gallery_arrow {
+            right: inherit;
+            left: 17.5%;
+            transform: translateY(-50%) translateX(-50%);
+        } 
 
     }
 
@@ -1222,12 +1255,61 @@ a.remove:hover {
     margin-bottom: 12px;
 }
 
-.single_info li:first-child {
+.product_title {
+    font-family: VBLACK, Vonnes, helvetica, arial, sans-serif;   
+    font-weight: bold;
     text-transform: uppercase;
 }
 
+.product_desc_toggle p {
+    cursor: pointer;
+}
+
+.product_desc {
+/*    display: none;*/
+    position: absolute;
+    background-color: #efebe8;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s;
+}
+
+.other_colours a {
+    border-bottom: 2px solid transparent;
+    padding-bottom: 2px;
+}
+
+.other_colours a:hover {
+    border-bottom: 2px solid black;
+}
+
+div.product-addon {
+    margin: 0px !important;
+}
+
+div.product-addon > * {
+/*    border: 1px solid red;*/
+    display: inline-block;
+}
+
+div.product-addon .clear {
+    border: 1px solid red;
+    display: inherit;
+}
+
+.product-addon input[type=radio] {
+/*    position: absolute;*/
+    display: none;
+}
+
+
+
+
+
 .single_add_to_cart_button {
     border: 2px solid transparent;
+    font-family: VBLACK, Vonnes, helvetica, arial, sans-serif;   
+    font-weight: bold;
     position: absolute;
     padding-top: 2px;
     padding-bottom: 2px;

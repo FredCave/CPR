@@ -53,6 +53,10 @@
 			if ( noWords === 1 ) {
 				// ONE WORD
 				elmt.wrapInner("<span class='last_word'></span>");
+				$(this).css({
+					"text-align" : "center"
+					//"text-align-last" : "center"
+				});
 			} else {
 				// MULTIPLE WORDS
 					// IF 3 WORDS AND NOT IN NAV
@@ -116,6 +120,22 @@
 
 	function navShow () {
 		console.log("navShow");
+
+		// BG IS FIXED AT CURRENT SCROLLTOP POSITION
+		var currentPos = $(window).scrollTop();
+		console.log(currentPos);
+		$(".page").css({
+			"position" : "fixed", 
+			"top" : 0 - currentPos
+		}).attr( "data-position", currentPos );
+
+		// NAV – ABSOLUTE
+
+		$("#nav").css({
+			"position" : "absolute"
+		});
+
+
 		$("#nav").removeClass("hidden");
 		$("#nav_dropdown").css({
 			// "height" : (liH * 5) + 12
@@ -124,6 +144,7 @@
 	
 		// SHOW CLOSE BUTTON
 		$("#secondary_nav ul").fadeOut();
+		$("#collection_filter").fadeOut();
 		$("#nav_close").fadeIn();
 
 		// BG DROPDOWN
@@ -136,6 +157,21 @@
 	// $("#nav_dropdown").css("height", 5 * liH);
 	function navHide () {
 		console.log("navHide");
+
+		// BG UNFIXED
+		$(".page").css({
+			"position" : "", 
+			"top" : ""
+		});
+		// SET SCROLLTOP 
+		var pagePos = $(".page").attr("data-position");
+		$(window).scrollTop( pagePos );
+
+		// NAV – FIXED
+		$("#nav").css({
+			"position" : ""
+		});
+
 		$("#nav").addClass("hidden");
 		$("#nav_dropdown").css("height", "0px");
 		// hide collections
@@ -157,14 +193,14 @@
 
 	}
 
-	// 1.3. SCROLL DETECT
+	// 1.3. NAV HIDE ON SCROLL
 
 	var lastScrollTop = 0;
 	function scrollDetect () {
 		var current = $(this).scrollTop();
 		// console.log(current, lastScrollTop);
 	   	if (current > (lastScrollTop + 100) ){
-	       navHide();
+	       // navHide();
 	   	} 
 	   	lastScrollTop = current;
 	}
@@ -198,7 +234,7 @@
 			});
 		}	
 		setTimeout( function(){
-			$("#nav_dropdown").css("height", liH * ( colls + 3 ) );
+			$("#nav_dropdown").css("height", liH * ( colls + 4 ) );
 		}, 1000);
 	}
 
@@ -293,8 +329,19 @@
 				// IF MORE THAN ONE IMAGE START GALLERY
 				//$(this).find(".position_right").css("cursor","e-resize").addClass("gallery");
 				$(this).find(".position_right").wrapAll("<span class='gallery'></span>");
+
 			}
+			console.log( 298, count );
 		});
+
+			// TMP
+
+				$(".position_right").each( function(){
+					console.log( 313, $(this).parents(".gallery").length );
+					if ( $(this).parents(".gallery").length === 0 ) {
+						$(this).siblings(".gallery_arrow").hide();
+					}
+				});
 		
 	}
 
@@ -307,23 +354,31 @@
 
 	function filterProducts ( click ) {
 		console.log("filterProducts");
-
+		// GET TAG OF CLICKED CATEGORY
 		var thisTag = click.text().toLowerCase();
+		// REPLACE SPACES BY HYPHENS
+		thisTag = thisTag.replace(" ","-");
 		var thisClass = "product-tag-" + thisTag;
-				
-		$(".page_collection .product").hide();
+		// console.log( thisTag, thisClass );
+
+		$(".product").not(".single_product").hide();
 		$(".selected-product").removeClass("selected-product");	
 		
 		// LOOP THROUGH ITEMS ON PAGE
-		$(".page_collection .product").each( function(){
+		$(".product").not(".single_product").each( function(){
 			if ( $(this).hasClass( thisClass ) ) {
 				$(this).show().addClass("selected-product");
 			}
 		});	
 
 		// SCROLL TO TOP OF COLLECTION
-		var collTop = $(".page_collection").offset().top;
-		console.log( collTop );
+		var collTop;
+		if ( $(".page_collection").length ) {
+			collTop = $(".page_collection").offset().top;
+		} else {
+			collTop = 0;
+		}
+		console.log( 341, collTop, $(window).scrollTop() );
 		$("html,body").animate({
 			scrollTop: collTop
 		}, 500);
@@ -336,7 +391,13 @@
 			imagesPrep();			
 		}
 
-		click.addClass("selected").next("img").show();
+		// click.addClass("selected").next("img").show();
+		click.addClass("selected");
+
+		// REPLACE FILTER TOGGLE WITH SELECTED TAG
+		$("#filter_toggle").css("cursor","text").text( click.text() ).next("img").show();
+		$("#collection_filter").hide();
+
 
 		// ENSURE FILTER TOGGLE IS VISIBLE ON SINGLE PAGES
 		$("#filter_toggle").addClass("filter_vis");
@@ -345,11 +406,11 @@
 	function filterClear() {
 		console.log("filterClear");
 		// RESET 
-		$(".page_collection .product").show();
-		$(".page_collection .product").addClass("selected-product");	
+		$(".product").show();
+		$(".product").addClass("selected-product");	
 		$(".selected").removeClass("selected");
 		$(".clear_filter").hide();	
-		$("#filter_toggle").removeClass("filter_vis");
+		$("#filter_toggle").removeClass("filter_vis").css("cursor","pointer").text( "Filter" );
 
 		imagesPrep();
 
@@ -377,11 +438,74 @@
 		}
 	}
 
+	// 1.XX. SINGLE DESCRIPTION TOGGLE
+
+	var descVis = false;
+	function descToggle ( click ) {
+		console.log("descToggle");
+		if ( !descVis ) {
+			click.next(".product_desc").css({
+				"height" : "auto",
+				"max-height" : 400 	
+			});
+			descVis = true;
+		} else {
+			click.next(".product_desc").css({
+				"height" : "",
+				"max-height" : "" 	
+			});
+			descVis = false;
+		}
+	}
+
+	// 1.XX. SIZES SELECT
+
+	function radioCheck ( click ) {
+		// CLICK IS ON LABEL
+		console.log( 465, click.text() );
+		click.parents(".product-addon").find("label").css( "border-bottom", "" );
+		click.css( "border-bottom", "2px solid black" );	
+	}
+
+		// SIZES POSITION
+
+	function radioPos ( ) {
+		$(".product-addon").each( function(){
+			// LOOP TO GET COUNT AND WIDTH
+			var radioCount = 0,
+			radioWidth = 0;
+			$(this).children().not(".clear").each( function(i){
+				radioCount++;
+				radioWidth += $(this).width();
+			});
+			console.log( 481, radioCount, radioWidth );
+			var container = $(this).width();
+			var diff = container - radioWidth;
+			var diffPerc = Math.floor( diff / ( radioCount - 1 ) / container * 100 );
+			console.log(diffPerc);
+			$(this).find("p").css( "margin-left", diffPerc + "%" );
+			$(this).find("p").eq( radioCount - 2 ).css({
+				"position" : "absolute",
+				"right" : 0
+			});
+		});
+		
+	}
+
+	// 1.XX. HIDE DOUBLES
+
+	// function hideDoubles(){
+	// 	// IF HAS CLASS
+	// 	$(".page_collection li").each( function(){
+	// 		if ( $(this).hasClass("product-tag-shorts") || $(this).hasClass("product-tag-leggings") || $(this).hasClass() ) {
+
+	// 		}
+	// 	});
+	// }
+
 	// 1.XX. PAGE INIT
 
 	function pageInit () {
-		//textWrapInit();
-		//textWrapCalc();
 		textWrap();
 		buttonResize();	
 		imagesPrep();
@@ -390,6 +514,19 @@
 		newsPrep();
 		secNavH(); 
 		breakCheck();
+		iframeResize();
+		radioPos();
+	}
+
+	// 1.XX. IFRAMES RESIZE
+
+	function iframeResize () {
+		if ( $("#news").length ) {
+			$("iframe").each( function(){
+				var thisR = $(this).attr("width") / $(this).attr("height");
+				$(this).css( "height", $(this).width() / thisR );
+			});			
+		} 
 	}
 
 
