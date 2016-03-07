@@ -2,24 +2,53 @@
 
 <?php get_sidebar(); ?>
 
-	<div class="page">
+	<div id="campaign" class="page">
 
-		<!-- TITLE -->
 		<div class="campaign_title">
-			<h4 class="wrap">Campaign <?php the_title(); ?></h4>
+			<h4 class="wrap no_break">Campaign <?php the_title(); ?></h4>
 		</div>
 
-		<!-- IMAGE -->
-		<div class="campaign_image">
-			
-		</div>	
+		<!-- LEFT COLUMN -->
+	   	<div class="info_column">
+    		<?php if ( get_field("video") ) {
+				the_field("video");
+			} ?>
+	   	</div>
 
-		<!-- BACK LINK -->	
-		<a href="<?php bloginfo('url'); ?>/_news">
-			<div class="campaign_title">
-				<h4 class="wrap">Back to News</h4>
-			</div>
-		</a>
+		<!-- RIGHT COLUMN -->
+	   	<div class="info_column">
+
+	   		<ul id="campaign_images" class="gallery">
+
+	   			<div class="gallery_arrow">
+					<img src="<?php bloginfo('template_url'); ?>/img/gallery_arrow_thin.svg" />
+				</div>
+
+	   		    <?php if ( have_rows("images") ) :
+					while ( have_rows("images") ) : the_row();
+						$image = get_sub_field("image");
+							if( !empty($image) ): 
+				            $thumb = $image["sizes"][ "thumbnail" ]; // 300
+				            $medium = $image["sizes"][ "medium" ]; // 600
+				            $large = $image["sizes"][ "large" ]; // 800
+				            $extralarge = $image["sizes"][ "extra-large" ]; // 1024
+				            $full = $image["url"];
+				            $width = $image["sizes"]["medium-width"];
+				            $height = $image["sizes"]["medium-height"];
+				        endif; ?>
+				    <li class="campaign_image">
+						<img sizes="(min-width: 40em) 95vw, 47vw"
+							 srcset="<?php echo $thumb; ?> 300w,
+									<?php echo $medium; ?> 600w,
+									<?php echo $large; ?> 800w,
+									<?php echo $large; ?> 2x"
+						/>
+					</li>
+				<?php endwhile;
+				endif;
+				?>	
+	   		</ul>
+	   	</div>
 
 	</div>
 

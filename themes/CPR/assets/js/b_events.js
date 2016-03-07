@@ -1,37 +1,97 @@
 /*****************************************************************************
     
-	2. EVENTS
-		2.1. VARIOUS INIT
-			2.1.1. PRICE WRAP ON SINGLE PAGES
-			2.1.2. HIDE NAV COLLECTIONS DEPENDING ON CURRENT PAGE
-			2.1.3. IF ON COLLECTION PAGE, POSITION IMAGES
-		2.2. EVENTS
-			2.2.1. NAV HOVER
-			2.2.2. NAV LI HOVER / CENTER TEXT
-			2.2.3. HOVER OVER SOCIAL MEDIA ICONS
-			2.2.4. TOGGLE COLLECTIONS
-			2.2.5. IMAGE HOVER
-			2.2.6. PRODUCT FILTER TOGGLE ON COLLECTION PAGES + REVEAL ON SINGLE PAGES
-			2.2.7. FILTER ON CLICK
-			2.2.8. TOGGLE QUANTITY INPUT
-			2.2.9. TOGGLE SHIPPING FORM
-			2.2.10. IMAGE SLIDESHOW
-			2.2.11. AJAX ADD TO CART
-			2.2.XX. PRODUCT DESCRIPTION TOGGLE
-			2.2.12. WINDOW EVENTS
+	1. GENERAL 
+		1.1. WINDOW EVENTS
+		1.2. RESIZE HANDLER
+		1.3. HYPHENATION
+
+	2. NAV
+		2.1. HIDE NAV COLLECTIONS DEPENDING ON CURRENT PAGE
+		2.2. NAV CLICK
+		2.3. NAV LI HOVER
+		2.4. HOVER OVER SOCIAL MEDIA ICONS
+		2.5. ON COLLECTIONS CLICK
+		2.6. NEWSLETTER SIGN-UP
+
+	3. COLLECTION
+		3.1. COLLECTION IMAGE HOVER
+		3.2. FILTER TOGGLE + REVEAL
+		3.3. FILTER ON CLICK
+
+	4. SINGLE
+		4.1. IMAGE SLIDESHOW
+		4.2. PRODUCT DESCRIPTION TOGGLE
+		4.3. RADIO BUTTON CLICK
+		4.4. CHECK IF SIZE HAS BEEN SELECTED ON ADD TO CART
+		4.5. PRODUCT INFO HOVER
+
+	5. OTHER PAGE EVENTS
+		5.1. TOGGLE QUANTITY INPUT
+		5.2. TOGGLE SHIPPING FORM
+		5.3. BUTTON HOVER
 
 *****************************************************************************/
 
 $(document).ready( function(){
 
-// 2.1. VARIOUS INIT
+// 1. GENERAL
 
-	// 2.1.1. VAR. ELEMENTS WRAP ON SINGLE PAGES
-	
-	// $(".price").wrap("<div class='wrap'></div>");
-	// $(".single_add_to_cart_button").innerHTML().wrap("<div class='wrap'></div>");
+	// 1.1. WINDOW EVENTS
 
-	// 2.1.2. HIDE NAV COLLECTIONS DEPENDING ON CURRENT PAGE
+	$(window).on("load", function(){
+		pageInit();
+	}).on("resize", function(){
+		// oneWord();
+		liCalc();
+		buttonResize(); 
+		secNavH();
+		breakCheck();
+		iframeResize(); 
+	});
+
+		// THROTTLED SCROLL DETECT
+	$(window).on('scroll', _.throttle(function() {
+		scrollDetect();
+	}, 1000));
+
+	// 1.2. RESIZE HANDLER
+
+	$("body").addClass("first_time");
+	var handleMediaChange = function (mql) {
+		console.log("mql");
+	    // Gives number of columns for image injection
+	    if (mql.s.matches) {
+	        // Less than 600px wide     
+	    	imagesPrep();
+	    } else if (mql.m.matches) {
+	        // More than 600px wide
+			imagesPrep();
+	    } else {
+	    	// More than 780px wide
+			imagesPrep();
+	    }
+	}
+
+	var mql = {};
+	mql.s = window.matchMedia("(max-width: 600px)");
+	mql.m = window.matchMedia("(max-width: 780px)");
+	mql.s.addListener(function(){
+		handleMediaChange(mql);
+	});
+	mql.m.addListener(function(){
+		handleMediaChange(mql);
+	});
+
+	handleMediaChange(mql);
+
+
+	// 1.3. HYPHENATION
+
+	$("p, .s1").hyphenate('en-us');
+
+// 2. NAV
+
+	// 2.1. HIDE NAV COLLECTIONS DEPENDING ON CURRENT PAGE
 
 	var currentVis = $(".page").attr("data-collection");
 	$(".nav_collection_2").each( function(){
@@ -42,14 +102,7 @@ $(document).ready( function(){
 		}
 	});
 
-	// 2.1.3. HYPHENATION
-
-	$("p, .s1").hyphenate('en-us');
-
-
-// 2.2. EVENTS
-
-	// 2.2.1. NAV CLICK
+	// 2.2. NAV CLICK
 
 	$("#nav_home").on( "click", function( e ){
 		if ( $("#nav").hasClass("hidden") ) {
@@ -62,43 +115,39 @@ $(document).ready( function(){
 		navHide();
 	});
 
-	// 2.2.2. NAV LI HOVER / CENTER TEXT 
+	// 2.3. NAV LI HOVER
 	
 	$("#nav li.wrap").hover( function(){
 		// CONDENSE
 		// $(this).addClass("li_hover");
 		// RECORD CURRENT LETTER-SPACING
-		var currSpacing = parseFloat( $(this).find(".stretch_it").css("letter-spacing") );
-		$(this).removeClass("wrap")
-				.attr( "data-spacing", currSpacing )
-				.find(".stretch_it")
-				.css("letter-spacing","0.2em");
+		// var currSpacing = parseFloat( $(this).find(".stretch_it").css("letter-spacing") );
+		// $(this).removeClass("wrap")
+		// 		.attr( "data-spacing", currSpacing )
+		// 		.find(".stretch_it")
+		// 		.css("letter-spacing","0.2em");
+		$(this).find(".last_word").each( function(){
+			// HIDE SPACED TEXT
+			$(this).children("span").hide();
+			// SHOW BACKUP
+			$(this).find(".rollover").show();
+		});
 	}, function () {
 		// STRETCH
 		// $(this).removeClass("li_hover");	
-		$(this).addClass("wrap")
-				.find(".stretch_it")
-				.css( "letter-spacing", $(this).attr( "data-spacing") + "px" );
+		// $(this).addClass("wrap")
+		// 		.find(".stretch_it")
+		// 		.css( "letter-spacing", $(this).attr( "data-spacing") + "px" );
+		$(this).find(".last_word").each( function(){
+			// SHOW SPACED TEXT
+			$(this).children("span").show();
+			// HIDE BACKUP
+			$(this).find(".rollover").hide();
+		});
 		// console.log("wrap");
 	});
 
-		// PRODUCT INFO HOVER
-
-	$(".single_info .wrap").hover( function(){
-		console.log(87);
-		$(this).css({
-			"text-align" : "center",
-			"text-align-last" : "center"
-		});
-	}, function(){
-		console.log(90);
-		$(this).css({
-			"text-align" : "",
-			"text-align-last" : ""
-		});
-	});
-
-	// 2.2.3. HOVER OVER SOCIAL MEDIA ICONS
+	// 2.4. HOVER OVER SOCIAL MEDIA ICONS
 
 	$(".nav_share").hover( function(){
 		$(this).find("a").addClass("hover");
@@ -106,14 +155,28 @@ $(document).ready( function(){
 		$(this).find("a").removeClass("hover");
 	});
 
-	// 2.2.4. TOGGLE COLLECTIONS	
+	// 2.5. ON COLLECTIONS CLICK
 
 	$(".nav_collection").on("click", function(e){
 		e.preventDefault();
 		collToggle();
 	});
 
-	// 2.2.5. IMAGE HOVER
+	// 2.6. NEWSLETTER SIGN-UP
+
+	$("#newsletter_signup").on("click", function(e){
+		e.preventDefault();
+	});	
+
+		// TMP ALL BUTTONS BLOCKED
+
+		$(".nav_share a").on("click", function(e){
+			e.preventDefault();
+		});	
+
+// 3. COLLECTIONS
+
+	// 3.1. COLLECTION IMAGE HOVER
 
 	$(".page_collection .product").hover( function(){	
 		$(this).find(".picturefill-background:first-child").css("opacity","0");
@@ -122,7 +185,7 @@ $(document).ready( function(){
 		$(this).find(".picturefill-background").css("opacity","");
 	});
 
-	// 2.2.6. PRODUCT FILTER TOGGLE ON COLLECTION PAGES + REVEAL ON SINGLE PAGES
+	// 3.2. FILTER TOGGLE + REVEAL
 
 	$("#filter_toggle").on("click", function(e){
 		e.preventDefault();
@@ -147,10 +210,10 @@ $(document).ready( function(){
 	if ( $("#single_collection").length ) {	
 
 		// get offset of collection section
-		// var thisTop = $("#single_collection").offset().top;	
+		var thisTop = $("#single_collection").offset().top;	
 		$(window).on("scroll", function(){
 			console.log(128);
-			/*
+			
 			if ( $(window).scrollTop() > thisTop ) {
 				console.log("SHOW");
 				$("#filter_toggle").show();
@@ -158,11 +221,14 @@ $(document).ready( function(){
 				console.log("HIDE");
 				$("#filter_toggle").hide();
 			}
-			*/			
+					
 		});
+
+		// PREP COLLECTION IMAGES
+		$("#single_collection .product").removeClass("single_product");
 	}
 
-	// 2.2.7. FILTER ON CLICK
+	// 3.3. FILTER ON CLICK
 
 	$(".filter").on("click", function(e) {
 		e.preventDefault();
@@ -175,13 +241,118 @@ $(document).ready( function(){
 		filterClear( $(this) );
 	});
 
-	// 2.2.8. TOGGLE QUANTITY INPUT
+// 4. SINGLE
+
+	// 4.1. IMAGE SLIDESHOW
+
+	$(".single_additional_images").on("click", ".gallery", function() {
+		slideShowGo( $(this) );
+	});
+
+		// TO DO REGROUP SLIDESHOWS
+
+	$("#campaign_images li img").on("click", function() {
+		console.log(224);
+		slideShowGo2( $(this) );
+	});	
+
+	// 4.2. PRODUCT DESCRIPTION TOGGLE
+
+	$(".product_desc_toggle .wrap").on("click", function(){
+		descToggle( $(this) );
+	});
+
+	// 4.3. RADIO BUTTON CLICK
+
+	$(".variations label").not(".label label").on("click", function(){
+		radioCheck( $(this) );
+	});
+
+
+	// 4.4. CHECK IF SIZE HAS BEEN SELECTED ON ADD TO CART
+
+	// $(".single_add_to_cart_button").on("click", function(e) {		
+	// 	// CHECK IF A SIZE HAS BEEN SELECTED
+	// 	var checked = false;
+	// 	$(this).parents("form").find("input[type=radio]").each( function(){
+	// 		console.log("x");
+	// 		if ( $(this).is(':checked') ) {
+	// 			// console.log( $(this).text() );
+	// 			checked = true;
+	// 		}
+	// 	});
+	// 	if ( !checked ) {
+	// 		e.preventDefault();
+	// 	}  
+	// });	
+
+	// 4.5. PRODUCT INFO HOVER
+
+	$(".single_info").hover( function(){
+		// WORDS
+		$(this).find(".wrap").css({
+			"text-align" : "center",
+			"text-align-last" : "center"
+		});
+		// LETTERS
+		$(this).find(".last_word").each( function(){
+			// HIDE SPACED TEXT
+			$(this).children("span").hide();
+			// SHOW BACKUP
+			$(this).find(".rollover").show();
+		});
+		// SIZES
+		$(this).find(".variations").css({
+			"text-align" : "center"
+		});
+		$(this).find(".variations td").css({
+			"margin" : "0px",
+			"position" : "relative"
+		});
+		// ADD TO CART BUTTON
+		$(this).find(".single_add_to_cart_button").css({
+			"text-align" : "center",
+			"text-align-last" : "center"
+		});
+	}, function(){
+		// WORDS
+		$(this).find(".wrap").css({
+			"text-align" : "",
+			"text-align-last" : ""
+		});
+		// LETTERS
+		$(this).find(".last_word").each( function(){
+			// SHOW SPACED TEXT
+			$(this).children("span").show();
+			// HIDE BACKUP
+			$(this).find(".rollover").hide();
+		});
+		// SIZES
+		$(".variations").css({
+			"text-align" : ""
+		});
+		$(this).find(".variations td").css({
+			"margin" : "",
+			"position" : ""
+		});
+			// RECALC SIZES
+		radioPos();
+		// ADD TO CART BUTTON
+		$(this).find(".single_add_to_cart_button").css({
+			"text-align" : "",
+			"text-align-last" : ""
+		});
+	});
+
+// 5. OTHER PAGE EVENTS
+
+	// 5.1. TOGGLE QUANTITY INPUT
 
 	$(".product-quantity-default").on("click", function(){
 		$(this).hide().next(".product-quantity-input").show();
 	});
 
-	// 2.2.9. TOGGLE SHIPPING FORM
+	// 5.2. TOGGLE SHIPPING FORM
 
 		// ON BUTTON CLICK
 	$(".shipping-calculator-button").on("click", function(){
@@ -200,11 +371,50 @@ $(document).ready( function(){
 		
 	});
 
-	// 2.2.10. IMAGE SLIDESHOW
-
-	$(".single_additional_images").on("click", ".gallery", function() {
-		slideShowGo( $(this) );
+	// 5.3. BUTTON HOVER
+	
+	$("body").on("mouseover", ".button_wrapper", function(){
+		$(this).children().css("color", "#efebe8");
+	}).on("mouseleave", ".button_wrapper", function(){
+		$(this).children().css("color", "");
 	});
+
+	// 5.4. NEWS CAMPAIGN HOVER
+
+	$("#campaign_list li").on("mouseover", function(){
+		$(this).find("h4").css({
+			"margin" : "0 auto",
+			"width" : "auto"
+		}).removeClass("wrap");
+	}).on("mouseleave", function(){
+		$(this).find("h4").css({
+			"margin" : "",
+			"width" : ""
+		}).addClass("wrap");
+	});	
+
+
+
+
+	// 2.2.XX. GALLERY IMAGE HOVER
+
+	// FALLBACK FOR TOUCH SCREEN DEVICES
+
+	/*
+	$(".position_right").hover( function(){
+		if ( $(this).parents(".gallery").length ) {
+			console.log("hovvver");
+			$(this).parents(".row").find(".gallery_arrow").show();
+		}		
+	}, function(){
+		$(this).parents(".row").find(".gallery_arrow").hide();
+	});
+	*/
+
+
+
+
+
 
 	// 2.2.11. AJAX ADD TO CART
 
@@ -249,93 +459,6 @@ $(document).ready( function(){
 	        alert('Server response from the AJAX URL ' + response);
 	    });    	
     });
-*/
-
-	// 2.2.XX. BUTTON HOVER
-	
-	$("body").on("mouseover", ".button_wrapper", function(){
-		$(this).children().css("color", "#efebe8");
-	}).on("mouseleave", ".button_wrapper", function(){
-		$(this).children().css("color", "");
-	});
-
-	// 2.2.12. WINDOW EVENTS
-
-	$(window).on("load", function(){
-		pageInit();
-	}).on("resize", function(){
-		oneWord();
-		liCalc();
-		buttonResize(); 
-		secNavH();
-		breakCheck();
-	});
-
-		// THROTTLED SCROLL DETECT
-	$(window).on('scroll', _.throttle(function() {
-		scrollDetect();
-	}, 1000));
-
-	// 2.2.XX. RESIZE HANDLER
-
-	$("body").addClass("first_time");
-	var handleMediaChange = function (mql) {
-		console.log("mql");
-	    // Gives number of columns for image injection
-	    if (mql.s.matches) {
-	        // Less than 600px wide     
-	    	imagesPrep();
-	    } else if (mql.m.matches) {
-	        // More than 600px wide
-			imagesPrep();
-	    } else {
-	    	// More than 780px wide
-			imagesPrep();
-	    }
-	}
-
-	var mql = {};
-	mql.s = window.matchMedia("(max-width: 600px)");
-	mql.m = window.matchMedia("(max-width: 780px)");
-	mql.s.addListener(function(){
-		handleMediaChange(mql);
-	});
-	mql.m.addListener(function(){
-		handleMediaChange(mql);
-	});
-
-	handleMediaChange(mql);
-
-	// 2.2.XX. PRODUCT DESCRIPTION TOGGLE
-
-	$(".product_desc_toggle p").on("click", function(){
-		descToggle( $(this) );
-	});
-
-	// 2.2.XX. RADIO BUTTON CLICK
-
-	$(".product-addon label").on("click", function(){
-		radioCheck( $(this) );
-	});
-
-
-
-	// 2.2.XX. GALLERY IMAGE HOVER
-
-
-
-
-	// FALLBACK FOR TOUCH SCREEN DEVICES
-
-	/*
-	$(".position_right").hover( function(){
-		if ( $(this).parents(".gallery").length ) {
-			console.log("hovvver");
-			$(this).parents(".row").find(".gallery_arrow").show();
-		}		
-	}, function(){
-		$(this).parents(".row").find(".gallery_arrow").hide();
-	});
 */
 
 

@@ -56,6 +56,22 @@ if ( get_field( "other_item" ) ) {
 }
 ?>
 
+<?php 
+$all_classes = get_post_class();
+//var_dump( $all_classes );
+$bottom_classes = array( "product-tag-shorts", "product-tag-leggings", "product-tag-skirt", "product-tag-pants" );
+if( count( array_intersect($bottom_classes, $all_classes) ) > 0 ) {
+     // at least one of $target is in $haystack
+	$classes[] = "bottom";
+}
+?>
+
+<?php if ( is_single() ) { 
+	$classes[] = "single_product";
+} else { 
+	$classes[] = "non_single_product";
+} ?>
+
 <li <?php post_class( $classes ); ?> data-link="<?php echo $link_id; ?>">
 
 	<a href="<?php the_permalink(); ?>" class="open_single">

@@ -99,6 +99,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 		?></small></p>
 	<?php endif; ?>
 
+	<div class="wc-proceed-to-checkout">
+		<a class="button" href="<?php bloginfo( 'url' ); ?>/terms-and-conditions">
+			Terms & Conditions
+		</a>
+	</div>
 
 	<div class="wc-proceed-to-checkout">
 

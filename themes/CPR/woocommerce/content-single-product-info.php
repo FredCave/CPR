@@ -12,17 +12,12 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
-/*
 ?>
-
-<div itemscope itemtype="<?php echo woocommerce_get_product_schema(); ?>" id="product-<?php the_ID(); ?>" <?php post_class( ); ?>>
-
-	<div class="custom-content"> */ ?>
 		
 		<div id="" class="single_additional_images row">
 
 			<div class="gallery_arrow">
-				<img src="<?php bloginfo('template_url'); ?>/img/gallery_arrow.svg" />
+				<img src="<?php bloginfo('template_url'); ?>/img/gallery_arrow_thin.svg" />
 			</div>
 
 			<?php if ( have_rows("product_images") ):				
@@ -58,17 +53,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 			endif; ?>
 
 			<div class="single_info">
+				
 				<ul>
 					<!-- TITLE -->
 					<li class="wrap no_break product_title"><?php the_title(); ?></li>
 					<!-- SKU IF ON WHOLESALE -->
-					<?php if ( is_page( "wholesale" ) ) :
-						global $product; ?>
+					<?php 
+					global $product;
+					//$product = wc_get_product ( get_the_ID() );
+					//var_dump( $product );
+					if ( is_page( "wholesale" ) ) : ?>
 						<li class="" style="text-align:center"><?php echo $product->sku; ?></li>
-			    	<?php endif; ?>
+			    	<?php endif; 
+			    	?>
+
 					<!-- PRODUCT DESCRIPTION -->
 					<div class="product_desc_toggle">
-						<p class="wrap">Info</p>
+						<div class="wrap">Description</div>
 						<div class="product_desc">
 							<li class="wrap no_break">
 								<?php the_field("product_description"); ?>
@@ -95,14 +96,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 					// $availability = $product->get_availability();
 					// print_r($availability);
 					// var_dump( $post );
-
-
-					// if ( ! $product->is_in_stock() ) {
-					//     echo "in stock";
-					// } else {
-					// 	echo "out of stock";
-					// }
-
+					?>
+					
+					<?php if ( ! $product->is_in_stock() ) { ?>
+					    <li class="wrap no_break out_of">
+					    	<?php echo "out of stock"; ?>
+					    </li>
+					<?php } ?>
+					
+					<?php 
 					remove_action( "woocommerce_single_product_summary", "woocommerce_template_single_title", 5 );
 					remove_action( "woocommerce_single_product_summary", "woocommerce_template_single_meta", 40 );
 
@@ -117,8 +119,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					 * @hooked woocommerce_template_single_meta - 40
 					 * @hooked woocommerce_template_single_sharing - 50
 					 */
-					do_action( 'woocommerce_single_product_summary' );
-
+					do_action( 'woocommerce_single_product_summary' );			
 					?>
 					
 					<!-- HOW MANY IN CART -->
@@ -135,18 +136,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</ul>
 
 				<div class="wrap">
-					<?php /*woocommerce_template_single_add_to_cart();*/ ?>
+
+					<?php 
+					// var_dump ( $product->get_availability() );
+					// woocommerce_template_single_add_to_cart(); 
+					// wp_reset_postdata();
+
+					//global $product; 
+					
+    				// do_action( 'woocommerce_' . $product->product_type . '_add_to_cart' ); 
+					?>
+
 				</div>
 
 			</div><!-- end of .single_info -->	
 
 		</div><!-- end of #single_additional_images -->
-
-<?php /*
-
-	</div>
-
-</div><!-- #product-<?php the_ID(); ?> -->
-*/ ?>
 
 <?php do_action( 'woocommerce_after_single_product' ); ?>

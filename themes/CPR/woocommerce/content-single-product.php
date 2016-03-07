@@ -14,13 +14,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 
+<?php 
+$all_classes = get_post_class();
+$bottom_classes = array( "product-tag-shorts", "product-tag-leggings", "product-tag-skirt", "product-tag-pants" );
+// echo "<pre>";
+// var_dump( $all_classes );
+// echo "</pre>";
+$classes = array();
+if( count( array_intersect($bottom_classes, $all_classes) ) > 0 ) {
+     // at least one of $target is in $haystack
+	$classes[] = "bottom";
+}
+?>
+
 <?php if ( is_single() ) { 
-	$class = "single_product";
+	$classes[] = "single_product";
 } else { 
-	$class = "non_single_product";
+	$classes[] = "non_single_product";
 } ?>
 
-<div itemscope itemtype="<?php echo woocommerce_get_product_schema(); ?>" id="product-<?php the_ID(); ?>" <?php post_class( $class ); ?>>
+<div itemscope itemtype="<?php echo woocommerce_get_product_schema(); ?>" id="product-<?php the_ID(); ?>" <?php post_class( $classes ); ?>>
 
 	<div class="custom-content">
 

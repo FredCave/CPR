@@ -12,13 +12,9 @@ global $post;
 $cat = get_the_terms($post->id, 'product_cat');
 ?>
 
-	<ul id="collection_filter">
-	<?php 
-		$tags = get_terms ( "product_tag", "orderby=name" ); 
-	    foreach ( $tags as $tag ) { ?>
-			<li><a href=""><?php echo $tag->name; ?></a></li>
-		<?php } ?> 
-	</ul>
+	<!-- COLLECTION FILTER -->
+	<?php product_filter(); ?>
+	<!-- END OF COLLECTION FILTER -->
 
 <div class="page page_collection" data-collection="<?php echo $cat[0]->slug; ?>">
 

@@ -27,7 +27,7 @@
 	<?php product_filter(); ?>
 	<!-- END OF COLLECTION FILTER -->
 
-	<div id="home" class="page page_collection" data-collection="<?php echo $latest[1]->slug; ?>">
+	<div id="home" class="page page_collection" data-collection="<?php /*echo $latest[1]->slug;*/ ?>">
 		
 		<ul>
 		<?php	

@@ -283,12 +283,16 @@ function product_filter () {
 // GET RELATED ITEMS — OTHER COLOURS
 
 function other_colours ( $the_id ) {
+    // var_dump( $the_id );
+
     // GET SKU OF CURRENT PRODUCT
     $product = wc_get_product( $the_id );
     $this_sku = $product->get_sku();
     // GET STUB OF SKU
     $stubs = explode("-", $this_sku);
     $stub = $stubs[0];
+    // echo $stub;
+    
     // LOOP THROUGH PRODUCTS
     $args = array(
         'post_type' => 'product'
@@ -298,8 +302,11 @@ function other_colours ( $the_id ) {
         while ( $sku_query->have_posts() ) : $sku_query->the_post();
             global $product;
             $loop_sku = $product->get_sku();
+            $loop_id = $product->id;
             $loop_stubs = explode("-", $loop_sku);
             $loop_stub = $loop_stubs[0];
+            // echo $loop_stub . ", " . $stub . "<br>";
+           
             if ( $loop_stub === $stub && $loop_sku !== $this_sku ) {
                 // GET LINK 
                 /*
@@ -326,14 +333,23 @@ function other_colours ( $the_id ) {
                     case stristr( $loop_title, "moonbeam" ):
                         $colour = "Moonbeam / White";
                         break;
-                } */
+                }  
+                */
                 ?>
-                <li class="wrap no_break other_colours"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
+                <li class="wrap no_break other_colours"><a href="<?php echo get_permalink( ); ?>"><?php echo get_the_title(); ?></a></li>
+
+               
+
             <?php
+                // echo $loop_id;
+            } else {
+                // echo "nothing ";
             }
+            
         endwhile;
     endif;
     wp_reset_postdata();
+
 } 
 
 // PRICING ON SINGLE PRODUCT INFO
@@ -361,9 +377,9 @@ function cpr_price_html( $price, $product ){
 
 // MAKE PRODUCTS VARIABLE BY DEFAULT
 
-function cpr_default_product_type(){
-    return "variable";
-}
-add_action( 'default_product_type', 'cpr_default_product_type' );
+// function cpr_default_product_type(){
+//     return "variable";
+// }
+// add_action( 'default_product_type', 'cpr_default_product_type' );
 
 ?>

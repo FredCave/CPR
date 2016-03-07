@@ -50,6 +50,7 @@
 <!-- SOCIAL MEDIA -->
 		<li class="nav_share">
 			<a href=""><img class="" src="<?php bloginfo('template_url'); ?>/img/facebook_icon.svg" /></a>
+			<a href=""><img id="newsletter_signup" class="" src="<?php bloginfo('template_url'); ?>/img/newsletter_icon.svg" /></a>
 			<a href=""><img class="" src="<?php bloginfo('template_url'); ?>/img/instagram_icon.svg" /></a>
 		</li>
 
@@ -75,7 +76,9 @@
 		<?php } ?>
 
 		<!-- ACCOUNT -->	
-		<li id="secondary_account"><a href="<?php bloginfo( 'url' ); ?>/my-account/">Account</a></li>		
+		<!-- <li id="secondary_account"><a href="<?php bloginfo( 'url' ); ?>/my-account/">Wholesale</a></li> -->		
+		<li id="secondary_account">Wholesale</li>		
+
 
 		<!-- CART -->
 		<li id="secondary_cart">

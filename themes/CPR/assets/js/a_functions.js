@@ -1,19 +1,64 @@
 /*****************************************************************************
     
-	1. FUNCTIONS
-		1.1. GLOBAL WRAP FUNCTION
-		1.2. NAV SHOW / HIDE
-		1.3. SCROLL DETECT
-		1.4. TOGGLE COLLECTIONS
-		1.5. POSITION COLLECTION IMAGES
-		1.6. STYLE BUTTONS
-		1.7. MOVE NEWS IMAGES TO RIGHT-HAND COLUMN
-		1.8. SINGLE IMAGE SLIDESHOW
-		1.9. FILTER PRODUCTS
+	1. GENERAL FUNCTIONS
+		1.1. PAGE INIT
+		1.2. GLOBAL WRAP FUNCTION
+		1.3. LINE BREAK CHECK 
+
+	2. NAV FUNCTIONS
+		2.1. LI HEIGHT CALC
+		2.2. NAV SHOW / HIDE
+		2.3. NAV HIDE ON SCROLL
+		2.4. TOGGLE COLLECTIONS
+		2.5. SET SECONDARY NAV HEIGHT
+
+	3. COLLECTION FUNCTIONS	
+		3.1. POSITION COLLECTION IMAGES	
+		3.2. FILTER PRODUCTS
+		3.3. REDIRECT BOTTOM PRODUCTS
+
+	4. SINGLE FUNCTIONS
+		4.1. SINGLE IMAGE SLIDESHOW
+		4.2. RESET QUANTITY INPUTS
+		4.3. SELECT SIZES 
+		4.4. SINGLE DESCRIPTION TOGGLE
+
+	5. OTHER PAGE FUNCTIONS
+		5.1. STYLE BUTTONS
+		5.2. MOVE NEWS IMAGES TO RIGHT-HAND COLUMN
+		5.3. IFRAMES RESIZE
 
 *****************************************************************************/
 
-	// 1.1. GLOBAL WRAP FUNCTION
+// 1. GENERAL FUNCTIONS 	
+
+	// 1.1. PAGE INIT
+
+	function pageInit () {
+		// 5. OTHER PAGES
+		breakCheck(); // INFO - calls oneword
+
+		// 1. GENERAL
+		textWrap();
+		// 2. NAV
+		secNavH(); 
+		// 3. COLLECTIONS
+		imagesPrep();
+		bottomRedirect();
+		// 4. SINGLE
+		slideShowInit(); 
+		resetQuantities();		
+		radioPos();
+		// // 5. OTHER PAGES
+		buttonResize();	
+		newsPrep();
+
+		iframeResize();
+		termsClasses(); 
+		infoFix(); // INFO - calls oneword
+	}
+
+	// 1.2. GLOBAL WRAP FUNCTION
 
 		// WORD COUNTER
 	function wordCount(str) { 
@@ -21,17 +66,40 @@
 	}
 
 		// ONE WORD FUNCTION
+	var firstTime = true;
 	function oneWord () {
-		$(".last_word").each( function(){
-			// console.log( $(this).text() );
-			if ( $(this).has("a").length ) {
-				// target is child
-				var elmt = $(this).find("a");
-			} else {
-				var elmt = $(this);
-			}	
-			elmt.css("text-align","center").stretch_text();	
-		});
+		console.log("oneWord");
+		// $(".last_word").each( function(){
+		// 	// console.log( $(this).text() );
+		// 	if ( $(this).has("a").length ) {
+		// 		// target is child
+		// 		var elmt = $(this).find("a");
+		// 	} else {
+		// 		var elmt = $(this);
+		// 	}	
+		// 	elmt.css("text-align","center").stretch_text();	
+		// });
+		var options = { 
+			"emph" : "off",
+			"keep" : "all",
+			"minScaleRatio" : 1,
+			"maxScaleRatio" : 1,
+			"lineScaling" : 1
+		};
+		// $(".last_word").letterjustify();
+		if ( firstTime ) {
+			// console.log(86);
+			$(".last_word").each( function(i){
+				// console.log(i,$(this).text() );
+				$(this).attr( "data-text", $(this).text() ).letterjustify();
+				$(this).append("<div class='rollover'>" + $(this).text() + "</div>");
+			});	
+			firstTime = false;		
+		} else {
+			// console.log(94);
+			$(".last_word").letterjustify();
+		}
+
 	}
 
 	var liH;
@@ -80,34 +148,38 @@
 		liCalc();
 	}
 
-	// 1.XX. CHECK IF LINE BREAK — JUST IN INFO FOR THE TIME BEING
+	// 1.3. LINE BREAK CHECK — JUST IN INFO FOR THE TIME BEING
 
 	function breakCheck () {
-		$("#info .wrap").each( function(){
-			// CHECK IF MORE THAN ONE WORD
-			var thisTxt = $(this).text().trim();
-			var noWords = wordCount( thisTxt );
-			if ( noWords > 1 ) {
-				// GET CURRENT HEIGHT + FONT HEIGHT
-				var thisH = $(this).height();
-				var fontH = parseFloat ( $(this).css("font-size") );
-				// IF 2 FONT HEIGHTS CAN FIT
-				if ( thisH > ( 2 * fontH ) ) {
-					// console.log(thisH, fontH, thisTxt);
-					// IF 2 WORDS: WRAP EACH WORD IN LAST-WORD SPAN					
-					if ( noWords === 2 ) {
-						// $(this).find("span").unwrap();
-						$(this).lettering("words");
-						$(this).find("span").addClass("last_word");
-					}
-				}	
-			}		
-		});	
+		if ( $("#info").length ) {
+			$("#info .wrap").each( function(){
+				// CHECK IF MORE THAN ONE WORD
+				var thisTxt = $(this).text().trim();
+				var noWords = wordCount( thisTxt );
+				if ( noWords > 1 ) {
+					// GET CURRENT HEIGHT + FONT HEIGHT
+					var thisH = $(this).height();
+					var fontH = parseFloat ( $(this).css("font-size") );
+					// IF 2 FONT HEIGHTS CAN FIT
+					if ( thisH > ( 2 * fontH ) ) {
+						// console.log(thisH, fontH, thisTxt);
+						// IF 2 WORDS: WRAP EACH WORD IN LAST-WORD SPAN					
+						if ( noWords === 2 ) {
+							// $(this).find("span").unwrap();
+							$(this).lettering("words");
+							$(this).find("span").addClass("last_word");
+						}
+					}	
+				}		
+			});	
 		// ONE WORD LOOP
-		oneWord();	
+		oneWord();			
+		}
 	}
 
-	// 1.XX. LI HEIGHT CALC
+// 2. NAV FUNCTIONS 	
+
+	// 2.1. LI HEIGHT CALC
 
 	function liCalc () {
 		// DEFINE LI HEIGHT
@@ -116,15 +188,15 @@
 		$("#nav li").not(".nav_hidden").css("height", liH);		
 	}
 
-	// 1.2. NAV SHOW / HIDE
+	// 2.2. NAV SHOW / HIDE
 
 	function navShow () {
 		console.log("navShow");
 
 		// BG IS FIXED AT CURRENT SCROLLTOP POSITION
 		var currentPos = $(window).scrollTop();
-		console.log(currentPos);
-		$(".page").css({
+		// console.log(currentPos);
+		$(".page, .single_page").css({
 			"position" : "fixed", 
 			"top" : 0 - currentPos
 		}).attr( "data-position", currentPos );
@@ -132,7 +204,8 @@
 		// NAV – ABSOLUTE
 
 		$("#nav").css({
-			"position" : "absolute"
+			"position" : "absolute",
+			// "top" : currentPos
 		});
 
 
@@ -159,12 +232,12 @@
 		console.log("navHide");
 
 		// BG UNFIXED
-		$(".page").css({
+		$(".page, .single_page").css({
 			"position" : "", 
 			"top" : ""
 		});
 		// SET SCROLLTOP 
-		var pagePos = $(".page").attr("data-position");
+		var pagePos = $(".page, .single_page").attr("data-position");
 		$(window).scrollTop( pagePos );
 
 		// NAV – FIXED
@@ -193,7 +266,7 @@
 
 	}
 
-	// 1.3. NAV HIDE ON SCROLL
+	// 2.3. NAV HIDE ON SCROLL
 
 	var lastScrollTop = 0;
 	function scrollDetect () {
@@ -205,14 +278,14 @@
 	   	lastScrollTop = current;
 	}
 
-	// 1.4. TOGGLE COLLECTIONS
+	// 2.4. TOGGLE COLLECTIONS
 
 	function collToggle ( main ) {
 		console.log("collToggle");
 		var colls;
 		$("#nav_dropdown").css("height", "auto");
 		if ( !$(".nav_collection").hasClass("clicked") && main !== "main" ) {
-			console.log(165);
+			// console.log(165);
 			// get number of collections
 			var colls = parseInt( $(".nav_collection").attr("data-length") );
 			$(".nav_collection").addClass("clicked");
@@ -223,7 +296,7 @@
 				$(this).css("height", liH).find("a").attr("href", thisHref).css("cursor","");	
 			});
 		} else {
-			console.log(176);
+			// console.log(176);
 			colls = 1;
 			$(".nav_collection").removeClass("clicked");
 			// hide hidden
@@ -238,9 +311,20 @@
 		}, 1000);
 	}
 
-	// 1.5. POSITION COLLECTION IMAGES
+	// 2.5. SET SECONDARY NAV HEIGHT
 
-	function imagesPrep () {
+	function secNavH () {
+		if ( $(window).height <= 500 ) {
+			var navH = $("#secondary_nav ul").height();
+			$("#secondary_nav").css( "height", navH );
+		}
+	}
+
+// 3. COLLECTION FUNCTIONS
+
+	// 3.1. POSITION COLLECTION IMAGES
+
+	function imagesPrep ( filter ) {
 		// IF ON COLLECTION PAGE, POSITION IMAGES
 		if ( $(".page_collection").length ) {
 			// FIRST TIME TEST
@@ -256,6 +340,11 @@
 				$(".collection_row").each( function(){
 					$(this).find(".product").prependTo( $(this).parents("ul") );
 				}).remove();
+
+				if ( !filter ) {
+					// FILTER OUT ALL BOTTOMS
+					$(".bottom").removeClass("selected-product");
+				}
 
 				var noImages = $(".selected-product").length;
 				var total = 0;
@@ -297,60 +386,7 @@
 		}
 	}
 
-	// 1.6. STYLE BUTTONS
-
-	function buttonResize () {
-		$("a.button, a.shipping-calculator-button").each( function(){
-	 		// var thisW = $(this).width();
-			$(this).parent().addClass("button_wrapper").css(
-				"max-width", $(this).width()
-			);
-		});		
-	}
-
-	// 1.7. MOVE NEWS IMAGES TO RIGHT-HAND COLUMN
-
-	function newsPrep () {
-		if ( $("#news").length ) {
-			console.log("newsPrep");
-			$(".news_text").each( function(){
-				$(this).find("img").appendTo( $(this).next(".news_images") )
-			});		
-		}
-	}
-
-	// 1.8. SINGLE IMAGE SLIDESHOW
-
-	function slideShowInit () {
-		
-		$(".single_additional_images").each( function(){
-			var count = $(this).find(".position_right").length;
-			if ( count > 1 ) {
-				// IF MORE THAN ONE IMAGE START GALLERY
-				//$(this).find(".position_right").css("cursor","e-resize").addClass("gallery");
-				$(this).find(".position_right").wrapAll("<span class='gallery'></span>");
-
-			}
-			console.log( 298, count );
-		});
-
-			// TMP
-
-				$(".position_right").each( function(){
-					console.log( 313, $(this).parents(".gallery").length );
-					if ( $(this).parents(".gallery").length === 0 ) {
-						$(this).siblings(".gallery_arrow").hide();
-					}
-				});
-		
-	}
-
-	function slideShowGo ( click ) {
-		var gall = click.parents(".gallery");
-		click.find(".position_right:last-child").prependTo( click );
-	}
-
-	// 1.9. FILTER PRODUCTS
+	// 3.2. FILTER PRODUCTS
 
 	function filterProducts ( click ) {
 		console.log("filterProducts");
@@ -371,6 +407,7 @@
 			}
 		});	
 
+		
 		// SCROLL TO TOP OF COLLECTION
 		var collTop;
 		if ( $(".page_collection").length ) {
@@ -378,7 +415,7 @@
 		} else {
 			collTop = 0;
 		}
-		console.log( 341, collTop, $(window).scrollTop() );
+		// console.log( 341, collTop, $(window).scrollTop() );
 		$("html,body").animate({
 			scrollTop: collTop
 		}, 500);
@@ -388,7 +425,7 @@
 
 		// IF ON COLLECTION PAGE RUN IMG PREP
 		if ( click.parents("#collection_filter").attr("data-page") === "collection" ) {
-			imagesPrep();			
+			imagesPrep( true );			
 		}
 
 		// click.addClass("selected").next("img").show();
@@ -401,13 +438,15 @@
 
 		// ENSURE FILTER TOGGLE IS VISIBLE ON SINGLE PAGES
 		$("#filter_toggle").addClass("filter_vis");
+		
+
 	}
 
 	function filterClear() {
 		console.log("filterClear");
 		// RESET 
 		$(".product").show();
-		$(".product").addClass("selected-product");	
+		$(".product").not(".single_product").addClass("selected-product");	
 		$(".selected").removeClass("selected");
 		$(".clear_filter").hide();	
 		$("#filter_toggle").removeClass("filter_vis").css("cursor","pointer").text( "Filter" );
@@ -417,7 +456,68 @@
 		// WHY DOES THIS CAUSE PAGE TO MOVE UP????
 	}
 
-	// 1.10. RESET QUANTITY INPUTS
+	// 3.3. REDIRECT BOTTOM PRODUCTS
+
+	function bottomRedirect () {
+		$(".page_collection").find(".bottom").each( function(){
+			var linkId = $(this).attr("data-link");		
+			var currentLink = $(this).find("a").attr("href");
+			var currentStem = currentLink.split("/shop")[0];
+			console.log( linkId, currentStem );
+			$(this).find("a").attr("href", currentStem + "/?p=" + linkId );
+		});		
+	}
+
+// 4. SINGLE FUNCTIONS
+
+	// 4.1. SINGLE IMAGE SLIDESHOW
+
+	function slideShowInit () {
+		
+		$(".single_additional_images").each( function(){
+			var count = $(this).find(".position_right").length;
+			if ( count > 1 ) {
+				// IF MORE THAN ONE IMAGE START GALLERY
+				//$(this).find(".position_right").css("cursor","e-resize").addClass("gallery");
+				$(this).find(".position_right").wrapAll("<span class='gallery'></span>");
+
+			}
+			// console.log( 298, count );
+		});
+
+			// TMP
+
+				$(".position_right").each( function(){
+					// console.log( 313, $(this).parents(".gallery").length );
+					if ( $(this).parents(".gallery").length === 0 ) {
+						$(this).siblings(".gallery_arrow").hide();
+					}
+				});
+
+		// INIT CAMPAIGN SLIDESHOW
+
+		$("#campaign_images li").eq(0).addClass("visible");
+		
+	}
+
+	function slideShowGo ( click ) {
+		console.log("slideShowGo");
+		var gall = click.parents(".gallery");
+		// console.log(gall);
+		click.find(".position_right:last-child").prependTo( click );
+	}
+
+	// TO DO REGROUP SLIDESHOWS
+
+	function slideShowGo2 ( click ) {
+		console.log("slideShowGo2");
+		var gall = click.parents(".gallery");
+		$(".visible").removeClass("visible");
+		click.parents("li").next("li").addClass("visible")
+		click.parents("li").appendTo( gall );
+	}
+
+	// 4.2. RESET QUANTITY INPUTS
 
 	function resetQuantities () {
 		// CHECK NOT ON CART PAGE
@@ -429,16 +529,44 @@
 		} 
 	}
 
-	// 1.XX. SET SECONDARY NAV HEIGHT
+	// 4.3. SELECT SIZES 
 
-	function secNavH () {
-		if ( $(window).height <= 500 ) {
-			var navH = $("#secondary_nav ul").height();
-			$("#secondary_nav").css( "height", navH );
-		}
+	function radioCheck ( click ) {
+		console.log("radioCheck");
+		// CLICK IS ON LABEL
+		// console.log( 465, click.text() );
+		click.parents(".variations").find("label").css( "border-bottom", "" );
+		click.css( "border-bottom", "2px solid black" );
+		click.siblings("input").prop("checked", true);
 	}
 
-	// 1.XX. SINGLE DESCRIPTION TOGGLE
+		// SIZES POSITION
+
+	function radioPos ( ) {
+		$(".variations tr").each( function(){
+			// LOOP TO GET COUNT AND WIDTH
+			var radioCount = 0,
+			radioWidth = 0;
+			$(this).children().not(".clear").each( function(i){
+				radioCount++;
+				radioWidth += $(this).width();
+			});
+			console.log( 481, radioCount, radioWidth );
+			var container = $(this).width();
+			var diff = container - radioWidth;
+			var diffPerc = Math.floor( diff / ( radioCount - 1 ) / container * 100 );
+			// console.log(diffPerc);
+			$(this).find("td").css( "margin-right", diffPerc + "%" );
+			$(this).find("td").eq( radioCount - 1 ).css({
+				"position" : "absolute",
+				"right" : 0,
+				"margin-right" : 0
+			});
+		});
+		
+	}
+
+	// 4.4. SINGLE DESCRIPTION TOGGLE
 
 	var descVis = false;
 	function descToggle ( click ) {
@@ -458,41 +586,88 @@
 		}
 	}
 
-	// 1.XX. SIZES SELECT
+// 5. OTHER PAGE FUNCTIONS
 
-	function radioCheck ( click ) {
-		// CLICK IS ON LABEL
-		console.log( 465, click.text() );
-		click.parents(".product-addon").find("label").css( "border-bottom", "" );
-		click.css( "border-bottom", "2px solid black" );	
+	// 5.1. STYLE BUTTONS
+
+	function buttonResize () {
+		$("a.button, a.shipping-calculator-button").each( function(){
+	 		// var thisW = $(this).width();
+			$(this).parent().addClass("button_wrapper").css(
+				"max-width", $(this).width()
+			);
+		});		
 	}
 
-		// SIZES POSITION
+	// 5.2. MOVE NEWS IMAGES TO RIGHT-HAND COLUMN
 
-	function radioPos ( ) {
-		$(".product-addon").each( function(){
-			// LOOP TO GET COUNT AND WIDTH
-			var radioCount = 0,
-			radioWidth = 0;
-			$(this).children().not(".clear").each( function(i){
-				radioCount++;
-				radioWidth += $(this).width();
-			});
-			console.log( 481, radioCount, radioWidth );
-			var container = $(this).width();
-			var diff = container - radioWidth;
-			var diffPerc = Math.floor( diff / ( radioCount - 1 ) / container * 100 );
-			console.log(diffPerc);
-			$(this).find("p").css( "margin-left", diffPerc + "%" );
-			$(this).find("p").eq( radioCount - 2 ).css({
-				"position" : "absolute",
-				"right" : 0
-			});
-		});
-		
+	function newsPrep () {
+		if ( $("#news").length ) {
+			console.log("newsPrep");
+			$(".news_text").each( function(){
+				$(this).find("img").appendTo( $(this).next(".news_images") );
+				// WAIT UNTIL IMAGES HAVE LOADED
+				$(this).next(".news_images").waitForImages(function() {
+				    // console.log( 550, $(this).find("img").height() );
+				    $(this).prev(".news_text").css( "min-height", $(this).find("img").height() ); 
+				});
+
+
+				// $(this).css( "min-height", $(this).find("img").height() );
+				
+			});		
+		}
 	}
 
-	// 1.XX. HIDE DOUBLES
+	// 5.3. IFRAMES RESIZE
+
+	function iframeResize () {
+		if ( $("#news").length || $("#campaign").length ) {
+			console.log("iframeResize");
+			$("iframe").each( function(){
+				var thisR = $(this).attr("width") / $(this).attr("height");
+				var newH = $(this).width() / thisR;
+				$(this).css( "height", newH );
+				// RESIZE PARENT 
+				$(this).parents(".news_content").css( "min-height", newH );
+				// IF ON CAMPAIGN PAGE RESIZE IMAGE FRAME
+				if ( $("#campaign_images").length ) {
+					// console.log(572);
+					$("#campaign_images").css( "height", newH );
+				}
+			});			
+		} 
+	}
+
+	// 5.4. ADD CLASSES TO TERMS SUBTITLES
+
+	function termsClasses () {
+		if ( $("#terms").length ) {
+			console.log("termsClasses");
+			$("strong").addClass("wrap");			
+			// REINITIALISE TEXT WRAP
+			textWrap();	
+		}	
+	}
+
+	// 5.5. INFO PAGE 
+
+	function infoFix () {
+		if ( $("#info").length ) {
+			console.log("infoFix");
+			$("#info_contact").find(".info_row").each( function(i) {
+				// console.log( 611, i );
+				if ( i === 0 ) {
+					$(this).css( "margin-bottom", "0px" );
+					$(this).find("h3:first-child").css( "margin-bottom", "0px" );
+				}
+			});	
+			// REINITIALISE TEXT WRAP
+			// textWrap();	
+		}
+	}
+
+	// X.XX. HIDE DOUBLES
 
 	// function hideDoubles(){
 	// 	// IF HAS CLASS
@@ -502,33 +677,5 @@
 	// 		}
 	// 	});
 	// }
-
-	// 1.XX. PAGE INIT
-
-	function pageInit () {
-		textWrap();
-		buttonResize();	
-		imagesPrep();
-		slideShowInit(); 
-		resetQuantities();
-		newsPrep();
-		secNavH(); 
-		breakCheck();
-		iframeResize();
-		radioPos();
-	}
-
-	// 1.XX. IFRAMES RESIZE
-
-	function iframeResize () {
-		if ( $("#news").length ) {
-			$("iframe").each( function(){
-				var thisR = $(this).attr("width") / $(this).attr("height");
-				$(this).css( "height", $(this).width() / thisR );
-			});			
-		} 
-	}
-
-
 
 
