@@ -57,7 +57,7 @@ get_sidebar();
 
 	<!-- PARENT COLLECTION -->
 
-	<div id="single_collection" class="page_collection">
+	<div id="single_collection" class="page_collection collection">
 
 		<?php
 		/* GET THIS PRODUCT CATEGORY */ 

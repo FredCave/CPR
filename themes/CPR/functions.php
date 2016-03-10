@@ -1,5 +1,12 @@
 <?php
 
+@ini_set( 'upload_max_size' , '64M' );
+
+@ini_set( 'post_max_size', '64M');
+
+@ini_set( 'max_execution_time', '300' );
+
+
 // DEREGISTER WOO STYLESHEETS
 function remove_assets() {
     add_filter( 'woocommerce_enqueue_styles', '__return_empty_array' );
@@ -13,7 +20,8 @@ add_action('wp_print_styles', 'remove_assets', 99999);
 function enqueue_cpr_scripts() {
   
     wp_deregister_script( 'jquery' );
-    wp_register_script( 'jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js');
+//    wp_register_script( 'jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js');
+    wp_register_script( 'jquery', get_template_directory_uri() . '/js/jquery.min.js');
     wp_enqueue_script( 'jquery' );  
     
     wp_enqueue_script('all_scripts', get_template_directory_uri() . '/js/scripts.min.js', array('jquery'), true);
@@ -71,17 +79,17 @@ remove_action( "woocommerce_after_shop_loop_item", "woocommerce_template_loop_ad
 
 // ADD COLUMN IN PRODUCT CATEGORY TABLE
 
-add_filter( 'manage_edit-product_cat_columns', 'show_product_order', 15 );
-function show_product_order($columns){
+// add_filter( 'manage_edit-product_cat_columns', 'show_product_order', 15 );
+// function show_product_order($columns){
 
-   //remove column
-   unset( $columns['tags'] );
+//    //remove column
+//    unset( $columns['tags'] );
 
-   //add column
-   $columns['visible_col'] = __( 'Visible');  
+//    //add column
+//    $columns['visible_col'] = __( 'Visible');  
 
-   return $columns;
-}
+//    return $columns;
+// }
 
 // ADD COLUMN IN PRODUCT TABLE
 

@@ -40,6 +40,7 @@ $(document).ready( function(){
 
 	$(window).on("load", function(){
 		pageInit();
+		pageShow();
 	}).on("resize", function(){
 		// oneWord();
 		liCalc();
@@ -51,7 +52,9 @@ $(document).ready( function(){
 
 		// THROTTLED SCROLL DETECT
 	$(window).on('scroll', _.throttle(function() {
+		var scrollPos = $(window).scrollTop();
 		scrollDetect();
+		imagesVis ( scrollPos );
 	}, 1000));
 
 	// 1.2. RESIZE HANDLER
@@ -89,6 +92,16 @@ $(document).ready( function(){
 
 	$("p, .s1").hyphenate('en-us');
 
+	// 1.4 DETECT TOUCH SCREEN DEVICE
+
+	if (Modernizr.touch) { 
+	    // TOUCH SCREEN
+	    $("body").addClass("touch");
+	} else { 
+	    // NO TOUCH SCREEN
+	    $("body").addClass("no-touch");
+	}
+
 // 2. NAV
 
 	// 2.1. HIDE NAV COLLECTIONS DEPENDING ON CURRENT PAGE
@@ -118,41 +131,39 @@ $(document).ready( function(){
 	// 2.3. NAV LI HOVER
 	
 	$("#nav li.wrap").hover( function(){
-		// CONDENSE
-		// $(this).addClass("li_hover");
-		// RECORD CURRENT LETTER-SPACING
-		// var currSpacing = parseFloat( $(this).find(".stretch_it").css("letter-spacing") );
-		// $(this).removeClass("wrap")
-		// 		.attr( "data-spacing", currSpacing )
-		// 		.find(".stretch_it")
-		// 		.css("letter-spacing","0.2em");
-		$(this).find(".last_word").each( function(){
-			// HIDE SPACED TEXT
-			$(this).children("span").hide();
-			// SHOW BACKUP
-			$(this).find(".rollover").show();
-		});
+		if ( $(window).width() > 600 ) {
+			// CONDENSE
+			$(this).addClass("li_hover");
+			$(this).find(".last_word").each( function(){
+				// HIDE SPACED TEXT
+				$(this).children("span").hide();
+				// SHOW BACKUP
+				$(this).find(".rollover").show();
+			});
+		}
 	}, function () {
-		// STRETCH
-		// $(this).removeClass("li_hover");	
-		// $(this).addClass("wrap")
-		// 		.find(".stretch_it")
-		// 		.css( "letter-spacing", $(this).attr( "data-spacing") + "px" );
-		$(this).find(".last_word").each( function(){
-			// SHOW SPACED TEXT
-			$(this).children("span").show();
-			// HIDE BACKUP
-			$(this).find(".rollover").hide();
-		});
-		// console.log("wrap");
+		if ( $(window).width() > 600 ) {
+			// STRETCH
+			$(this).removeClass("li_hover");	
+			$(this).find(".last_word").each( function(){
+				// SHOW SPACED TEXT
+				$(this).children("span").show();
+				// HIDE BACKUP
+				$(this).find(".rollover").hide();
+			});
+		}
 	});
 
 	// 2.4. HOVER OVER SOCIAL MEDIA ICONS
 
 	$(".nav_share").hover( function(){
-		$(this).find("a").addClass("hover");
+		if ( $(window).width() > 600 ) {
+			$(this).find("a").addClass("hover");
+		}
 	}, function(){
-		$(this).find("a").removeClass("hover");
+		if ( $(window).width() > 600 ) {
+			$(this).find("a").removeClass("hover");
+		}
 	});
 
 	// 2.5. ON COLLECTIONS CLICK
@@ -178,11 +189,15 @@ $(document).ready( function(){
 
 	// 3.1. COLLECTION IMAGE HOVER
 
-	$(".page_collection .product").hover( function(){	
-		$(this).find(".picturefill-background:first-child").css("opacity","0");
-		$(this).find(".picturefill-background:last-child").css("opacity","1");
+	$(".collection .product").hover( function(){	
+		if ( $("body").hasClass("no-touch") ) {
+			$(this).find(".picturefill-background:first-child").css("opacity","0");
+			$(this).find(".picturefill-background:last-child").css("opacity","1");
+		}
 	}, function(){
-		$(this).find(".picturefill-background").css("opacity","");
+		if ( $("body").hasClass("no-touch") ) {
+			$(this).find(".picturefill-background").css("opacity","");
+		}
 	});
 
 	// 3.2. FILTER TOGGLE + REVEAL
@@ -212,13 +227,13 @@ $(document).ready( function(){
 		// get offset of collection section
 		var thisTop = $("#single_collection").offset().top;	
 		$(window).on("scroll", function(){
-			console.log(128);
+			//console.log(128);
 			
 			if ( $(window).scrollTop() > thisTop ) {
-				console.log("SHOW");
+				//console.log("SHOW");
 				$("#filter_toggle").show();
 			} else {
-				console.log("HIDE");
+				//console.log("HIDE");
 				$("#filter_toggle").hide();
 			}
 					
@@ -252,8 +267,8 @@ $(document).ready( function(){
 		// TO DO REGROUP SLIDESHOWS
 
 	$("#campaign_images li img").on("click", function() {
-		console.log(224);
-		slideShowGo2( $(this) );
+		//console.log(224);
+		slideShowGo( $(this) );
 	});	
 
 	// 4.2. PRODUCT DESCRIPTION TOGGLE

@@ -16,7 +16,7 @@ $cat = get_the_terms($post->id, 'product_cat');
 	<?php product_filter(); ?>
 	<!-- END OF COLLECTION FILTER -->
 
-<div class="page page_collection" data-collection="<?php echo $cat[0]->slug; ?>">
+<div class="page page_collection collection" data-collection="<?php echo $cat[0]->slug; ?>">
 
 	<?php if ( have_posts() ) : ?>
 

@@ -2,6 +2,10 @@
 
 <?php get_sidebar(); ?>
 
+	<div id="loading">
+		<img src="<?php bloginfo( 'template_url' ); ?>/img/loading.gif" />
+	</div>
+
 	<div id="news" class="page">
 
 		<!-- CAMPAIGN LIST -->
@@ -10,7 +14,7 @@
 			if ( $the_query -> have_posts() ) :
 		        while ( $the_query -> have_posts() ) : $the_query-> the_post(); ?>
 		    		<li>
-		    			<a href="<?php the_permalink(); ?>"><h4 class="campaign_title wrap no_break">Campaign <?php the_title(); ?></h4></a>
+		    			<a href="<?php bloginfo( 'url' ); ?>/campaigns"><h4 class="campaign_title wrap no_break">Campaign <?php the_title(); ?></h4></a>
 					</li>
 		    <?php endwhile;
 		    endif; ?>		

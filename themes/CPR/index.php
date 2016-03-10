@@ -4,21 +4,28 @@
 
 	<!-- SHOWS LATEST COLLECTION -->
     <?php 
-    	/* GET SLUG OF LATEST COLLECTION */
+    	/* GET ALL COLLECTIONS */
     $args = array(
         'taxonomy'			=> 'product_cat',
         'orderby'			=> 'id',
 		'order'				=> 'desc',
-        'number'			=> '1'
+		'hide_empty'		=> 0
     );
-    $latest = get_categories( $args );
-    // print_r($latest);
+    $all_cats = get_categories( $args );
+    // CHECK IF SHOULD BE VISIBLE ON FRONT PAGE OR NOT
+    $term;
+    foreach ( $all_cats as $cat ) {  	
+    	//the_field( "cat_visible", "product_cat_" . $cat->term_taxonomy_id );
+    	if ( get_field( "cat_visible", "product_cat_" . $cat->term_taxonomy_id ) ) {
+    		$term = $cat->slug;
+    		break;
+    	}
+    }
 	$args2 = array(
         'post_type' => 'product',
         'taxonomy' => 'product_cat',
         'field' => 'slug',
-        // 'term' => $latest[1]->slug,/* WHY 1 NOT 0 ??? */
-        'term' => $latest[0]->slug, 
+        'term' => $term, 
 		'orderby' => 'rand'
         );
     $the_query = new WP_Query( $args2 ); ?>
@@ -27,16 +34,21 @@
 	<?php product_filter(); ?>
 	<!-- END OF COLLECTION FILTER -->
 
-	<div id="home" class="page page_collection" data-collection="<?php /*echo $latest[1]->slug;*/ ?>">
+	<!-- LOADING -->
+	<div id="loading">
+		<img src="<?php bloginfo( 'template_url' ); ?>/img/loading.gif" />
+	</div>
+
+	<div id="home" class="page page_collection collection" data-collection="<?php /*echo $latest[1]->slug;*/ ?>">
 		
 		<ul>
 		<?php	
 		if ( $the_query->have_posts() ) {
 			while ( $the_query->have_posts() ) {
-				$the_query->the_post(); 
-                ?>
-				<?php wc_get_template_part( 'content', 'product' ); ?>
-			<?php 
+				$the_query->the_post(); 				
+				if ( have_rows("product_images") ) {
+					wc_get_template_part( 'content', 'product' ); 
+				} 
 			}
 		} 
 		wp_reset_postdata();	

@@ -35,6 +35,7 @@
 	// 1.1. PAGE INIT
 
 	function pageInit () {
+
 		// 5. OTHER PAGES
 		breakCheck(); // INFO - calls oneword
 
@@ -43,7 +44,9 @@
 		// 2. NAV
 		secNavH(); 
 		// 3. COLLECTIONS
+		
 		imagesPrep();
+		imagesVis(0); 
 		bottomRedirect();
 		// 4. SINGLE
 		slideShowInit(); 
@@ -56,6 +59,11 @@
 		iframeResize();
 		termsClasses(); 
 		infoFix(); // INFO - calls oneword
+	}
+
+	function pageShow () {
+		$("#loading").css( "opacity", "0" );
+		$(".page").css( "opacity", "1" );
 	}
 
 	// 1.2. GLOBAL WRAP FUNCTION
@@ -177,6 +185,7 @@
 		}
 	}
 
+
 // 2. NAV FUNCTIONS 	
 
 	// 2.1. LI HEIGHT CALC
@@ -185,8 +194,13 @@
 		// DEFINE LI HEIGHT
 		liH = parseInt ( $("#nav_home").css("font-size") ) + 18;
 		//console.log( liH );
-		$("#nav li").not(".nav_hidden").css("height", liH);		
+		$("#nav li").not(".nav_hidden").css("height", liH);	
+		// SET NAV_DROPDOWN TOP POSITION USING THIS
+		$("#nav_dropdown").css( "top", liH );
+		// $("#nav_bg_top").css( "top", liH );
 	}
+
+
 
 	// 2.2. NAV SHOW / HIDE
 
@@ -325,8 +339,8 @@
 	// 3.1. POSITION COLLECTION IMAGES
 
 	function imagesPrep ( filter ) {
-		// IF ON COLLECTION PAGE, POSITION IMAGES
-		if ( $(".page_collection").length ) {
+		// IF ON COLLECTION PAGE OR WHOLESALE PAGE, POSITION IMAGES
+		if ( $(".collection").length ) {
 			// FIRST TIME TEST
 			if ( $("body").hasClass("first_time") ) {
 				$("body").removeClass("first_time") 
@@ -334,7 +348,7 @@
 			} else {
 				console.log("imagesPrep");
 				// HIDE IMAGES
-				$(".page_collection li").hide(); // IN CSS
+				$(".collection li").hide(); // IN CSS
 
 				// NEED TO REMOVE PREVIOUSLY ADDED ROWS
 				$(".collection_row").each( function(){
@@ -345,6 +359,14 @@
 					// FILTER OUT ALL BOTTOMS
 					$(".bottom").removeClass("selected-product");
 				}
+
+				// FILTER ALL EMPTY PRODUCTS
+				$(".product").each( function() {
+					// console.log( 351, $(this).find(".picturefill-background").length );
+					if ( !$(this).find(".picturefill-background").length ) {
+						$( this ).removeClass("selected-product");	
+					}
+				});
 
 				var noImages = $(".selected-product").length;
 				var total = 0;
@@ -358,17 +380,25 @@
 				while ( total < noImages ) {
 					if ( $(window).width() <= 600 ) {
 						number = arraySmall[ i ];
+						// IF ON WHOLESALE, NUMBER IS 3
+						if ( $("#wholesale").length ) {
+							number = 3;
+						}
 					} else if ( $(window).width() <= 780 ) {
 						number = arrayMid[ i ];
 					} else {
 						number = arrayLarge[ i ];
+						// IF ON WHOLESALE, NUMBER IS 4
+						if ( $("#wholesale").length ) {
+							number = 4;
+						}
 					}
 					// if number of images left is less than array number
 					if ( ( noImages - total ) < number ) {
 						number = noImages - total;
 					}	
 					// REMOVE EXISTING CLASSES BEGINNING WITH CHILD-*
-					$(".selected-product").slice( total, total+number ).wrapAll("<div class='collection_row'></div>").alterClass("child-*", "child-" + number);
+					$(".collection .selected-product").slice( total, total+number ).wrapAll("<div class='collection_row'></div>").alterClass("child-*", "child-" + number);
 					total += number; 
 
 					if ( i === 3 ) {
@@ -378,9 +408,12 @@
 					}
 				} // end of while	
 
+				// WHOLESALE ALL IMAGES GET SAME CLASS
+				// $("#wholesale .selected-product").addClass("wholesale-child");
+
 				// SHOW IMAGES
 				
-				$(".page_collection .selected-product").fadeIn("slow");
+				$(".collection .selected-product").fadeIn("slow");
 			}
 
 		}
@@ -463,9 +496,27 @@
 			var linkId = $(this).attr("data-link");		
 			var currentLink = $(this).find("a").attr("href");
 			var currentStem = currentLink.split("/shop")[0];
-			console.log( linkId, currentStem );
+			// console.log( linkId, currentStem );
 			$(this).find("a").attr("href", currentStem + "/?p=" + linkId );
 		});		
+	}
+
+	// 3.4. LAZYLOAD IMAGES
+
+	function imagesVis ( scrollPos ) {
+		console.log( "imagesVis", scrollPos );
+		if ( $(".page_collection").length ) {
+			var winH = $(window).height();
+			$(".picturefill-background").each( function(){
+				// MINUS SCROLLPOS TO GET POSITION RELATIVE TO WINDOW
+				var thisTop = $(this).offset().top - scrollPos;
+				
+				if ( thisTop < winH * 2 ) {
+					// TRIGGER READY EVENT HERE
+					
+				}
+			});
+		}
 	}
 
 // 4. SINGLE FUNCTIONS
@@ -478,43 +529,37 @@
 			var count = $(this).find(".position_right").length;
 			if ( count > 1 ) {
 				// IF MORE THAN ONE IMAGE START GALLERY
-				//$(this).find(".position_right").css("cursor","e-resize").addClass("gallery");
 				$(this).find(".position_right").wrapAll("<span class='gallery'></span>");
-
+				$(this).find(".gallery div").each( function(){ $(this).wrap("<li></li>") });
+				$(this).find(".gallery li").eq(0).addClass("visible");
+				console.log("gallery");
+			} else {
+				$(this).siblings(".gallery_arrow").hide();
 			}
-			// console.log( 298, count );
 		});
 
-			// TMP
-
-				$(".position_right").each( function(){
-					// console.log( 313, $(this).parents(".gallery").length );
-					if ( $(this).parents(".gallery").length === 0 ) {
-						$(this).siblings(".gallery_arrow").hide();
-					}
-				});
-
 		// INIT CAMPAIGN SLIDESHOW
-
 		$("#campaign_images li").eq(0).addClass("visible");
 		
 	}
 
-	function slideShowGo ( click ) {
-		console.log("slideShowGo");
-		var gall = click.parents(".gallery");
-		// console.log(gall);
-		click.find(".position_right:last-child").prependTo( click );
-	}
-
 	// TO DO REGROUP SLIDESHOWS
 
-	function slideShowGo2 ( click ) {
-		console.log("slideShowGo2");
-		var gall = click.parents(".gallery");
-		$(".visible").removeClass("visible");
-		click.parents("li").next("li").addClass("visible")
-		click.parents("li").appendTo( gall );
+	function slideShowGo ( click ) {
+		console.log("slideShowGo");
+		// CLICK = IMG
+		var gallery = click.parents(".gallery");
+		// IF NEXT EXISTS
+		if ( gallery.find(".visible").next().length ) {			
+			console.log(544);
+			// MAKE NEXT VISIBLE
+			gallery.find(".visible").removeClass("visible").next().addClass("visible");
+		} else {
+			console.log(548, gallery.find("li:first-child"));		
+			// GO BACK TO BEGINNING
+			gallery.find(".visible").removeClass("visible");
+			gallery.find("li:first-child").addClass("visible");
+		}
 	}
 
 	// 4.2. RESET QUANTITY INPUTS
@@ -551,7 +596,7 @@
 				radioCount++;
 				radioWidth += $(this).width();
 			});
-			console.log( 481, radioCount, radioWidth );
+			// console.log( 481, radioCount, radioWidth );
 			var container = $(this).width();
 			var diff = container - radioWidth;
 			var diffPerc = Math.floor( diff / ( radioCount - 1 ) / container * 100 );
@@ -628,6 +673,7 @@
 				var thisR = $(this).attr("width") / $(this).attr("height");
 				var newH = $(this).width() / thisR;
 				$(this).css( "height", newH );
+				// console.log( $(this).width(), thisR );
 				// RESIZE PARENT 
 				$(this).parents(".news_content").css( "min-height", newH );
 				// IF ON CAMPAIGN PAGE RESIZE IMAGE FRAME

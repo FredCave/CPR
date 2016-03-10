@@ -42,7 +42,7 @@
             if ( matches.length ) {
                 src = matches.pop();
                 var exp = new RegExp( escapeRegExp( src ) );
-
+                console.log("picturefill go");
                 // Update target element's background image, if necessary
                 if ( !exp.test( picturefills[ i ].style.backgroundImage ) ) {
                     picturefills[i].style.backgroundImage = "url('" + src + "')";

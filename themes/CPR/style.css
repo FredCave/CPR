@@ -130,9 +130,18 @@ b, strong {
 }
 
     @media ( max-width: 780px ) {
+        .page {
+            padding-top: 80px;
+        }
         h4 {
             font-size: 3.6vw;
         }   
+    }
+
+    @media ( min-width: 1280px ) {
+        .page {
+            padding-top: 15vh;
+        } 
     }
 
 p, h3 {
@@ -199,6 +208,7 @@ h2 {
 }
 
 li {
+    list-style: none;
     margin-bottom: 4px;
 }
 
@@ -214,7 +224,7 @@ label {
 }
 
 .last_word {
-    margin-right: -4px;
+/*    margin-right: -4px;*/
     display: inherit;   
 }
 
@@ -222,16 +232,21 @@ label {
     margin-top: -4px;  
 }
 
+#loading {
+/*    border: 1px solid green;*/
+    position: fixed;
+    top: 48%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    width: 50px;
+    height: 50px;
+    transition: opacity 0.5s;
+}
 
-/*.wrap:after {
-   content: "";
-   display: inline-block;
-   width: 100%;
-}*/
-
-/*.stretch_it {
-    white-space: nowrap;
-}*/
+#loading img {
+    width: 100%;
+    height: 100%;
+}
 
 /************************************************
     NAV
@@ -326,13 +341,12 @@ label {
 #nav_dropdown li {
 /*    border: 1px solid blue;*/
     text-align: justify;
-/*    text-align: center;*/
     overflow: hidden;
     height: 100px; /* need to set this with js */
     padding-bottom: 4px;
     margin-bottom: 0px;
     width: 100%;
-/*    transition: letter-spacing 1s;*/
+    position: relative;
 }
 
 #nav_dropdown .last_word span {
@@ -350,8 +364,14 @@ label {
     text-align: center;
     width: auto;
     margin: 0 auto;
-    /*display: inline-block;*/
+    display: block;
 }
+    
+    @media ( max-width: 600px ) {
+        #nav_dropdown a > span {
+            margin-top: 6px;
+        } 
+    }
 
 #nav .stretch_it {
     text-align: center;    
@@ -364,9 +384,10 @@ label {
     text-align: center;
 }
 
-/*#nav .nav_share:hover {
+.li_hover {
     text-align: center;
-}*/
+    text-align-last: center;
+}
 
 #nav .nav_share a {
     height: 75%;
@@ -448,6 +469,7 @@ label {
     opacity: 0;
     -webkit-transition: opacity 0.2s;
             transition: opacity 0.2s;
+    pointer-events: none;
 }
 
 .word_wrap {
@@ -600,7 +622,7 @@ label {
         }     
     }    
 
-.page_collection .product {   
+.collection .product {   
     display: inline;
     height: 100%;
     width: 25%;
@@ -609,12 +631,14 @@ label {
 }
 
     @media ( max-width: 600px ) {
-        .page_collection .product {   
+        .collection .product {   
             width: 33%;
         }       
     }
 
-.page_collection .picturefill-background {
+.collection .picturefill-background {
+/*    border: 1px solid red;*/
+/*    transition: border 10s;*/
     height: 100%;
     width: 100%;
     opacity: 0;
@@ -622,7 +646,7 @@ label {
     top: 0;
 }
 
-.page_collection .picturefill-background:first-child {
+.collection .picturefill-background:first-child {
     opacity: 1;
 }
 
@@ -913,21 +937,37 @@ label {
     margin-bottom: 24px;
 }
 
+    @media ( max-width: 1024px ) {
+        #campaign .info_column {
+            display: block;
+            width: 100%;
+        }
+        #campaign .info_column:last-child {
+            float: none;
+        }
+    }
+
 #campaign_list {
     margin-bottom: 48px; 
     text-align: center;
 }
 
-#campaign_list li {
+#campaign_list li, .single_campaign_title {
 /*    border: 1px solid green;*/
     width: 100%;
     border-bottom: 2px solid black;
 }
 
-#campaign_list a:hover {
-    border-bottom: 0px;
+#campaign_list a {
+/*    border: 1px solid purple;*/
+/*    margin-top: -4px;
+    padding: 4px 0;*/
+    display: block;
 }
 
+#campaign_list a:hover {
+    border-bottom: 2px solid transparent;
+}
 
 .campaign_title {
 /*    font-family: VBLACK, Vonnes, helvetica, arial, sans-serif;   
@@ -939,6 +979,10 @@ label {
     padding-bottom: 4px;  
     display: inline-block;
     margin: 0 auto;
+}
+
+.campaign_content {
+    margin-top: 48px;
 }
 
 #campaign_images {
@@ -962,6 +1006,10 @@ label {
     cursor: pointer;
 }
 
+.gallery_wrapper {
+    position: relative;
+}
+
 #campaign .gallery_arrow {
     position: absolute;
     z-index: 999;
@@ -974,14 +1022,29 @@ label {
 /*    display: none;*/
 }
 
-
 .news_post {
     margin-bottom: 64px;
 }
 
+    @media ( max-width: 600px ) {
+        .news_post {
+            border-bottom: 2px solid black;
+        }
+
+        .news_text {
+            min-height: 0px !important;
+            margin-bottom: 24px;
+        }      
+        .news_images {
+            float: none !important;
+        }        
+    }
+
 .news_date {
-    margin-top: -10px;
+/*    margin-top: -10px;*/
+    margin-top: -2px;
     margin-bottom: 18px;
+    line-height: 1.4;
 }
 
 .news_title {
@@ -989,7 +1052,6 @@ label {
     margin-top: -6px;
     margin-bottom: 18px;
 }
-
 
 .news_content p {
     margin-bottom: 4px;
@@ -1013,7 +1075,6 @@ label {
 }
 
     @media ( max-width: 1080px ) {
-
         #news .sub_col {
             width: 100%;
             display: block;
@@ -1044,6 +1105,11 @@ label {
 /************************************************
     PAGES
 ************************************************/
+
+.page {
+    opacity: 0;
+    transition: opacity 1s;
+}
 
 .page a {
     border-bottom: 2px solid transparent;
@@ -1378,7 +1444,7 @@ a.remove:hover {
             left: 0;
             right: inherit;
         } 
-        .gallery_arrow {
+        .single_gallery_arrow {
             right: inherit;
             left: 17.5%;
             transform: translateY(-50%) translateX(-50%);
@@ -1532,9 +1598,34 @@ p.stock {
 ************************************************/
 
 #wholesale {
+/*    padding: 120px 0 200px 0;*/
+}
+
+.wholesale_column {
+/*    border: 1px solid green;*/
+    position: fixed;
+    width: 50%;
+    display: inline-block;
+    top: 0;
+    left: 0;
+    height: 100%;
+    overflow-y: auto;
     padding: 120px 0 200px 0;
 }
 
+.wholesale_column:last-child {
+    right: 0;
+    left: inherit;
+}
+
+/*.wholesale-child {
+    width: 25%;
+    position: relative;
+    height: 600px;
+    height: 66vh;
+    overflow: hidden;  
+}
+*/
 .wholesale_cat {
 /*    border: 1px solid green;*/
     margin-bottom: 64px;

@@ -7,11 +7,10 @@ if (!is_user_logged_in()) {
 get_header(); 
 get_sidebar(); ?>
 
-	<div id="wholesale" class="">
-	
-		<!-- COLLECTION FILTER -->
-		<?php product_filter(); ?>
-		<!-- END OF COLLECTION FILTER -->
+<div id="wholesale" class="collection">
+
+	<div class="wholesale_column">
+		<!-- COLLECTION OVERVIEW -->
 
 		<!-- LOOP THROUGH CATEGORIES -->
 	    <?php 
@@ -51,7 +50,8 @@ get_sidebar(); ?>
 						global $product;
 						if ( $product->price ) : ?>
 				
-							<?php wc_get_template_part( 'content', 'single-product' ); ?>
+							<?php /* wc_get_template_part( 'content', 'single-product' ); */ ?>
+							<?php wc_get_template_part( 'content', 'product' ); ?>
 
 							<meta itemprop="url" content="<?php the_permalink(); ?>" />
 
@@ -66,6 +66,22 @@ get_sidebar(); ?>
 	    
 	    <?php } ?><!-- end of foreach loop -->
 
-	</div><!-- end of #wholesale -->
+	</div>
+
+	<div class="wholesale_column">
+		<!-- SINGLE INFO -->
+	</div>
+
+</div><!-- end of #wholesale -->
+
+
+
+		<!-- COLLECTION FILTER -->
+		<?php /*product_filter();*/ ?>
+		<!-- END OF COLLECTION FILTER -->
+
+		
+
+	
 
 <?php get_footer(); ?>

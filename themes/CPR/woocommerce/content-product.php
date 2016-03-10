@@ -82,14 +82,14 @@ if( count( array_intersect($bottom_classes, $all_classes) ) > 0 ) {
 			$i = 0;
 			while ( have_rows("product_images") ) : the_row();
 				if ( $i < 2 ) :
+					
 					$image = get_sub_field('product_image');
 					if( !empty($image) ): 
 			            $thumb = $image['sizes'][ "thumbnail" ]; // 300
 			            $medium = $image['sizes'][ "medium" ]; // 600
 			            $large = $image['sizes'][ "large" ]; // 800
 			            $extralarge = $image['sizes'][ "extra-large" ]; // 1024
-			        endif;
-			        ?>
+			            ?>
 
 			        	<?php // do_action( 'woocommerce_before_shop_loop_item' ); ?>
 
@@ -101,7 +101,9 @@ if( count( array_intersect($bottom_classes, $all_classes) ) > 0 ) {
 						    <span data-src="<?php echo $extralarge; ?>" data-media="(min-width: 800px)"></span>
 						</div>			
 
-				<?php   
+					<?php
+					endif;
+				   
 				endif;
 				$i++;      
 			endwhile;
