@@ -1,0 +1,86 @@
+/** Field Controls **/
+#wholesale-role-tax-options-field-controls .field-container {
+    margin-bottom: 20px;
+}
+#wholesale-role-tax-options-field-controls .field-container label {
+    display: block;
+    margin-bottom: 6px;
+    min-width: 300px;
+}
+#wholesale-role-tax-options-field-controls .field-container select {
+    display: block;
+    min-width: 300px;
+}
+#wholesale-role-tax-options-field-controls .field-container select#wwpp-tax-exempt-wholesale-role {
+    min-width: 0;
+}
+#wholesale-role-tax-options-field-controls .field-container input[ type="number" ] {
+    display: block;
+    min-width: 170px;
+}
+#wholesale-role-tax-options-field-controls .field-container p.desc {
+    font-weight: normal;
+}
+
+/** Button Controls **/
+.wholesale-role-tax-options-button-controls {
+    display: block;
+    margin-bottom: 20px;
+}
+.wholesale-role-tax-options-button-controls .spinner {
+    float: left;
+    position: relative;
+    top: 3px;
+}
+.wholesale-role-tax-options-button-controls .button {
+    float: left;
+}
+.wholesale-role-tax-options-button-controls #cancel-edit-mapping {
+    margin-right: 10px;
+}
+.wholesale-role-tax-options-button-controls.add-mode #add-mapping {
+    display: inline-block;
+}
+.wholesale-role-tax-options-button-controls.add-mode #save-mapping {
+    display: none;
+}
+.wholesale-role-tax-options-button-controls.add-mode #cancel-edit-mapping {
+    display: none;
+}
+.wholesale-role-tax-options-button-controls.edit-mode #add-mapping {
+    display: none;
+}
+.wholesale-role-tax-options-button-controls.edit-mode #save-mapping {
+    display: inline-block;
+}
+.wholesale-role-tax-options-button-controls.edit-mode #cancel-edit-mapping {
+    display: inline-block;
+}
+.wholesale-role-tax-options-button-controls .spinner {
+    top: 0;
+}
+.wholesale-role-tax-options-button-controls.processing .spinner {
+    visibility: visible;
+    display: inline-block;
+}
+
+/** Mapping Table **/
+#wholesale-role-tax-options-mapping thead tr th,
+#wholesale-role-tax-options-mapping tfoot tr th {
+    padding: 15px 10px;
+}
+#wholesale-role-tax-options-mapping tbody tr.edited {
+    background-color: #fff2d8 !important;
+}
+#wholesale-role-tax-options-mapping tbody tr td.controls .dashicons {
+    font-size: 24px;
+    display: inline-block;
+    cursor: pointer;
+}
+#wholesale-role-tax-options-mapping tbody tr td.controls .edit {
+    color: green;
+    margin-right: 15px;
+}
+#wholesale-role-tax-options-mapping tbody tr td.controls .delete {
+    color: red;
+}

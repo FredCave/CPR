@@ -41,11 +41,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 			        endif; ?>
 
 					<div class="picturefill-background position_<?php echo $position; ?>">
-			        	<!-- CURRENTLY REFERRING TO WINDOW WIDTH, NOT IMAGE WIDTH ???? -->
-					    <span data-src="<?php echo $thumb; ?>"></span>
-					    <span data-src="<?php echo $medium; ?>" data-media="(min-width: 300px)"></span>
-					    <span data-src="<?php echo $large; ?>" data-media="(min-width: 600px)"></span>
-					    <span data-src="<?php echo $extralarge; ?>" data-media="(min-width: 800px)"></span>
+			        	<span data-src="<?php echo $thumb; ?>"></span>
+						<span data-src="<?php echo $medium; ?>" data-media="(min-width: 300px)"></span>
+						<span data-src="<?php echo $large; ?>" data-media="(min-width: 600px)"></span>
+						<span data-src="<?php echo $extralarge; ?>" data-media="(min-width: 1480px)"></span>
 					</div>	
 			        <?php
 			        
@@ -56,7 +55,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				
 				<ul>
 					<!-- TITLE -->
-					<li class="wrap no_break product_title"><?php the_title(); ?></li>
+					<li class="wrap product_title"><?php the_title(); ?></li>
 					<!-- SKU IF ON WHOLESALE -->
 					<?php 
 					global $product;
@@ -78,7 +77,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</div>
 					<!-- FABRIC INFO -->
 					<li class="wrap no_break">
-						<?php the_field("product_info"); ?>
+						<?php 
+							// the_field("product_info"); 
+							// PUT BACK SPACES IN FABRIC INFO
+							$infoStr = get_field("product_info"); 
+							// GET ALL "WORDS"
+							$info = explode( " ", $infoStr );
+							foreach ( $info as $subInfo ) {
+								// CHECK IF WORDS CONTAINS %
+								if ( strpos ( $subInfo , "%" ) ) {
+									// IF NOT IN LAST POSITION
+									if ( substr( $subInfo, -1 ) === "%" ) {
+										echo $subInfo . " ";
+									} else {
+										// ELSE SPLIT
+										$subInfo = explode( "%", $subInfo );
+										echo $subInfo[0] . "% " .  $subInfo[1]; 
+									}
+								} else {
+									echo $subInfo . " ";
+								}
+							}
+						?>
 					</li>
 			    	<!-- LINKS TO OTHER COLOURS -->
 			    	<?php if ( !is_page( "wholesale" ) ) :

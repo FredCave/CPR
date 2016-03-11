@@ -12,10 +12,13 @@
 		'hide_empty'		=> 0
     );
     $all_cats = get_categories( $args );
+	// echo "<pre>";
+ //    var_dump($all_cats);
+ //    echo "</pre>";
     // CHECK IF SHOULD BE VISIBLE ON FRONT PAGE OR NOT
     $term;
     foreach ( $all_cats as $cat ) {  	
-    	//the_field( "cat_visible", "product_cat_" . $cat->term_taxonomy_id );
+    	// the_field( "cat_visible", "product_cat_" . $cat->term_taxonomy_id );
     	if ( get_field( "cat_visible", "product_cat_" . $cat->term_taxonomy_id ) ) {
     		$term = $cat->slug;
     		break;
@@ -45,10 +48,11 @@
 		<?php	
 		if ( $the_query->have_posts() ) {
 			while ( $the_query->have_posts() ) {
-				$the_query->the_post(); 				
+				$the_query->the_post(); 
+				
 				if ( have_rows("product_images") ) {
-					wc_get_template_part( 'content', 'product' ); 
-				} 
+					wc_get_template_part( 'content', 'product' );  
+				}			
 			}
 		} 
 		wp_reset_postdata();	

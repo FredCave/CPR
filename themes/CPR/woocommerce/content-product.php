@@ -94,11 +94,10 @@ if( count( array_intersect($bottom_classes, $all_classes) ) > 0 ) {
 			        	<?php // do_action( 'woocommerce_before_shop_loop_item' ); ?>
 
 				        <div class="picturefill-background">
-				        	<!-- CURRENTLY REFERRING TO WINDOW WIDTH, NOT IMAGE WIDTH ???? -->
 						    <span data-src="<?php echo $thumb; ?>"></span>
-						    <span data-src="<?php echo $medium; ?>" data-media="(min-width: 300px)"></span>
+						    <span data-src="<?php echo $medium; ?>" data-media="(min-width: 400px)"></span>
 						    <span data-src="<?php echo $large; ?>" data-media="(min-width: 600px)"></span>
-						    <span data-src="<?php echo $extralarge; ?>" data-media="(min-width: 800px)"></span>
+						    <span data-src="<?php echo $extralarge; ?>" data-media="(min-width: 1480px)"></span>
 						</div>			
 
 					<?php

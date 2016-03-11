@@ -49,9 +49,9 @@
 
 <!-- SOCIAL MEDIA -->
 		<li class="nav_share">
-			<a href=""><img class="" src="<?php bloginfo('template_url'); ?>/img/facebook_icon.svg" /></a>
+			<a href="https://www.facebook.com/canpeprey/"><img class="" src="<?php bloginfo('template_url'); ?>/img/facebook_icon.svg" /></a>
 			<a href=""><img id="newsletter_signup" class="" src="<?php bloginfo('template_url'); ?>/img/newsletter_icon.svg" /></a>
-			<a href=""><img class="" src="<?php bloginfo('template_url'); ?>/img/instagram_icon.svg" /></a>
+			<a href="https://www.instagram.com/canpeprey/"><img class="" src="<?php bloginfo('template_url'); ?>/img/instagram_icon.svg" /></a>
 		</li>
 
 		</span><!-- end of .nav_dropdown -->
@@ -63,21 +63,21 @@
 	<ul>
 
 		<!-- FILTER: OPTIONAL ON CATEGORY PAGES -->
-		<?php if ( is_product_category() || is_front_page() || is_page( "wholesale" ) ) { ?>
+		<?php if ( is_product_category() || is_front_page() ) { ?>
 			<li id="secondary_filter">
 				<span id="filter_toggle">Filter</span>
 				<img class="clear_filter" src="<?php bloginfo( 'template_url' ); ?>/img/filter_clear.png" />
 			</li>	
-		<?php } else if ( is_single() ) { ?>
+		<?php /* } else if ( is_single() ) { */ ?>
+		<?php } else { ?>
 			<li id="secondary_filter">
-				<span id="filter_toggle" class="hide">Filter</span>
+				<span id="filter_toggle" class="hide_filter">Filter</span>
 				<img class="clear_filter" src="<?php bloginfo( 'template_url' ); ?>/img/filter_clear.png" />
 			</li>
 		<?php } ?>
 
 		<!-- ACCOUNT -->	
-		<!-- <li id="secondary_account"><a href="<?php bloginfo( 'url' ); ?>/my-account/">Wholesale</a></li> -->		
-		<li id="secondary_account">Wholesale</li>		
+		<li id="secondary_account"><a href="<?php bloginfo( 'url' ); ?>/my-account/">Wholesale</a></li>	
 
 
 		<!-- CART -->

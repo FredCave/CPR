@@ -1,0 +1,85 @@
+/** Field Controls **/
+.discount-controls .field-container {
+    margin-bottom: 20px;
+}
+.discount-controls .field-container label {
+    display: block;
+    margin-bottom: 6px;
+    min-width: 300px;
+}
+.discount-controls .field-container select {
+    display: block;
+    min-width: 300px;
+}
+.discount-controls .field-container input[ type="number" ] {
+    display: block;
+    min-width: 200px;
+}
+.discount-controls .field-container p.desc {
+    font-weight: normal;
+}
+
+
+/** Button Controls **/
+.button-controls {
+    display: block;
+    margin-bottom: 40px;
+}
+.button-controls .spinner {
+    float: left;
+    position: relative;
+    top: 3px;
+}
+.button-controls .button {
+    float: left;
+}
+.button-controls #cancel-edit-mapping {
+    margin-right: 10px;
+}
+.button-controls.add-mode #add-mapping {
+    display: inline-block;
+}
+.button-controls.add-mode #save-mapping {
+    display: none;
+}
+.button-controls.add-mode #cancel-edit-mapping {
+    display: none;
+}
+.button-controls.edit-mode #add-mapping {
+    display: none;
+}
+.button-controls.edit-mode #save-mapping {
+    display: inline-block;
+}
+.button-controls.edit-mode #cancel-edit-mapping {
+    display: inline-block;
+}
+.button-controls .spinner {
+    top: 0;
+}
+.button-controls.processing .spinner {
+    visibility: visible;
+    display: inline-block;
+}
+
+
+/** Mapping Table **/
+#wholesale-role-general-discount-mapping thead tr th,
+#wholesale-role-general-discount-mapping tfoot tr th {
+    padding: 15px 10px;
+}
+#wholesale-role-general-discount-mapping tbody tr.edited {
+    background-color: #fff2d8 !important;
+}
+#wholesale-role-general-discount-mapping tbody tr td.controls .dashicons {
+    font-size: 24px;
+    display: inline-block;
+    cursor: pointer;
+}
+#wholesale-role-general-discount-mapping tbody tr td.controls .edit {
+    color: green;
+    margin-right: 15px;
+}
+#wholesale-role-general-discount-mapping tbody tr td.controls .delete {
+    color: red;
+}

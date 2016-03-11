@@ -3,11 +3,21 @@
 <?php get_header(); ?>
 <?php get_sidebar(); ?>
 
-	<div id="terms" class="page">
+		<!-- LOADING -->
+	<div id="loading">
+		<img src="<?php bloginfo( 'template_url' ); ?>/img/loading.gif" />
+	</div>
 
-		<?php while ( have_posts() ) : the_post();
-			the_content();
-		endwhile; ?>
+	<div id="terms_and_conditions" class="page">
+
+		<?php 	$terms_query = new WP_Query("name=terms");
+				if ( $terms_query->have_posts() ) :
+					while ( $terms_query->have_posts() ) : $terms_query->the_post();
+						the_content();
+					endwhile;
+				endif;
+		?>
+
 
 	</div>
 

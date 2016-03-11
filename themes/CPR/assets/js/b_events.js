@@ -229,12 +229,12 @@ $(document).ready( function(){
 		$(window).on("scroll", function(){
 			//console.log(128);
 			
-			if ( $(window).scrollTop() > thisTop ) {
+			if ( $(window).scrollTop() > ( thisTop - $(window).height() ) ) {
 				//console.log("SHOW");
-				$("#filter_toggle").show();
+				$("#filter_toggle").removeClass("hide_filter");
 			} else {
 				//console.log("HIDE");
-				$("#filter_toggle").hide();
+				$("#filter_toggle").addClass("hide_filter");
 			}
 					
 		});
@@ -260,16 +260,9 @@ $(document).ready( function(){
 
 	// 4.1. IMAGE SLIDESHOW
 
-	$(".single_additional_images").on("click", ".gallery", function() {
+	$("body").on("click", ".gallery", function() {
 		slideShowGo( $(this) );
 	});
-
-		// TO DO REGROUP SLIDESHOWS
-
-	$("#campaign_images li img").on("click", function() {
-		//console.log(224);
-		slideShowGo( $(this) );
-	});	
 
 	// 4.2. PRODUCT DESCRIPTION TOGGLE
 
@@ -304,59 +297,9 @@ $(document).ready( function(){
 	// 4.5. PRODUCT INFO HOVER
 
 	$(".single_info").hover( function(){
-		// WORDS
-		$(this).find(".wrap").css({
-			"text-align" : "center",
-			"text-align-last" : "center"
-		});
-		// LETTERS
-		$(this).find(".last_word").each( function(){
-			// HIDE SPACED TEXT
-			$(this).children("span").hide();
-			// SHOW BACKUP
-			$(this).find(".rollover").show();
-		});
-		// SIZES
-		$(this).find(".variations").css({
-			"text-align" : "center"
-		});
-		$(this).find(".variations td").css({
-			"margin" : "0px",
-			"position" : "relative"
-		});
-		// ADD TO CART BUTTON
-		$(this).find(".single_add_to_cart_button").css({
-			"text-align" : "center",
-			"text-align-last" : "center"
-		});
+		singleInfoOn( $(this) );
 	}, function(){
-		// WORDS
-		$(this).find(".wrap").css({
-			"text-align" : "",
-			"text-align-last" : ""
-		});
-		// LETTERS
-		$(this).find(".last_word").each( function(){
-			// SHOW SPACED TEXT
-			$(this).children("span").show();
-			// HIDE BACKUP
-			$(this).find(".rollover").hide();
-		});
-		// SIZES
-		$(".variations").css({
-			"text-align" : ""
-		});
-		$(this).find(".variations td").css({
-			"margin" : "",
-			"position" : ""
-		});
-			// RECALC SIZES
-		radioPos();
-		// ADD TO CART BUTTON
-		$(this).find(".single_add_to_cart_button").css({
-			"text-align" : "",
-			"text-align-last" : ""
-		});
+		singleInfoOff( $(this) );
 	});
 
 // 5. OTHER PAGE EVENTS

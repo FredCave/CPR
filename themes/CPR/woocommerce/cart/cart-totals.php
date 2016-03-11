@@ -99,15 +99,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 		?></small></p>
 	<?php endif; ?>
 
-	<div class="wc-proceed-to-checkout">
-		<a class="button" href="<?php bloginfo( 'url' ); ?>/terms-and-conditions">
-			Terms & Conditions
-		</a>
-	</div>
+	<div class="cart_bottom_wrapper">
 
-	<div class="wc-proceed-to-checkout">
+		<div class="wc-proceed-to-checkout">
+			<a class="button" href="<?php bloginfo( 'url' ); ?>/terms-and-conditions">
+				Terms & Conditions
+			</a>
+		</div>
 
-		<?php do_action( 'woocommerce_proceed_to_checkout' ); ?>
+		<div class="wc-proceed-to-checkout">
+
+			<?php do_action( 'woocommerce_proceed_to_checkout' ); ?>
+
+		</div>
 
 	</div>
 

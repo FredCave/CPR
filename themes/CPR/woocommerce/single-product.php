@@ -11,6 +11,11 @@ get_sidebar();
 <?php product_filter(); ?>
 <!-- END OF COLLECTION FILTER -->
 
+<!-- LOADING -->
+<div id="loading">
+	<img src="<?php bloginfo( 'template_url' ); ?>/img/loading.gif" />
+</div>
+
 <div class="single_page">
 
 	<!-- MAIN IMAGE + INFO ROW -->

@@ -1,0 +1,38 @@
+#wwpp-wholesale-roles-page {
+    overflow:   visible;
+}
+#wwpp-wholesale-roles-page #col-container {
+    overflow:   visible;
+}
+#wwpp-wholesale-roles-page #col-container #col-left {
+    overflow:   visible;
+}
+#wwpp-wholesale-roles-page .wp-list-table #the-list .newlyAdded {
+    background-color:   #eeffe8;
+}
+#wwpp-wholesale-roles-page .wp-list-table #the-list .column-role-name a.main-role-name,
+#wwpp-wholesale-roles-page .wp-list-table #the-list .column-role-name a.main-role-name:hover {
+    color:  #555;
+}
+#wwpp-wholesale-roles-page .wp-list-table #the-list tr.editing {
+    background-color:   #ffe2c1;
+}
+#wwpp-wholesale-roles-page .wp-list-table #the-list tr.editing .row-actions {
+    visibility: hidden;
+}
+#wwpp-wholesale-roles-page #wholesale-form .submit.edit-controls {
+    display:    none;
+}
+#wwpp-wholesale-roles-page #wholesale-form .submit .button-primary {
+    float:      left;
+    clear:      left;
+    font-style: normal;
+}
+#wwpp-wholesale-roles-page #wholesale-form .submit .button-secondary {
+    float:          right;
+    margin-right:   5%;
+}
+#wwpp-wholesale-roles-page #wholesale-form .submit .spinner {
+    margin-top: 4px;
+    float:      left;
+}

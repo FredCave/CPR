@@ -36,34 +36,41 @@
 
 	function pageInit () {
 
-		// 5. OTHER PAGES
+		// 5. OTHER PAGES – NEED TO BE CALLED BEFORE TEXT WRAP
 		breakCheck(); // INFO - calls oneword
-
-		// 1. GENERAL
-		textWrap();
+		
+		if ( $("#terms_and_conditions").length ) {
+			// THIS CALLS TEXTWRAP ONCE FINISHED
+			termsClasses();
+		} else {
+			textWrap();			
+		}
+	
 		// 2. NAV
 		secNavH(); 
 		// 3. COLLECTIONS
-		
 		imagesPrep();
 		imagesVis(0); 
 		bottomRedirect();
+		filterInit();
 		// 4. SINGLE
 		slideShowInit(); 
 		resetQuantities();		
 		radioPos();
+		radioInit();
 		// // 5. OTHER PAGES
 		buttonResize();	
 		newsPrep();
 
 		iframeResize();
-		termsClasses(); 
+
 		infoFix(); // INFO - calls oneword
 	}
 
 	function pageShow () {
 		$("#loading").css( "opacity", "0" );
 		$(".page").css( "opacity", "1" );
+		$(".single_page").css( "opacity", "1" );
 	}
 
 	// 1.2. GLOBAL WRAP FUNCTION
@@ -77,16 +84,6 @@
 	var firstTime = true;
 	function oneWord () {
 		console.log("oneWord");
-		// $(".last_word").each( function(){
-		// 	// console.log( $(this).text() );
-		// 	if ( $(this).has("a").length ) {
-		// 		// target is child
-		// 		var elmt = $(this).find("a");
-		// 	} else {
-		// 		var elmt = $(this);
-		// 	}	
-		// 	elmt.css("text-align","center").stretch_text();	
-		// });
 		var options = { 
 			"emph" : "off",
 			"keep" : "all",
@@ -191,6 +188,7 @@
 	// 2.1. LI HEIGHT CALC
 
 	function liCalc () {
+		console.log( "liCalc" );
 		// DEFINE LI HEIGHT
 		liH = parseInt ( $("#nav_home").css("font-size") ) + 18;
 		//console.log( liH );
@@ -198,6 +196,7 @@
 		// SET NAV_DROPDOWN TOP POSITION USING THIS
 		$("#nav_dropdown").css( "top", liH );
 		// $("#nav_bg_top").css( "top", liH );
+		console.log( 194, liH );
 	}
 
 
@@ -421,6 +420,19 @@
 
 	// 3.2. FILTER PRODUCTS
 
+	function filterInit () {
+		console.log("filterInit");
+		// LOOP THROUGH PHP GENERATED TAGS
+		$("#collection_filter li").each( function(){
+			var filterText = $(this).find("a").attr("id");
+			// console.log( ".product-tag-" + filterText  );
+			if ( !$(".product-tag-" + filterText).length ) {
+				$(this).hide();
+				console.log(filterText);
+			} 
+		});
+	}
+
 	function filterProducts ( click ) {
 		console.log("filterProducts");
 		// GET TAG OF CLICKED CATEGORY
@@ -524,32 +536,37 @@
 	// 4.1. SINGLE IMAGE SLIDESHOW
 
 	function slideShowInit () {
-		
+		console.log("slideShowInit");
 		$(".single_additional_images").each( function(){
 			var count = $(this).find(".position_right").length;
 			if ( count > 1 ) {
+				console.log(531);
 				// IF MORE THAN ONE IMAGE START GALLERY
 				$(this).find(".position_right").wrapAll("<span class='gallery'></span>");
 				$(this).find(".gallery div").each( function(){ $(this).wrap("<li></li>") });
 				$(this).find(".gallery li").eq(0).addClass("visible");
-				console.log("gallery");
+				$(this).find(".gallery_arrow").show();
+				//console.log("gallery");
 			} else {
-				$(this).siblings(".gallery_arrow").hide();
+				//console.log(537);
+				
 			}
 		});
 
 		// INIT CAMPAIGN SLIDESHOW
 		$("#campaign_images li").eq(0).addClass("visible");
+
+		// INIT WHOLESALE SLIDESHOW
+		$(".wholesale_product_image .gallery li:first-child").addClass("visible");
 		
 	}
 
-	// TO DO REGROUP SLIDESHOWS
-
-	function slideShowGo ( click ) {
+	function slideShowGo ( gallery ) {
 		console.log("slideShowGo");
-		// CLICK = IMG
-		var gallery = click.parents(".gallery");
+		// CLICK = .GALLERY
+		// var gallery = click.parents(".gallery");
 		// IF NEXT EXISTS
+		// console.log(click);
 		if ( gallery.find(".visible").next().length ) {			
 			console.log(544);
 			// MAKE NEXT VISIBLE
@@ -576,11 +593,19 @@
 
 	// 4.3. SELECT SIZES 
 
+	function radioInit () {
+		console.log("radioInit");
+		// FIRST SIZE IS UNDERLINED
+		$(".variations td:nth-child(2)").find("label").css("border-bottom","2px solid black");
+	}
+
 	function radioCheck ( click ) {
 		console.log("radioCheck");
 		// CLICK IS ON LABEL
 		// console.log( 465, click.text() );
 		click.parents(".variations").find("label").css( "border-bottom", "" );
+		console.log( click.parents(".variations").find("label").length );
+		// click.parents(".variations").siblings().find("label").css( "border-bottom", "" );
 		click.css( "border-bottom", "2px solid black" );
 		click.siblings("input").prop("checked", true);
 	}
@@ -602,6 +627,7 @@
 			var diffPerc = Math.floor( diff / ( radioCount - 1 ) / container * 100 );
 			// console.log(diffPerc);
 			$(this).find("td").css( "margin-right", diffPerc + "%" );
+			// LAST HAS MARGIN REMOVED
 			$(this).find("td").eq( radioCount - 1 ).css({
 				"position" : "absolute",
 				"right" : 0,
@@ -631,16 +657,83 @@
 		}
 	}
 
+	// 4.5. SINGLE INFO HOVER
+
+	function singleInfoOn ( target ) {
+		console.log("singleInfoOn");
+		if ( $(window).width() > 800 ) {
+			// WORDS
+			target.find(".wrap").css({
+				"text-align" : "center",
+				"text-align-last" : "center"
+			});
+			// LETTERS
+			target.find(".last_word").each( function(){
+				// HIDE SPACED TEXT
+				$(this).children("span").hide();
+				// SHOW BACKUP
+				$(this).find(".rollover").show();
+			});
+			// SIZES
+			target.find(".variations").css({
+				"text-align" : "center"
+			});
+			target.find(".variations td").css({
+				"margin" : "0px",
+				"position" : "relative"
+			});
+			// ADD TO CART BUTTON
+			target.find(".single_add_to_cart_button").css({
+				"text-align" : "center",
+				"text-align-last" : "center"
+			});			
+		}
+	}
+
+	function singleInfoOff ( target ) {
+		console.log("singleInfoOff");
+		if ( $(window).width() > 800 ) {
+			// WORDS
+			target.find(".wrap").css({
+				"text-align" : "",
+				"text-align-last" : ""
+			});
+			// LETTERS
+			target.find(".last_word").each( function(){
+				// SHOW SPACED TEXT
+				$(this).children("span").show();
+				// HIDE BACKUP
+				$(this).find(".rollover").hide();
+			});
+			// SIZES
+			$(".variations").css({
+				"text-align" : ""
+			});
+			target.find(".variations td").css({
+				"margin" : "",
+				"position" : ""
+			});
+				// RECALC SIZES
+			radioPos();
+			// ADD TO CART BUTTON
+			target.find(".single_add_to_cart_button").css({
+				"text-align" : "",
+				"text-align-last" : ""
+			});
+		}
+	}
+
 // 5. OTHER PAGE FUNCTIONS
 
 	// 5.1. STYLE BUTTONS
 
 	function buttonResize () {
 		$("a.button, a.shipping-calculator-button").each( function(){
-	 		// var thisW = $(this).width();
-			$(this).parent().addClass("button_wrapper").css(
-				"max-width", $(this).width()
-			);
+	 		var thisW = $(this).width();
+			$(this).parent().addClass("button_wrapper")
+			// .css(
+			// 	"max-width", $(this).width()
+			// );
 		});		
 	}
 
@@ -688,7 +781,7 @@
 	// 5.4. ADD CLASSES TO TERMS SUBTITLES
 
 	function termsClasses () {
-		if ( $("#terms").length ) {
+		if ( $("#terms_and_conditions").length ) {
 			console.log("termsClasses");
 			$("strong").addClass("wrap");			
 			// REINITIALISE TEXT WRAP

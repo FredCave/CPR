@@ -37,7 +37,7 @@ get_sidebar();
 </p>
 
 <div id="wholesale_link">
-	<a href="<?php bloginfo( 'url' ); ?>/wholesale/">Wholesale order page</a>
+	<a href="<?php bloginfo( 'url' ); ?>/wholesale-ordering/">Wholesale order page</a>
 </div>
 
 

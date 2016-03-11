@@ -1,0 +1,9 @@
+#adminmenu li.wp-has-current-submenu a .awaiting-mod {
+
+    background-color:   #2EA2CC;
+    color:              #FFF;
+
+}
+#your-profile table.form-table .select2-container{	
+    width: 25em;
+}

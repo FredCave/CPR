@@ -904,7 +904,7 @@ class WC_Meta_Box_Product_Data {
 
 						// Text based attributes - Posted values are term names - don't change to slugs
 						} else {
-							$values           = array_map( 'stripslashes', array_map( 'strip_tags', explode( WC_DELIMITER, $attribute_values[ $i ] ) ) );
+							$values = array_map( 'stripslashes', array_map( 'strip_tags', explode( WC_DELIMITER, $attribute_values[ $i ] ) ) );
 						}
 
 						// Remove empty items in the array
@@ -961,8 +961,7 @@ class WC_Meta_Box_Product_Data {
 						'is_taxonomy'  => $is_taxonomy
 					);
 				}
-
-			 }
+			}
 		}
 
 		if ( ! function_exists( 'attributes_cmp' ) ) {
@@ -975,6 +974,15 @@ class WC_Meta_Box_Product_Data {
 			}
 		}
 		uasort( $attributes, 'attributes_cmp' );
+
+		// Unset deleted attributes.
+		foreach ( get_post_meta( $post_id, '_product_attributes', true ) as $key => $value ) {
+			if ( empty( $attributes[ $key ] ) ) {
+				if ( $value['is_taxonomy'] && taxonomy_exists( $key ) ) {
+					wp_set_object_terms( $post_id, array(), $key );
+				}
+			}
+		}
 
 		update_post_meta( $post_id, '_product_attributes', $attributes );
 
@@ -1016,6 +1024,7 @@ class WC_Meta_Box_Product_Data {
 
 			if ( $date_to && strtotime( $date_to ) < strtotime( 'NOW', current_time( 'timestamp' ) ) ) {
 				update_post_meta( $post_id, '_price', '' === $regular_price ? '' : wc_format_decimal( $regular_price ) );
+				update_post_meta( $post_id, '_sale_price', '' );
 				update_post_meta( $post_id, '_sale_price_dates_from', '' );
 				update_post_meta( $post_id, '_sale_price_dates_to', '' );
 			}
