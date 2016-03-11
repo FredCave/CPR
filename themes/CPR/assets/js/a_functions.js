@@ -11,6 +11,7 @@
 		2.3. NAV HIDE ON SCROLL
 		2.4. TOGGLE COLLECTIONS
 		2.5. SET SECONDARY NAV HEIGHT
+		2.6. NEWSLETTER TOGGLE
 
 	3. COLLECTION FUNCTIONS	
 		3.1. POSITION COLLECTION IMAGES	
@@ -331,6 +332,18 @@
 			var navH = $("#secondary_nav ul").height();
 			$("#secondary_nav").css( "height", navH );
 		}
+	}
+
+	// 2.6. NEWSLETTER TOGGLE
+
+	function newsletterShow () {
+		console.log("newsletterShow");
+		$("#newsletter").show().addClass("newsletter_visible");
+	}
+
+	function newsletterHide () {
+		console.log("newsletterShow");
+		$("#newsletter").hide().removeClass("newsletter_visible");
 	}
 
 // 3. COLLECTION FUNCTIONS

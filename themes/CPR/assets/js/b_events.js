@@ -177,13 +177,15 @@ $(document).ready( function(){
 
 	$("#newsletter_signup").on("click", function(e){
 		e.preventDefault();
+		if ( !$("#newsletter").hasClass("newsletter_visible") ) {
+			newsletterShow();
+		} else {
+			newsletterHide();			
+		}
+		
 	});	
 
-		// TMP ALL BUTTONS BLOCKED
 
-		$(".nav_share a").on("click", function(e){
-			e.preventDefault();
-		});	
 
 // 3. COLLECTIONS
 

@@ -95,7 +95,7 @@ if( count( array_intersect($bottom_classes, $all_classes) ) > 0 ) {
 
 				        <div class="picturefill-background">
 						    <span data-src="<?php echo $thumb; ?>"></span>
-						    <span data-src="<?php echo $medium; ?>" data-media="(min-width: 400px)"></span>
+						    <span data-src="<?php echo $medium; ?>" data-media="(min-width: 300px)"></span>
 						    <span data-src="<?php echo $large; ?>" data-media="(min-width: 600px)"></span>
 						    <span data-src="<?php echo $extralarge; ?>" data-media="(min-width: 1480px)"></span>
 						</div>			

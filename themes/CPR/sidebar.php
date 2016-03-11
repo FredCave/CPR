@@ -35,11 +35,13 @@
 <!-- COLLECTIONS -->
 		<li class="nav_collection wrap" data-length="<?php echo count( $all_cats ); ?>"><a href="">Collections</a></li>
 
-		<?php foreach ( $all_cats as $cat ) { ?>
-			<li id="<?php echo $cat->slug; ?>" class="nav_collection_2 nav_hidden wrap">
-				<a data-href="<?php bloginfo( 'url' ); ?>/collection/<?php echo $cat->slug; ?>"><?php echo $cat->name; ?></a>
-			</li>
-		<?php } ?>
+		<?php foreach ( $all_cats as $cat ) { 
+	    	if ( get_field( "cat_visible", "product_cat_" . $cat->term_taxonomy_id ) ) { ?>
+	    		<li id="<?php echo $cat->slug; ?>" class="nav_collection_2 nav_hidden wrap">
+	    			<a data-href="<?php bloginfo( 'url' ); ?>/collection/<?php echo $cat->slug; ?>"><?php echo $cat->name; ?></a>
+	    		</li>
+	    <?php } 
+	    } ?>
 
 <!-- NEWS -->
 		<li class="wrap"><a href="<?php bloginfo( 'url' ); ?>/_news/">News</a></li>
@@ -49,9 +51,13 @@
 
 <!-- SOCIAL MEDIA -->
 		<li class="nav_share">
-			<a href="https://www.facebook.com/canpeprey/"><img class="" src="<?php bloginfo('template_url'); ?>/img/facebook_icon.svg" /></a>
+			<a target="_blank" href="https://www.facebook.com/canpeprey/"><img class="" src="<?php bloginfo('template_url'); ?>/img/facebook_icon.svg" /></a>
 			<a href=""><img id="newsletter_signup" class="" src="<?php bloginfo('template_url'); ?>/img/newsletter_icon.svg" /></a>
-			<a href="https://www.instagram.com/canpeprey/"><img class="" src="<?php bloginfo('template_url'); ?>/img/instagram_icon.svg" /></a>
+			<a target="_blank" href="https://www.instagram.com/canpeprey/"><img class="" src="<?php bloginfo('template_url'); ?>/img/instagram_icon.svg" /></a>
+		</li>
+
+		<li id="newsletter">
+			<?php do_shortcode("[simplenewsletter]"); ?>
 		</li>
 
 		</span><!-- end of .nav_dropdown -->
