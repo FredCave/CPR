@@ -1,17 +1,7 @@
 <?php
-/**
- * Checkout Form
- *
- * @author 		WooThemes
- * @package 	WooCommerce/Templates
- * @version     2.3.0
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
-// wc_print_notices();
 
 do_action( 'woocommerce_before_checkout_form', $checkout );
 
@@ -31,11 +21,11 @@ $get_checkout_url = apply_filters( 'woocommerce_get_checkout_url', WC()->cart->g
 		<?php do_action( 'woocommerce_checkout_before_customer_details' ); ?>
 
 		<div class="col2-set" id="customer_details">
-			<div class="col-1">
+			<div class="column">
 				<?php do_action( 'woocommerce_checkout_billing' ); ?>
 			</div>
 
-			<div class="col-2">
+			<div class="column">
 				<?php do_action( 'woocommerce_checkout_shipping' ); ?>
 			</div>
 		</div>

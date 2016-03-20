@@ -12,25 +12,25 @@
     if ( $campaign_query->have_posts() ) :
     	while ( $campaign_query->have_posts() ) : $campaign_query->the_post(); ?>
     
-		<div id="campaign" class="page">
+		<div id="campaign" class="page page_margin">
 
-			<div class="single_campaign_title">
-				<h4 class="wrap no_break">Campaign <?php the_title(); ?></h4>
+			<div class="single_campaign_title_wrapper">
+				<h4 class="campaign_title">Campaign <?php the_title(); ?></h4>
 			</div>
 
 			<div class="campaign_content">
 
-				<!-- LEFT COLUMN -->
-			   	<div class="info_column">
+				<!--VIDEO -->
+			   	<div class="campaign_video">
 		    		<?php if ( get_field("video") ) {
 						the_field("video");
 					} ?>
 			   	</div>
 
-				<!-- RIGHT COLUMN -->
-			   	<div class="info_column">
+				<!-- PHOTOS -->
+			   	<div class="campaign_photos">
 			   		<div class="gallery_wrapper">
-				   		<ul id="campaign_images" class="gallery">
+				   		<ul id="" class="campaign_images gallery">
 				   		    <?php if ( have_rows("images") ) :
 								while ( have_rows("images") ) : the_row();
 									$image = get_sub_field("image");
@@ -44,7 +44,9 @@
 							            $height = $image["sizes"]["medium-height"];
 							        endif; ?>
 							    <li class="campaign_image">
-									<img sizes="(min-width: 40em) 95vw, 47vw"
+									<img width="<?php echo $width; ?>" 
+										 height="<?php echo $height; ?>" 
+										 sizes="(min-width: 40em) 95vw, 47vw"
 										 srcset="<?php echo $thumb; ?> 300w,
 												<?php echo $medium; ?> 600w,
 												<?php echo $large; ?> 800w,
@@ -57,12 +59,13 @@
 				   		</ul>
 	
 			   			<div class="gallery_arrow">
-							<img src="<?php bloginfo('template_url'); ?>/img/gallery_arrow_thin.svg" />
+							<img src="<?php bloginfo('template_url'); ?>/img/gallery_arrow_large.svg" />
 						</div>	
 
 			   		</div>
 
-			   	</div>
+			   	</div><!-- end of #campaign_photos --> 
+
 			</div>	
 		</div>
 
@@ -70,5 +73,6 @@
     	endwhile;
     endif;
     ?>
+
 
 <?php get_footer(); ?>

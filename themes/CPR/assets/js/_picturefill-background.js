@@ -57,6 +57,7 @@
     /**
      * Run on resize and domready (w.load as a fallback)
      */
+    // $(document).on( "imageReady", console.log("image ready event received") );
     if ( w.addEventListener ) {
         w.addEventListener( "load", w.picturefillBackground, false );
         w.addEventListener( "resize", w.picturefillBackground, false );
@@ -64,9 +65,12 @@
             w.picturefillBackground();
             w.removeEventListener( "load", w.picturefillBackground, false );
         }, false );
+        w.addEventListener( "imageVis", console.log("image ready") );
+
     }
     else if ( w.attachEvent ) {
         w.attachEvent( "onload", w.picturefillBackground );
+        
     }
 
 }( this ));

@@ -6,7 +6,6 @@
 
 @ini_set( 'max_execution_time', '300' );
 
-
 // DEREGISTER WOO STYLESHEETS
 function remove_assets() {
     add_filter( 'woocommerce_enqueue_styles', '__return_empty_array' );
@@ -20,8 +19,8 @@ add_action('wp_print_styles', 'remove_assets', 99999);
 function enqueue_cpr_scripts() {
   
     wp_deregister_script( 'jquery' );
-//    wp_register_script( 'jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js');
-    wp_register_script( 'jquery', get_template_directory_uri() . '/js/jquery.min.js');
+    wp_register_script( 'jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js');
+    // wp_register_script( 'jquery', get_template_directory_uri() . '/js/jquery.min.js');
     wp_enqueue_script( 'jquery' );  
     
     wp_enqueue_script('all_scripts', get_template_directory_uri() . '/js/scripts.min.js', array('jquery'), true);
@@ -77,6 +76,8 @@ remove_action( "woocommerce_before_shop_loop_item_title", "woocommerce_show_prod
     /* COLLECTION PAGE — REMOVE ADD TO CART */
 remove_action( "woocommerce_after_shop_loop_item", "woocommerce_template_loop_add_to_cart", 10 );
 
+// ....
+
 // ADD COLUMN IN PRODUCT TABLE
 
 add_filter( 'manage_edit-product_columns', 'cpr_show_product_order', 15 );
@@ -108,55 +109,48 @@ function cpr_product_column_related ( $column, $postid ) {
 
 // PRODUCT FILTER
 
-function product_filter () {
-    if ( is_page( "wholesale" ) ) : ?>
-        <ul id="collection_filter" data-page="wholesale">
-    <?php else : ?>
-        <ul id="collection_filter" data-page="collection">
-    <?php endif;
-        $tags = get_terms ( "product_tag", "orderby=name" ); 
-        foreach ( $tags as $tag ) { 
-            //  var_dump($tag);
-            ?>
+function product_filter () { ?>
+    
+    <ul id="collection_filter" data-page="collection">
+        <?php $tags = get_terms ( "product_tag", "orderby=name" ); 
+        foreach ( $tags as $tag ) { ?>
             <li><a class="filter" id="<?php echo $tag->slug; ?>" href=""><?php echo $tag->name; ?></a><img class="clear_filter" src="<?php bloginfo( 'template_url' ); ?>/img/filter_clear.png" /></li>
         <?php } ?>
-        </ul>
+    </ul>
     <?php
 }
 
-// ORDER PRODUCT CATALOGUE BY SKU
+// GET RELATED ITEMS
 
-// add_filter('woocommerce_get_catalog_ordering_args', 'am_woocommerce_catalog_orderby');
-// function am_woocommerce_catalog_orderby( $args ) {
-//     if(!$_GET['orderby']) {
-//         $args['meta_key'] = '_sku';
-//         $args['orderby'] = 'meta_value';
-//         $args['order'] = 'asc'; 
-//     }
-//     return $args;
-// }
+function related_items ( $the_id ) {
+    // GET ID FROM ACF FIELD
+    $post_info = get_post_meta( $the_id, "other_item" );
+    if ( $post_info[0] !== "" ) {
+        $post_id = $post_info[0][0];
+        // LOOP 
+        $args = array( 
+            'post_type' => 'product',
+            'p' => $post_id
+        );
+        $other_query = new WP_Query( $args );
+        if ( $other_query->have_posts() ) :
+            while ( $other_query->have_posts() ) : $other_query->the_post();
+                wc_get_template_part( 'content', 'single-product-info' );
+            endwhile;
+        endif;
+    }
+}
 
-// add_filter('woocommerce_get_catalog_ordering_args', 'am_woocommerce_catalog_orderby');
-// function am_woocommerce_catalog_orderby( $args ) {
-//     $args['orderby'] = 'meta_value';
-//     $args['order'] = 'asc';
-//     $args['meta_key'] = 'sku'; 
-//     return $args;
-// }   
-
-// GET RELATED ITEMS — OTHER COLOURS
+// GET OTHER COLOURS
 
 function other_colours ( $the_id ) {
     // var_dump( $the_id );
-
     // GET SKU OF CURRENT PRODUCT
     $product = wc_get_product( $the_id );
     $this_sku = $product->get_sku();
     // GET STUB OF SKU
     $stubs = explode("-", $this_sku);
-    $stub = $stubs[0];
-    // echo $stub;
-    
+    $stub = $stubs[0];   
     // LOOP THROUGH PRODUCTS
     $args = array(
         'post_type' => 'product'
@@ -169,81 +163,93 @@ function other_colours ( $the_id ) {
             $loop_id = $product->id;
             $loop_stubs = explode("-", $loop_sku);
             $loop_stub = $loop_stubs[0];
-            // echo $loop_stub . ", " . $stub . "<br>";
-           
-            if ( $loop_stub === $stub && $loop_sku !== $this_sku ) {
-                // GET LINK 
-                /*
-                $loop_title = get_the_title();
-                switch ( true ) {
-                    case stristr( $loop_title, "orange" ):
-                        $colour = "Orange";
-                        break;
-                    case stristr( $loop_title, "navy" ):
-                        $colour = "Navy";
-                        break;
-                    case stristr( $loop_title, "whisper" ):
-                        $colour = "Whisper White";
-                        break;
-                    case stristr( $loop_title, "anthracite" ):
-                        $colour = "Anthracite";
-                        break;
-                    case stristr( $loop_title, "cognac" ):
-                        $colour = "Cognac";
-                        break;
-                    case stristr( $loop_title, "grey" ):
-                        $colour = "Grey / White";
-                        break;
-                    case stristr( $loop_title, "moonbeam" ):
-                        $colour = "Moonbeam / White";
-                        break;
-                }  
-                */
-                ?>
-                <li class="wrap no_break other_colours"><a href="<?php echo get_permalink( ); ?>"><?php echo get_the_title(); ?></a></li>
-
-               
-
+            // echo $loop_stub . ", " . $stub . "<br>";          
+            if ( $loop_stub === $stub ) { ?>
+                <li class="other_colours"><a href="<?php echo get_permalink( ); ?>"><?php echo get_the_title(); ?></a></li>
             <?php
-                // echo $loop_id;
-            } else {
-                // echo "nothing ";
-            }
-            
+            } 
         endwhile;
     endif;
     wp_reset_postdata();
-
 } 
 
-// PRICING ON SINGLE PRODUCT INFO
+// ADD SPACES – FABRIC INFO
 
-function get_prices ( $the_id ) {
-    /* DEBUGGING
-    $meta = get_post_meta( $the_id );
-    //print_r( $meta );
-    */
-
-    $price = get_post_meta( $the_id, '_regular_price');
-    $wholesale_price = get_post_meta( $the_id, '_wholesale_price');    
-    if (is_user_logged_in()){
-        // BOTH PRICES ARE SHOWN
-        // return "<li class='wrap no_break'>Retail Price: " . $price[0] . "</li><li class='wrap no_break'>Wholesale Price: " . $wholesale_price[0] . "</li>";
-        // return "<li class='wrap no_break'>Retail Price: " . $price[0] . "€</li>";
+function addSpaces( $str ) {
+    // GET ALL "WORDS"
+    $info = explode( " ", $str );
+    foreach ( $info as $subInfo ) {
+        // CHECK IF WORDS CONTAINS %
+        if ( strpos ( $subInfo , "%" ) ) {
+            // IF NOT IN LAST POSITION
+            if ( substr( $subInfo, -1 ) === "%" ) {
+                echo $subInfo . " ";
+            } else {
+                // ELSE SPLIT
+                $subInfo = explode( "%", $subInfo );
+                echo $subInfo[0] . "% " .  $subInfo[1]; 
+            }
+        } else {
+            echo $subInfo . " ";
+        }
     }
-
 }
 
-add_filter( 'woocommerce_get_price_html', 'cpr_price_html', 100, 2 );
-function cpr_price_html( $price, $product ){
-    return "<div class='wrap no_break'>Price: " . str_replace ( "<span class='amount'>", "", $price ) . "</div>";
+// PARENT COLLECTION ON SINGLE PAGE
+
+function parent_collection ( $the_id ) {
+    $terms = get_the_terms( $the_id, 'product_cat' );
+    $this_cat = $terms[0]->slug;
+    $args = array(
+        'post_type' => 'product',
+        "tax_query" => array(
+            array(
+                'taxonomy' => "product_cat",
+                'field'    => "slug",
+                'terms'    => $this_cat
+            )
+        )
+    );
+    $the_query = new WP_Query( $args );
+        ?>
+        <div class="collection single_collection">
+            <ul>
+                <?php   
+                if ( $the_query->have_posts() ) {
+                    while ( $the_query->have_posts() ) {
+                        $the_query->the_post(); ?>
+                            <?php wc_get_template_part( 'content', 'product' ); ?>
+                        <?php   
+                    }
+                } 
+                wp_reset_postdata();    
+                ?>
+            </ul>
+        </div>
+    <?php     
 }
 
-// MAKE PRODUCTS VARIABLE BY DEFAULT
+// MAIL CHIMP SIGNUP FORM
 
-// function cpr_default_product_type(){
-//     return "variable";
-// }
-// add_action( 'default_product_type', 'cpr_default_product_type' );
+function mailchimp_form () { ?>
+    <div id="mc_embed_signup">
+        <form action="//canpeprey.us11.list-manage.com/subscribe/post?u=d43f01e1f63768b0eb69b572d&amp;id=90ec4cfaaa" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+            <div id="mc_embed_signup_scroll">
+                <div class="mc-field-group">
+                    <label for="mce-EMAIL">Email Address </label>
+                    <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+                </div>
+                <div id="mce-responses" class="clear">
+                    <div class="response" id="mce-error-response" style="display:none"></div>
+                    <div class="response" id="mce-success-response" style="display:none"></div>
+                </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d43f01e1f63768b0eb69b572d_90ec4cfaaa" tabindex="-1" value=""></div>
+                <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+            </div>
+        </form>
+    </div>
+    <script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
+<?php                    
+}
 
 ?>

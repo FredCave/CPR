@@ -7,74 +7,85 @@
 		"hide_empty" 		=> 0
     );
 	$all_cats = get_categories( $args );
+	$cols = 0;
+	foreach ( $all_cats as $cat ) {  	
+		if ( get_field( "cat_visible", "product_cat_" . $cat->term_taxonomy_id ) ) {
+			$cols++;
+		}
+	}
 ?>
 
-<!-- NAVIGATION -->
-<div id="nav" class="hidden" >
+<!-- FIXED NAV BG -->
+<div id="nav_bg">
+</div>
 
-	<?php $cpr_title = "Can Pep Rey."; ?>
-
-	<!-- IF IS NOT SINGLE OR COLLECTION PAGE -->
-	<?php if ( !is_product() && !is_product_category() && !is_front_page() ) { ?>
-		<div id="nav_bg_top"></div>
-		<div id="nav_bg"></div>
-	<?php } ?>
+<!-- PRIMARY NAV -->
+<div id="nav" class="<?php if ( !is_product() && !is_product_category() && !is_front_page() ) { echo "nav_bg"; } ?>" >
 
 	<ul class="">
 
-<!-- HOME LINK -->
-		<li id="nav_home" class="no_break">
+		<!-- HOME LINK -->
+		<li id="nav_home" class="">
 			<a href="<?php bloginfo( 'url' ); ?>/">
-				<!-- <span class="liH"> -->Can Pep Rey.<!-- </li> -->
-				<span class="break"></span>
+				Can Pep Rey
 			</a>
 		</li>
 
-		<span id="nav_dropdown" class="dropdown_hide">
+		<span id="nav_dropdown" class="hidden">
 
-<!-- COLLECTIONS -->
-		<li class="nav_collection wrap" data-length="<?php echo count( $all_cats ); ?>"><a href="">Collections</a></li>
+			<!-- COLLECTIONS -->
+			<li class="nav_collection wrap" data-length="<?php echo $cols; ?>"><a href="">Collections</a></li>
 
-		<?php foreach ( $all_cats as $cat ) { 
-	    	if ( get_field( "cat_visible", "product_cat_" . $cat->term_taxonomy_id ) ) { ?>
-	    		<li id="<?php echo $cat->slug; ?>" class="nav_collection_2 nav_hidden wrap">
-	    			<a data-href="<?php bloginfo( 'url' ); ?>/collection/<?php echo $cat->slug; ?>"><?php echo $cat->name; ?></a>
-	    		</li>
-	    <?php } 
-	    } ?>
+			<?php foreach ( $all_cats as $cat ) { 
+		    	if ( get_field( "cat_visible", "product_cat_" . $cat->term_taxonomy_id ) ) { ?>
+		    		<li id="<?php echo $cat->slug; ?>" class="nav_collection_2 nav_hidden">
+		    			<a data-href="<?php bloginfo( 'url' ); ?>/collection/<?php echo $cat->slug; ?>"><?php echo $cat->name; ?></a>
+		    		</li>
+		    <?php } 
+		    } ?>
 
-<!-- NEWS -->
-		<li class="wrap"><a href="<?php bloginfo( 'url' ); ?>/_news/">News</a></li>
+			<!-- NEWS -->
+			<li class="wrap"><a href="<?php bloginfo( 'url' ); ?>/_news/">News</a></li>
 
-<!-- INFORMATION -->
-		<li class="wrap"><a href="<?php bloginfo( 'url' ); ?>/_information/">Information</a></li>
+			<!-- INFORMATION -->
+			<li class="wrap"><a href="<?php bloginfo( 'url' ); ?>/_information/">Information</a></li>
 
-<!-- SOCIAL MEDIA -->
-		<li class="nav_share">
-			<a target="_blank" href="https://www.facebook.com/canpeprey/"><img class="" src="<?php bloginfo('template_url'); ?>/img/facebook_icon.svg" /></a>
-			<a href=""><img id="newsletter_signup" class="" src="<?php bloginfo('template_url'); ?>/img/newsletter_icon.svg" /></a>
-			<a target="_blank" href="https://www.instagram.com/canpeprey/"><img class="" src="<?php bloginfo('template_url'); ?>/img/instagram_icon.svg" /></a>
-		</li>
-
-		<li id="newsletter">
-			<?php do_shortcode("[simplenewsletter]"); ?>
-		</li>
+			<!-- SOCIAL MEDIA -->
+			<li id="nav_share">
+				<span>
+					<a target="_blank" href="https://www.facebook.com/canpeprey/">
+						<img class="" src="<?php bloginfo('template_url'); ?>/img/facebook_icon.svg" />
+					</a>
+				</span>
+				<span id="newsletter_wrapper">
+					<?php mailchimp_form(); ?>
+				</span>
+				<span>
+					<a target="_blank" href="https://www.instagram.com/canpeprey/">
+						<img class="" src="<?php bloginfo( 'template_url' ); ?>/img/instagram_icon.svg" />
+					</a>
+				</span>
+			</li>
 
 		</span><!-- end of .nav_dropdown -->
 
 	</ul>
 </div>
 
-<div id="secondary_nav">
-	<ul>
+<!-- PRIMARY NAV CLOSE NAV -->
+<div id="nav_close">
+	<img src="<?php bloginfo( 'template_url' ); ?>/img/filter_clear.png" />
+</div>
 
-		<!-- FILTER: OPTIONAL ON CATEGORY PAGES -->
+<!-- SECONDARY NAV -->
+<div id="secondary_nav" class="<?php if ( is_front_page() ) { echo "hide"; } ?>">
+	<ul>
+		<!-- FILTER -->
 		<?php if ( is_product_category() || is_front_page() ) { ?>
 			<li id="secondary_filter">
 				<span id="filter_toggle">Filter</span>
 				<img class="clear_filter" src="<?php bloginfo( 'template_url' ); ?>/img/filter_clear.png" />
 			</li>	
-		<?php /* } else if ( is_single() ) { */ ?>
 		<?php } else { ?>
 			<li id="secondary_filter">
 				<span id="filter_toggle" class="hide_filter">Filter</span>
@@ -85,7 +96,6 @@
 		<!-- ACCOUNT -->	
 		<li id="secondary_account"><a href="<?php bloginfo( 'url' ); ?>/my-account/">Wholesale</a></li>	
 
-
 		<!-- CART -->
 		<li id="secondary_cart">
 			<div id="cart_container">
@@ -94,16 +104,8 @@
 			        echo WC()->cart->cart_contents_count . " / " . WC()->cart->get_cart_total(); ?>
 			    </a> 
 			</div>
-			<!--<a href="<?php bloginfo( 'url' ); ?>/cart/">
-				Cart <span class="cart_count"><?php echo "(" . WC()->cart->cart_contents_count . ") / " . WC()->cart->get_cart_total(); ?></span>
-			</a>-->
 		</li>
-
 	</ul>
-
 </div>
 
-<div id="nav_close">
-	<img src="<?php bloginfo( 'template_url' ); ?>/img/filter_clear.png" />
-</div>
 

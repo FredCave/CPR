@@ -10,25 +10,18 @@
     <meta property="og:url" content="<?php bloginfo('url'); ?>" />
     <meta property="og:type" content="Website" />
     <meta property="og:title" content="Can Pep Rey" />
-    <!--<meta property="og:image" content="<?php bloginfo("template_url"); ?>/img/???" />-->
+    <meta property="og:description" content="Can Pep Rey is a wom­enswear brand based on the rel­a­tive con­cept of liv­ing space, fash­ion and art." />
+    <meta property="og:image" content="<?php bloginfo("template_url"); ?>/img/can-pep-rey.png" />
 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_url') ?>">
 
-	<link rel="shortcut icon" href="<?php bloginfo("template_url"); ?>/img/favicon.png">
-
-	<!--
-	<link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png?v=GvvL3Evbbv"> 
-	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png?v=GvvL3Evbbv">
-	<link rel="icon" type="image/png" href="/android-chrome-192x192.png?v=GvvL3Evbbv" sizes="192x192">
-	<link rel="icon" type="image/png" href="/favicon-96x96.png?v=GvvL3Evbbv" sizes="96x96">
-	<link rel="icon" type="image/png" href="/favicon-16x16.png?v=GvvL3Evbbv" sizes="16x16">
-	<link rel="shortcut icon" href="/favicon.ico?v=GvvL3Evbbv">
-	-->
-
+	<link rel="shortcut icon" href="<?php bloginfo("template_url"); ?>/img/favicon-160x160.png">
+	<link rel="apple-touch-icon" sizes="160x160" href="/favicon-160x160.png">
+	
 	<script>
-	// Picture element HTML5 shiv
-	document.createElement( "picture" );
+		// Picture element HTML5 shiv
+		document.createElement( "picture" );
 	</script>
 
 	<?php wp_head(); ?>

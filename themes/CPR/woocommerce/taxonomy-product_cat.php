@@ -1,22 +1,24 @@
-<!-- COLLECTION PAGE -->
-
 <?php
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; 
 }
 get_header();
-$nav_bg = true;
 get_sidebar();
-// get collection slug for data-collection attribute
+
+// GET COLLECTION SLUG FOR DATA-COLLECTION ATTRIBUTE
 global $post;
 $cat = get_the_terms($post->id, 'product_cat');
 ?>
 
-	<!-- COLLECTION FILTER -->
-	<?php product_filter(); ?>
-	<!-- END OF COLLECTION FILTER -->
+<!-- COLLECTION FILTER -->
+<?php product_filter(); ?>
 
-<div class="page page_collection collection" data-collection="<?php echo $cat[0]->slug; ?>">
+<!-- LOADING -->
+<div id="loading">
+	<img src="<?php bloginfo( 'template_url' ); ?>/img/loading.gif" />
+</div>
+
+<div class="collection page_collection page" data-collection="<?php echo $cat[0]->slug; ?>">
 
 	<?php if ( have_posts() ) : ?>
 
@@ -26,14 +28,12 @@ $cat = get_the_terms($post->id, 'product_cat');
 
 				<?php wc_get_template_part( 'content', 'product' ); ?>
 				
-			<?php endwhile; // end of the loop. ?>
+			<?php endwhile; ?>
 
 		<?php woocommerce_product_loop_end(); ?>
 
-	<?php elseif ( ! woocommerce_product_subcategories( array( 'before' => woocommerce_product_loop_start( false ), 'after' => woocommerce_product_loop_end( false ) ) ) ) : ?>
-
-		<?php wc_get_template( 'loop/no-products-found.php' ); ?>
-
 	<?php endif; ?>
 
-</div>
+</div><!-- END OF .COLLECTION -->
+
+<?php get_footer( ); ?>

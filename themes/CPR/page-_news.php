@@ -6,7 +6,7 @@
 		<img src="<?php bloginfo( 'template_url' ); ?>/img/loading.gif" />
 	</div>
 
-	<div id="news" class="page">
+	<div id="news" class="page page_margin">
 
 		<!-- CAMPAIGN LIST -->
 		<ul id="campaign_list">
@@ -14,7 +14,7 @@
 			if ( $the_query -> have_posts() ) :
 		        while ( $the_query -> have_posts() ) : $the_query-> the_post(); ?>
 		    		<li>
-		    			<a href="<?php bloginfo( 'url' ); ?>/campaigns"><h4 class="campaign_title wrap no_break">Campaign <?php the_title(); ?></h4></a>
+		    			<a href="<?php bloginfo( 'url' ); ?>/campaigns"><h4 class="campaign_title">Campaign <?php the_title(); ?></h4></a>
 					</li>
 		    <?php endwhile;
 		    endif; ?>		
@@ -22,42 +22,43 @@
 
 		<!-- NEWS LIST -->
 		<ul id="news_list">
-		<?php $the_query = new WP_Query("post_type=news");
-		if ( $the_query -> have_posts() ) :
-	        while ( $the_query -> have_posts() ) : $the_query-> the_post(); ?>
+			<?php $the_query = new WP_Query("post_type=news");
+			if ( $the_query -> have_posts() ) :
+		        while ( $the_query -> have_posts() ) : $the_query-> the_post(); ?>
 
-	    		<li class="news_post">
-	    			
-	    			<div class="news_content">
-	    				<!-- LEFT COLUMN -->
-	    				<div class="news_text info_column">
-							<div class="sub_col">
-								<h5 class="news_date">
-									<?php 
-									$news_date = get_the_date('F d Y');
-									$lines = explode( " ", $news_date );
-									foreach ( $lines as $line ) { ?>
-										<span class="last_word"><?php echo $line; ?></span>
-									<?php } ?>
-								</h5>
-							</div>
-							<div class="sub_col sub_col_right">
-								<h5 class="news_title wrap"><p><?php the_title(); ?></p></h5>
-		    					<?php the_content(); ?>
-							</div>
-	    				</div>
-	    				<!-- RIGHT COLUMN -->
-	    				<div class="news_images info_column">
-	    					<?php if ( get_field("embedded_media") ) {
-	    						the_field("embedded_media");
-	    					} ?>
-	    				</div>	    			
-	    			</div>
-	    		</li>
+		    		<li class="news_post">
+		    			
+		    			<div class="news_content">
+		    				<!-- LEFT COLUMN -->
+		    				<div id="news_text" class="column">
+								<div class="sub_col">
+									<h5 class="news_date">
+										<?php 
+										$news_date = get_the_date('F d Y');
+										$lines = explode( " ", $news_date );
+										foreach ( $lines as $line ) { ?>
+											<span class="wrap"><?php echo $line; ?></span>
+										<?php } ?>
+									</h5>
+								</div>
+								<div class="sub_col">
+									<h5 class="news_title"><p><?php the_title(); ?></p></h5>
+			    					<?php the_content(); ?>
+								</div>
+		    				</div>
+		    				<!-- RIGHT COLUMN -->
+		    				<div id="news_images" class="column">
+		    					<?php if ( get_field("embedded_media") ) {
+		    						the_field("embedded_media");
+		    					} ?>
+		    				</div>	    			
+		    			</div>
+		    		
+		    		</li><!-- END OF .NEWS_POST -->
 
-	    <?php endwhile;
-	    endif; ?>
-    	</ul>
+			    <?php endwhile;
+			    endif; ?>
+	    	</ul>
 
 	</div><!-- end of #news -->
 

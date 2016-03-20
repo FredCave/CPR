@@ -5,29 +5,38 @@
 		1.2. GLOBAL WRAP FUNCTION
 		1.3. LINE BREAK CHECK 
 
-	2. NAV FUNCTIONS
-		2.1. LI HEIGHT CALC
-		2.2. NAV SHOW / HIDE
-		2.3. NAV HIDE ON SCROLL
-		2.4. TOGGLE COLLECTIONS
-		2.5. SET SECONDARY NAV HEIGHT
-		2.6. NEWSLETTER TOGGLE
+	2. LANDING PAGE
+		2.1. LANDING INIT
 
-	3. COLLECTION FUNCTIONS	
-		3.1. POSITION COLLECTION IMAGES	
-		3.2. FILTER PRODUCTS
-		3.3. REDIRECT BOTTOM PRODUCTS
+	3. NAV FUNCTIONS
+		3.1. LI HEIGHT CALC
+		3.2. NAV SHOW / HIDE
+		3.3. SHOW / HIDE COLLECTIONS BASED ON CURRENT PAGE
+		3.4. TOGGLE COLLECTIONS
+		3.5. SET SECONDARY NAV HEIGHT
+		3.6. SECONDARY NAV SHOW ON HOME PAGE
+		3.7. NEWSLETTER INIT
 
-	4. SINGLE FUNCTIONS
-		4.1. SINGLE IMAGE SLIDESHOW
-		4.2. RESET QUANTITY INPUTS
-		4.3. SELECT SIZES 
-		4.4. SINGLE DESCRIPTION TOGGLE
+	4. COLLECTION FUNCTIONS	
+		4.1. COLLECITON INIT
+		4.2. POSITION COLLECTION IMAGES	
+		4.3. FILTER PRODUCTS
+		4.4. REDIRECT BOTTOM PRODUCTS
+		4.5. LAZYLOAD IMAGES
 
-	5. OTHER PAGE FUNCTIONS
-		5.1. STYLE BUTTONS
-		5.2. MOVE NEWS IMAGES TO RIGHT-HAND COLUMN
-		5.3. IFRAMES RESIZE
+	5. SINGLE FUNCTIONS
+		5.1. SINGLE IMAGE SLIDESHOW
+		5.2. SINGLE INFO INIT
+		5.3. SELECT SIZES 
+		5.4. SINGLE DESCRIPTION TOGGLE
+
+	6. OTHER PAGE FUNCTIONS
+		6.1. STYLE BUTTONS
+		6.2. MOVE NEWS IMAGES TO RIGHT-HAND COLUMN
+		6.3. IFRAMES RESIZE
+		6.4. CAMPAIGN IMAGES RESIZE
+		6.5. ADD CLASSES TO TERMS SUBTITLES
+		6.6. INFO PAGE 
 
 *****************************************************************************/
 
@@ -36,42 +45,47 @@
 	// 1.1. PAGE INIT
 
 	function pageInit () {
+		// ON ALL PAGES
+		textWrap();
+		newsletterInit(); 
 
-		// 5. OTHER PAGES – NEED TO BE CALLED BEFORE TEXT WRAP
-		breakCheck(); // INFO - calls oneword
-		
-		if ( $("#terms_and_conditions").length ) {
-			// THIS CALLS TEXTWRAP ONCE FINISHED
-			termsClasses();
-		} else {
-			textWrap();			
+		if ( $("#home").length ) {		
+			landingInit();
 		}
-	
-		// 2. NAV
-		secNavH(); 
-		// 3. COLLECTIONS
-		imagesPrep();
-		imagesVis(0); 
-		bottomRedirect();
-		filterInit();
-		// 4. SINGLE
-		slideShowInit(); 
-		resetQuantities();		
-		radioPos();
-		radioInit();
-		// // 5. OTHER PAGES
-		buttonResize();	
-		newsPrep();
-
-		iframeResize();
-
-		infoFix(); // INFO - calls oneword
+		if ( $(".collection").length ) {
+			filterInit();
+		}
+		if ( $(".page_collection").length ) {
+			imagesPrep();
+		}
+		if ( $(".single_page").length ) {
+			lazySizes.init();
+			slideShowInit();
+			singleInit();
+		}
+		if ( $("#loading").length ) {
+			pageShow();
+		}
+		if ( $("#news").length ) {
+			newsPrep();
+			iframeResize();
+		}
+		if ( $("#campaign").length ) {
+			iframeResize();
+			campaignImages();
+		}
+		if ( $("#terms_and_conditions").length ) {
+			termsClasses();
+		}
 	}
 
 	function pageShow () {
 		$("#loading").css( "opacity", "0" );
 		$(".page").css( "opacity", "1" );
-		$(".single_page").css( "opacity", "1" );
+		// IF NOT ON FRONT OR SINGLE PAGE SHOW 2ND NAV
+		if ( !$(".single_page").length && !$("#home").length ) {
+			$("#secondary_nav").show();
+		}
 	}
 
 	// 1.2. GLOBAL WRAP FUNCTION
@@ -82,273 +96,290 @@
 	}
 
 		// ONE WORD FUNCTION
-	var firstTime = true;
 	function oneWord () {
-		console.log("oneWord");
-		var options = { 
-			"emph" : "off",
-			"keep" : "all",
-			"minScaleRatio" : 1,
-			"maxScaleRatio" : 1,
-			"lineScaling" : 1
-		};
-		// $(".last_word").letterjustify();
-		if ( firstTime ) {
-			// console.log(86);
-			$(".last_word").each( function(i){
-				// console.log(i,$(this).text() );
-				$(this).attr( "data-text", $(this).text() ).letterjustify();
-				$(this).append("<div class='rollover'>" + $(this).text() + "</div>");
-			});	
-			firstTime = false;		
-		} else {
-			// console.log(94);
-			$(".last_word").letterjustify();
-		}
 
 	}
 
-	var liH;
 	function textWrap () {
 		console.log("textWrap");
-		$(".wrap").each( function(){
-			// CHECK IF THIS CONTAINS A TAG
-			if ( $(this).has("a").length ) {
-				// console.log( $(this).text(), " link" );
-				elmt = $(this).find("a");
-			} else {
-				// console.log( $(this).text() );
-				elmt = $(this);
-			}
-
-			var txt = elmt.text().trim();
-			// console.log(txt);
-			var noWords = wordCount( txt );
-			if ( noWords === 1 ) {
-				// ONE WORD
-				elmt.wrapInner("<span class='last_word'></span>");
-				$(this).css({
-					"text-align" : "center"
-					//"text-align-last" : "center"
-				});
-			} else {
-				// MULTIPLE WORDS
-					// IF 3 WORDS AND NOT IN NAV
-				if ( noWords === 3 && !$(this).hasClass("no_break") ) {
-					// REMOVE LAST WORD
-					var wordArray = txt.split(" ");
-					var lastWord = wordArray[2];
-					var lastIndex = txt.lastIndexOf(" ");
-					txt = txt.substring( 0, lastIndex );
-					elmt.html(txt + " <span class='last_word'>" + lastWord + "</span>");
-					// lastWord.wrap("<span class='last_word'></span>").appendTo( $(this) );
+		$(".wrap").each( function(i){
+			if ( !$(this).hasClass("wrapped") ) {
+				var target;
+				if ( $(this).find("a").length ) {
+					target = $(this).find("a");
 				} else {
-					elmt.widowFix();										
-				}				
+					target = $(this);
+				}
+				var string = target.text();
+				var chars = string.split('');
+				target.text( chars.join(" ") );
+				$(this).addClass("wrapped");				
 			}
-
-		});
-		// ONE WORD LOOP
-		oneWord();
-		// SET LI HEIGHT
-		liCalc();
+		});				
 	}
 
 	// 1.3. LINE BREAK CHECK — JUST IN INFO FOR THE TIME BEING
 
 	function breakCheck () {
-		if ( $("#info").length ) {
-			$("#info .wrap").each( function(){
-				// CHECK IF MORE THAN ONE WORD
-				var thisTxt = $(this).text().trim();
-				var noWords = wordCount( thisTxt );
-				if ( noWords > 1 ) {
-					// GET CURRENT HEIGHT + FONT HEIGHT
-					var thisH = $(this).height();
-					var fontH = parseFloat ( $(this).css("font-size") );
-					// IF 2 FONT HEIGHTS CAN FIT
-					if ( thisH > ( 2 * fontH ) ) {
-						// console.log(thisH, fontH, thisTxt);
-						// IF 2 WORDS: WRAP EACH WORD IN LAST-WORD SPAN					
-						if ( noWords === 2 ) {
-							// $(this).find("span").unwrap();
-							$(this).lettering("words");
-							$(this).find("span").addClass("last_word");
-						}
-					}	
-				}		
-			});	
-		// ONE WORD LOOP
-		oneWord();			
-		}
+
 	}
 
+	// 1.4. STOP ANIMATIONS
 
-// 2. NAV FUNCTIONS 	
+	function animationStop () {
+		// if ( !$("#landing_page").hasClass("slider_active") ) {
+	}
 
-	// 2.1. LI HEIGHT CALC
+// 2. LANDING PAGE
+
+	// 2.1. LANDING PAGE INIT
+
+	function landingInit () {
+		console.log("landingInit");
+		$("#landing_page").waitForImages( function(){
+			$(this).find("li:first-child").addClass("visible");
+		});
+	}
+
+	// 2.2. LANDING ANIMATE DOWN
+
+	function landingDown() {
+		console.log("landingDown");
+		$("#landing_page").animate({
+			marginTop: "-100vh"
+		}, 1000, function(){
+			// SHOW FILTER
+			$("#secondary_nav").fadeIn();			
+		});
+	}
+
+	// 2.3. LANDING SLIDER FORWARD
+
+	var collLoaded = false;
+	function landingForward () {
+		console.log("landingForward");
+		var landingVis = $("#landing_page .visible");
+		// CHECK IF NEXT
+		if ( landingVis.next().length ) {
+			// NEXT SLIDE
+			landingVis.removeClass("visible").next().addClass("visible");
+			// LOAD COLLECTION
+			if ( !collLoaded ) {
+				collectionInit();
+				collLoaded = true;
+			}
+		} else {
+			// SCROLL DOWN
+			landingDown();
+		}
+	}	
+
+	// 2.4. LANDING SLIDER BACK
+
+	function landingBack () {
+		console.log("landingBack");
+		var landingVis = $("#landing_page .visible");
+		// CHECK IF PREV
+		if ( landingVis.prev().length ) {
+			landingVis.removeClass("visible").prev().addClass("visible");
+		}
+	}	
+
+// 3. NAV FUNCTIONS 	
+
+	// 3.1. LI HEIGHT CALC
 
 	function liCalc () {
 		console.log( "liCalc" );
-		// DEFINE LI HEIGHT
-		liH = parseInt ( $("#nav_home").css("font-size") ) + 18;
-		//console.log( liH );
-		$("#nav li").not(".nav_hidden").css("height", liH);	
-		// SET NAV_DROPDOWN TOP POSITION USING THIS
-		$("#nav_dropdown").css( "top", liH );
-		// $("#nav_bg_top").css( "top", liH );
-		console.log( 194, liH );
+
 	}
 
-
-
-	// 2.2. NAV SHOW / HIDE
+	// 3.2. NAV SHOW / HIDE
 
 	function navShow () {
 		console.log("navShow");
-
 		// BG IS FIXED AT CURRENT SCROLLTOP POSITION
 		var currentPos = $(window).scrollTop();
 		// console.log(currentPos);
-		$(".page, .single_page").css({
+		$(".page").css({
 			"position" : "fixed", 
 			"top" : 0 - currentPos
 		}).attr( "data-position", currentPos );
-
 		// NAV – ABSOLUTE
-
 		$("#nav").css({
-			"position" : "absolute",
-			// "top" : currentPos
+			"position" : "absolute"
 		});
-
-
-		$("#nav").removeClass("hidden");
 		$("#nav_dropdown").css({
-			// "height" : (liH * 5) + 12
 			"height" : "100vh"
-		});
-	
+		}).removeClass("hidden");
 		// SHOW CLOSE BUTTON
 		$("#secondary_nav ul").fadeOut();
 		$("#collection_filter").fadeOut();
 		$("#nav_close").fadeIn();
-
-		// BG DROPDOWN
-		$("#nav_bg").css("height","100vh");
-			// + FADE-IN
-		$("#nav_bg_top").css("opacity","1");
-
+		// BG FADE IN
+		$("#nav_bg").css("opacity","1");
 	}
 
-	// $("#nav_dropdown").css("height", 5 * liH);
 	function navHide () {
 		console.log("navHide");
-
 		// BG UNFIXED
-		$(".page, .single_page").css({
+		$(".page").css({
 			"position" : "", 
 			"top" : ""
 		});
 		// SET SCROLLTOP 
 		var pagePos = $(".page, .single_page").attr("data-position");
 		$(window).scrollTop( pagePos );
-
-		// NAV – FIXED
+		// NAV – UNFIXED
 		$("#nav").css({
 			"position" : ""
 		});
-
 		$("#nav").addClass("hidden");
-		$("#nav_dropdown").css("height", "0px");
-		// hide collections
+		$("#nav_dropdown").css("height", "0px").addClass("hidden");
+		// HIDE COLLECTIONS
 		$(".nav_hidden").each( function(){
 			var thisHref = $(this).find("a").data("href");
 			$(this).css("height","").find("a").attr("href", "").css("cursor","text");	
-		});
-		
+		});	
 		// HIDE CLOSE BUTTON
 		$("#secondary_nav ul").fadeIn();
 		$("#nav_close").fadeOut();
-
-		// BG DROP-UP
-		$("#nav_bg").css("height","0vh");
-			// + FADE-OUT
-		setTimeout( function(){
-			$("#nav_bg_top").css("opacity","0");
-		}, 800);
-
+		// BG FADE OUT
+		$("#nav_bg").css("opacity","0");
 	}
 
-	// 2.3. NAV HIDE ON SCROLL
+	// 3.3. NAV LI COMPRESS / RESET
 
-	var lastScrollTop = 0;
-	function scrollDetect () {
-		var current = $(this).scrollTop();
-		// console.log(current, lastScrollTop);
-	   	if (current > (lastScrollTop + 100) ){
-	       // navHide();
-	   	} 
-	   	lastScrollTop = current;
+	function navLiCompress ( navLi ) {
+		console.log("navLiCompress");
+		// IF ONE WORD 
+		if ( navLi.hasClass("wrap") ) {
+			// GET STRING
+			var target;
+			if ( navLi.find("a").length ) {
+				target = navLi.find("a");
+			} else {
+				target = navLi;
+			}
+			var string = target.text();
+			// REMOVE SPACES
+			string = string.replace(/\s/g, '');
+			target.text( string );
+		}
+		// CENTRE TEXT
+		navLi.css({
+			"text-align" : "center",
+			"text-align-last" : "center"
+		});		
 	}
 
-	// 2.4. TOGGLE COLLECTIONS
+	function navLiReset ( navLi ) {
+		console.log("navLiReset");
+		// IF ONE WORD 
+		if ( navLi.hasClass("wrap") ) {
+			// GET STRING
+			var target;
+			if ( navLi.find("a").length ) {
+				target = navLi.find("a");
+			} else {
+				target = navLi;
+			}
+			var string = target.text();
+			// ADD SPACES 
+			var chars = string.split('');
+			target.text( chars.join(" ") );
+		}
+		// JUSTIFY TEXT
+		navLi.css({
+			"text-align" : "",
+			"text-align-last" : ""
+		});		
+	}
 
-	function collToggle ( main ) {
+	// 3.3. SHOW / HIDE NAV COLLECTIONS DEPENDING ON CURRENT PAGE
+
+	function currentColl () {
+		console.log("currentColl");
+		
+	}
+
+	// 3.4. TOGGLE COLLECTIONS
+
+	function collToggle () {
 		console.log("collToggle");
-		var colls;
-		$("#nav_dropdown").css("height", "auto");
-		if ( !$(".nav_collection").hasClass("clicked") && main !== "main" ) {
-			// console.log(165);
-			// get number of collections
-			var colls = parseInt( $(".nav_collection").attr("data-length") );
+		// GET HEIGHT OF LIs
+		var liHeight = $(".nav_collection").height();
+		if ( !$(".nav_collection").hasClass("clicked") ) {
 			$(".nav_collection").addClass("clicked");
-			// make visible +
-			// activate links for .nav_hidden, not for current
+			// MAKE VISIBLE + ACTIVATE LINKS
 			$(".nav_hidden").each( function(){
 				var thisHref = $(this).find("a").data("href");
-				$(this).css("height", liH).find("a").attr("href", thisHref).css("cursor","");	
+				$(this).css( "height", liHeight );
+				$(this).find("a").attr("href", thisHref).css("cursor","");	
 			});
 		} else {
-			// console.log(176);
-			colls = 1;
 			$(".nav_collection").removeClass("clicked");
-			// hide hidden
-			// deactivate links
+			// HIDE HIDDEN + DEACTIVATE LINKS
 			$(".nav_hidden").each( function(){
 				var thisHref = $(this).find("a").data("href");
 				$(this).css("height","").find("a").attr("href", "").css("cursor","text");	
 			});
 		}	
-		setTimeout( function(){
-			$("#nav_dropdown").css("height", liH * ( colls + 4 ) );
-		}, 1000);
 	}
 
-	// 2.5. SET SECONDARY NAV HEIGHT
+	// 3.5. SET SECONDARY NAV HEIGHT
 
 	function secNavH () {
-		if ( $(window).height <= 500 ) {
-			var navH = $("#secondary_nav ul").height();
-			$("#secondary_nav").css( "height", navH );
+
+	}
+
+	// 3.6. SECONDARY NAV SHOW ON HOME PAGE
+
+	function secondaryNavVis ( scrollPos ) {	
+
+	}
+
+	// 3.7. NEWSLETTER INIT
+
+	function newsletterInit () {	
+		console.log("newsletterInit");
+		$(".mc-field-group input").attr( "placeholder", "Newsletter" );
+	}	
+
+
+// 4. COLLECTION FUNCTIONS
+
+	// 4.1. COLLECITON INIT
+
+	function collectionInit ( ) {
+		console.log("collectionInit");
+		imagesPrep();
+
+	}
+
+	// 4.2. SINGLE COLLECTION INIT
+
+	function singleCollCheck ( scrollPos ) {
+		if ( $(".single_page").length ) {
+			console.log("singleCollCheck");
+			var loadLimit = $(".single_product .single_info_wrapper").offset().top - ( $(window).height() * 0.5 );
+			var filterLimit = $(".single_product").height() - $(window).height();
+			if ( scrollPos > loadLimit && !$(".single_collection").hasClass("loaded") ) {
+				console.log("init");
+				imagesPrep();
+				$(".single_collection").addClass("loaded");
+			} 
+
+			if ( scrollPos > filterLimit ) {
+				$("#filter_toggle").removeClass("hide_filter");
+			} else {
+				$("#filter_toggle").addClass("hide_filter");
+			} 		
 		}
+
 	}
 
-	// 2.6. NEWSLETTER TOGGLE
-
-	function newsletterShow () {
-		console.log("newsletterShow");
-		$("#newsletter").show().addClass("newsletter_visible");
-	}
-
-	function newsletterHide () {
-		console.log("newsletterShow");
-		$("#newsletter").hide().removeClass("newsletter_visible");
-	}
-
-// 3. COLLECTION FUNCTIONS
-
-	// 3.1. POSITION COLLECTION IMAGES
+	// 4.2. POSITION COLLECTION IMAGES
 
 	function imagesPrep ( filter ) {
 		// IF ON COLLECTION PAGE OR WHOLESALE PAGE, POSITION IMAGES
@@ -360,50 +391,39 @@
 			} else {
 				console.log("imagesPrep");
 				// HIDE IMAGES
-				$(".collection li").hide(); // IN CSS
-
+				$(".non_single_product").hide();
 				// NEED TO REMOVE PREVIOUSLY ADDED ROWS
 				$(".collection_row").each( function(){
 					$(this).find(".product").prependTo( $(this).parents("ul") );
 				}).remove();
 
+				// DURING FILTERING BOTTOMS ARE NOT HIDDEN
 				if ( !filter ) {
 					// FILTER OUT ALL BOTTOMS
-					$(".bottom").removeClass("selected-product");
+					$(".bottom").removeClass("selected-product");					
 				}
 
 				// FILTER ALL EMPTY PRODUCTS
 				$(".product").each( function() {
-					// console.log( 351, $(this).find(".picturefill-background").length );
-					if ( !$(this).find(".picturefill-background").length ) {
+					if ( !$(this).find(".product_image").length ) {
 						$( this ).removeClass("selected-product");	
 					}
 				});
-
 				var noImages = $(".selected-product").length;
 				var total = 0;
-				/* recalculated on resize */
+				//  recalculated on resize
 				var arrayLarge = [3,8,2,5];
 				var arrayMid = [3,1,5,2];
 				var arraySmall = [3,1,2,1];
-
 				// while loop corresponds to each row
 				var i = 0;
 				while ( total < noImages ) {
 					if ( $(window).width() <= 600 ) {
 						number = arraySmall[ i ];
-						// IF ON WHOLESALE, NUMBER IS 3
-						if ( $("#wholesale").length ) {
-							number = 3;
-						}
 					} else if ( $(window).width() <= 780 ) {
 						number = arrayMid[ i ];
 					} else {
 						number = arrayLarge[ i ];
-						// IF ON WHOLESALE, NUMBER IS 4
-						if ( $("#wholesale").length ) {
-							number = 4;
-						}
 					}
 					// if number of images left is less than array number
 					if ( ( noImages - total ) < number ) {
@@ -418,30 +438,66 @@
 					} else {
 						i++;	
 					}
-				} // end of while	
-
-				// WHOLESALE ALL IMAGES GET SAME CLASS
-				// $("#wholesale .selected-product").addClass("wholesale-child");
-
-				// SHOW IMAGES
-				
+				} // END OF WHILE
+				// SET IMAGE WIDTH
+				$(".collection .selected-product").find(".product_image").each( function(){
+					var imgRatio = $(this).attr("width") / $(this).attr("height");
+					var newWidth = $(window).height() * 0.66 * imgRatio;
+					$(this).css( "width", newWidth ).addClass("lazyload").attr( "data-ratio", imgRatio );
+				});
+				// INITIATE LAZYSIZES
+				lazySizes.init();
+				// SHOW IMAGES			
 				$(".collection .selected-product").fadeIn("slow");
 			}
-
 		}
 	}
 
-	// 3.2. FILTER PRODUCTS
+	// 4.3. RESIZE IMAGE WIDTH
+
+	function imgWidth () {
+		console.log("imgWidth");
+		$(".collection .selected-product").find(".product_image").each( function(){
+			var imgRatio = $(this).attr("data-ratio");
+			var newWidth = $(window).height() * 0.66 * imgRatio;
+			$(this).css( "width", newWidth );
+		});
+	}
+
+	// 4.4. FILTER PRODUCTS
+
+	function filterToggle () {
+		// CHECK IF TAG NOT ALREADY SELECTED
+		var click = $("#filter_toggle"),
+			target = $("#collection_filter");
+		if ( click.text().toLowerCase() === "filter" ) {
+			console.log("filter_toggle");
+			if ( !target.is(':visible') ) {
+				target.show();	
+			} else {
+				target.hide();
+				// CHECK IF ONE OF THE CATEGORIES HAS BEEN SELECTED
+				$(".filter").each( function(){
+					if ( $(this).hasClass("selected") ) {
+						filterClear();	
+					}
+				});
+			}
+		}		
+	}
+
+	function filterShow () {
+		console.log("filterShow");
+	}
 
 	function filterInit () {
 		console.log("filterInit");
 		// LOOP THROUGH PHP GENERATED TAGS
 		$("#collection_filter li").each( function(){
 			var filterText = $(this).find("a").attr("id");
-			// console.log( ".product-tag-" + filterText  );
 			if ( !$(".product-tag-" + filterText).length ) {
 				$(this).hide();
-				console.log(filterText);
+				console.log(449, filterText);
 			} 
 		});
 	}
@@ -453,174 +509,140 @@
 		// REPLACE SPACES BY HYPHENS
 		thisTag = thisTag.replace(" ","-");
 		var thisClass = "product-tag-" + thisTag;
-		// console.log( thisTag, thisClass );
+		console.log( 324, thisTag, thisClass );
 
-		$(".product").not(".single_product").hide();
+		//$(".product").not(".single_product").hide();
+		$(".product").hide();
 		$(".selected-product").removeClass("selected-product");	
-		
 		// LOOP THROUGH ITEMS ON PAGE
-		$(".product").not(".single_product").each( function(){
+		//$(".product").not(".single_product").each( function(){
+		$(".product").each( function(){
 			if ( $(this).hasClass( thisClass ) ) {
-				$(this).show().addClass("selected-product");
+				console.log( 332, thisClass );	
+				$(this).addClass("selected-product");
 			}
 		});	
-
-		
-		// SCROLL TO TOP OF COLLECTION
-		var collTop;
-		if ( $(".page_collection").length ) {
-			collTop = $(".page_collection").offset().top;
-		} else {
-			collTop = 0;
-		}
-		// console.log( 341, collTop, $(window).scrollTop() );
-		$("html,body").animate({
-			scrollTop: collTop
-		}, 500);
-
+	
 		$(".selected").removeClass("selected");
 		$(".clear_filter").hide();
 
-		// IF ON COLLECTION PAGE RUN IMG PREP
-		if ( click.parents("#collection_filter").attr("data-page") === "collection" ) {
-			imagesPrep( true );			
-		}
+		// RUN IMAGES PREP WITH FILTER PARAMETER
+		imagesPrep( true );			
 
-		// click.addClass("selected").next("img").show();
+		click.addClass("selected").next("img").show();
 		click.addClass("selected");
 
 		// REPLACE FILTER TOGGLE WITH SELECTED TAG
 		$("#filter_toggle").css("cursor","text").text( click.text() ).next("img").show();
 		$("#collection_filter").hide();
 
-
 		// ENSURE FILTER TOGGLE IS VISIBLE ON SINGLE PAGES
 		$("#filter_toggle").addClass("filter_vis");
 		
+		// SCROLL TO TOP OF COLLECTION
+		var collTop;
+		if ( $(".collection").length ) {
+			collTop = $(".collection").offset().top;
+		} else {
+			collTop = 0;
+		}
+		
+		$("html,body").animate({
+			scrollTop: collTop
+		}, 500);
 
 	}
 
 	function filterClear() {
 		console.log("filterClear");
 		// RESET 
-		$(".product").show();
-		$(".product").not(".single_product").addClass("selected-product");	
+		//$(".product").not(".single_product").addClass("selected-product");
+		$(".product").addClass("selected-product");	
 		$(".selected").removeClass("selected");
 		$(".clear_filter").hide();	
 		$("#filter_toggle").removeClass("filter_vis").css("cursor","pointer").text( "Filter" );
 
 		imagesPrep();
 
-		// WHY DOES THIS CAUSE PAGE TO MOVE UP????
+		var collTop;
+		if ( $(".collection").length ) {
+			collTop = $(".collection").offset().top;
+		} else {
+			collTop = 0;
+		}
+		$("html,body").animate({
+			scrollTop: collTop
+		}, 1000);
 	}
 
-	// 3.3. REDIRECT BOTTOM PRODUCTS
+	// 4.5. REDIRECT BOTTOM PRODUCTS
 
 	function bottomRedirect () {
-		$(".page_collection").find(".bottom").each( function(){
-			var linkId = $(this).attr("data-link");		
-			var currentLink = $(this).find("a").attr("href");
-			var currentStem = currentLink.split("/shop")[0];
-			// console.log( linkId, currentStem );
-			$(this).find("a").attr("href", currentStem + "/?p=" + linkId );
-		});		
+	
 	}
 
-	// 3.4. LAZYLOAD IMAGES
+	// 4.6. LAZYLOAD IMAGES
 
-	function imagesVis ( scrollPos ) {
-		console.log( "imagesVis", scrollPos );
-		if ( $(".page_collection").length ) {
-			var winH = $(window).height();
-			$(".picturefill-background").each( function(){
-				// MINUS SCROLLPOS TO GET POSITION RELATIVE TO WINDOW
-				var thisTop = $(this).offset().top - scrollPos;
-				
-				if ( thisTop < winH * 2 ) {
-					// TRIGGER READY EVENT HERE
-					
-				}
-			});
-		}
+	function imagesVis ( ) {
+
 	}
 
-// 4. SINGLE FUNCTIONS
+// 5. SINGLE FUNCTIONS
 
-	// 4.1. SINGLE IMAGE SLIDESHOW
+	// 5.1. SINGLE IMAGE SLIDESHOW
 
 	function slideShowInit () {
 		console.log("slideShowInit");
-		$(".single_additional_images").each( function(){
+		$(".single_info_wrapper").each( function(){
 			var count = $(this).find(".position_right").length;
 			if ( count > 1 ) {
-				console.log(531);
 				// IF MORE THAN ONE IMAGE START GALLERY
-				$(this).find(".position_right").wrapAll("<span class='gallery'></span>");
-				$(this).find(".gallery div").each( function(){ $(this).wrap("<li></li>") });
-				$(this).find(".gallery li").eq(0).addClass("visible");
+				$(this).find(".position_right").css({
+					"cursor" : "pointer"
+				}).wrapAll("<span class='gallery'></span>");
+				$(this).find(".gallery img").each( function(){ $(this).wrap("<li></li>") });
+				$(this).find(".gallery li:last-child").addClass("visible");
 				$(this).find(".gallery_arrow").show();
-				//console.log("gallery");
-			} else {
-				//console.log(537);
-				
-			}
+			} 
 		});
-
-		// INIT CAMPAIGN SLIDESHOW
-		$("#campaign_images li").eq(0).addClass("visible");
-
-		// INIT WHOLESALE SLIDESHOW
-		$(".wholesale_product_image .gallery li:first-child").addClass("visible");
-		
 	}
 
 	function slideShowGo ( gallery ) {
 		console.log("slideShowGo");
 		// CLICK = .GALLERY
-		// var gallery = click.parents(".gallery");
+		console.log( 435, gallery.find(".visible").next().length );
 		// IF NEXT EXISTS
-		// console.log(click);
 		if ( gallery.find(".visible").next().length ) {			
-			console.log(544);
 			// MAKE NEXT VISIBLE
 			gallery.find(".visible").removeClass("visible").next().addClass("visible");
-		} else {
-			console.log(548, gallery.find("li:first-child"));		
+		} else {	
+			console.log(441);	
 			// GO BACK TO BEGINNING
 			gallery.find(".visible").removeClass("visible");
 			gallery.find("li:first-child").addClass("visible");
 		}
 	}
 
-	// 4.2. RESET QUANTITY INPUTS
+	// 5.2. SINGLE INFO INIT
 
-	function resetQuantities () {
-		// CHECK NOT ON CART PAGE
-		if ( $("#cart").length === 0 && $(".quantity").length ) {
-			console.log("resetQuantities");
-			$(".quantity").each( function(){
-				$(this).find("input").attr("value", 1);
-			});			
-		} 
+	function singleInit () {
+		// WRAP AMOUNT
+		$(".single_info .amount").addClass("wrap");
+		// RUN TEXT WRAP
+		textWrap();
+		// POSITION SIZES OPTIONS
+		radioPos();
 	}
 
-	// 4.3. SELECT SIZES 
+	// 5.3. SELECT SIZES 
 
 	function radioInit () {
 		console.log("radioInit");
-		// FIRST SIZE IS UNDERLINED
-		$(".variations td:nth-child(2)").find("label").css("border-bottom","2px solid black");
 	}
 
 	function radioCheck ( click ) {
 		console.log("radioCheck");
-		// CLICK IS ON LABEL
-		// console.log( 465, click.text() );
-		click.parents(".variations").find("label").css( "border-bottom", "" );
-		console.log( click.parents(".variations").find("label").length );
-		// click.parents(".variations").siblings().find("label").css( "border-bottom", "" );
-		click.css( "border-bottom", "2px solid black" );
-		click.siblings("input").prop("checked", true);
+
 	}
 
 		// SIZES POSITION
@@ -634,11 +656,9 @@
 				radioCount++;
 				radioWidth += $(this).width();
 			});
-			// console.log( 481, radioCount, radioWidth );
 			var container = $(this).width();
 			var diff = container - radioWidth;
 			var diffPerc = Math.floor( diff / ( radioCount - 1 ) / container * 100 );
-			// console.log(diffPerc);
 			$(this).find("td").css( "margin-right", diffPerc + "%" );
 			// LAST HAS MARGIN REMOVED
 			$(this).find("td").eq( radioCount - 1 ).css({
@@ -646,188 +666,189 @@
 				"right" : 0,
 				"margin-right" : 0
 			});
-		});
-		
+		});		
 	}
 
-	// 4.4. SINGLE DESCRIPTION TOGGLE
+	// 5.4. SINGLE DESCRIPTION TOGGLE
 
 	var descVis = false;
 	function descToggle ( click ) {
 		console.log("descToggle");
 		if ( !descVis ) {
-			click.next(".product_desc").css({
+			console.log(497);
+			click.siblings(".product_desc").css({
 				"height" : "auto",
-				"max-height" : 400 	
+				"max-height" : 400,
+				"padding-bottom" : "16px" 	
 			});
 			descVis = true;
 		} else {
-			click.next(".product_desc").css({
+			console.log(503);
+			click.siblings(".product_desc").css({
 				"height" : "",
-				"max-height" : "" 	
+				"max-height" : "",
+				"padding-bottom" : "" 	
 			});
 			descVis = false;
 		}
 	}
 
-	// 4.5. SINGLE INFO HOVER
+	// 5.5. SINGLE INFO HOVER
 
 	function singleInfoOn ( target ) {
 		console.log("singleInfoOn");
 		if ( $(window).width() > 800 ) {
-			// WORDS
-			target.find(".wrap").css({
+			target.css({
 				"text-align" : "center",
 				"text-align-last" : "center"
 			});
-			// LETTERS
-			target.find(".last_word").each( function(){
-				// HIDE SPACED TEXT
-				$(this).children("span").hide();
-				// SHOW BACKUP
-				$(this).find(".rollover").show();
+			// REMOVE SPACES IN .WRAPS
+			target.find(".wrap").each( function(){
+				// GET STRING
+				var wrap;
+				if ( $(this).find("a").length ) {
+					wrap = $(this).find("a");
+				} else {
+					wrap = $(this);
+				}
+				var string = wrap.text();
+				// REMOVE SPACES
+				string = string.replace(/\s/g, '');
+				wrap.text( string );
 			});
 			// SIZES
-			target.find(".variations").css({
-				"text-align" : "center"
+			$(".variations td").css("margin-right", "");
+			$(".variations td:last-child").css({
+				"position": "relative"
 			});
-			target.find(".variations td").css({
-				"margin" : "0px",
-				"position" : "relative"
-			});
-			// ADD TO CART BUTTON
-			target.find(".single_add_to_cart_button").css({
-				"text-align" : "center",
-				"text-align-last" : "center"
-			});			
 		}
 	}
 
 	function singleInfoOff ( target ) {
 		console.log("singleInfoOff");
-		if ( $(window).width() > 800 ) {
-			// WORDS
-			target.find(".wrap").css({
-				"text-align" : "",
-				"text-align-last" : ""
-			});
-			// LETTERS
-			target.find(".last_word").each( function(){
-				// SHOW SPACED TEXT
-				$(this).children("span").show();
-				// HIDE BACKUP
-				$(this).find(".rollover").hide();
-			});
-			// SIZES
-			$(".variations").css({
-				"text-align" : ""
-			});
-			target.find(".variations td").css({
-				"margin" : "",
-				"position" : ""
-			});
-				// RECALC SIZES
-			radioPos();
-			// ADD TO CART BUTTON
-			target.find(".single_add_to_cart_button").css({
-				"text-align" : "",
-				"text-align-last" : ""
-			});
-		}
+		target.css({
+			"text-align" : "",
+			"text-align-last" : ""
+		});
+		// REMOVE SPACES IN .WRAPS
+		target.find(".wrap").each( function(){
+			// GET STRING
+			var wrap;
+			if ( $(this).find("a").length ) {
+				wrap = $(this).find("a");
+			} else {
+				wrap = $(this);
+			}
+			var string = wrap.text();
+			// ADD SPACES
+			var chars = string.split('');
+			wrap.text( chars.join(" ") );
+		});
+		// SIZES
+		radioPos();
 	}
 
-// 5. OTHER PAGE FUNCTIONS
+// 6. OTHER PAGE FUNCTIONS
 
-	// 5.1. STYLE BUTTONS
+	// 6.1. STYLE BUTTONS
 
 	function buttonResize () {
-		$("a.button, a.shipping-calculator-button").each( function(){
-	 		var thisW = $(this).width();
-			$(this).parent().addClass("button_wrapper")
-			// .css(
-			// 	"max-width", $(this).width()
-			// );
+	
+	}
+
+	// 6.2. MOVE NEWS IMAGES TO RIGHT-HAND COLUMN
+
+	function newsPrep () {		
+		console.log("newsPrep");
+		$(".news_post").each( function(){
+			$(this).find("img").appendTo( $(this).find("#news_images") );
+			// WAIT UNTIL IMAGES HAVE LOADED
+			$(this).find("#news_images").waitForImages(function() {
+			    $(this).prev("#news_text").css( "min-height", $(this).find("img").height() ); 
+			});			
 		});		
 	}
 
-	// 5.2. MOVE NEWS IMAGES TO RIGHT-HAND COLUMN
+	// 6.3. IFRAMES RESIZE
 
-	function newsPrep () {
-		if ( $("#news").length ) {
-			console.log("newsPrep");
-			$(".news_text").each( function(){
-				$(this).find("img").appendTo( $(this).next(".news_images") );
-				// WAIT UNTIL IMAGES HAVE LOADED
-				$(this).next(".news_images").waitForImages(function() {
-				    // console.log( 550, $(this).find("img").height() );
-				    $(this).prev(".news_text").css( "min-height", $(this).find("img").height() ); 
+	function iframeResize () {		
+		console.log("iframeResize");
+		$("iframe").each( function(){
+			var thisR = $(this).attr("width") / $(this).attr("height");
+			var newH = $(this).width() / thisR;
+			$(this).css( "height", newH );
+			// console.log( $(this).width(), thisR );
+			// RESIZE PARENT 
+			$(this).parents(".news_content").css( "min-height", newH );
+			// IF ON CAMPAIGN PAGE RESIZE IMAGE FRAME
+			if ( $(".campaign_images").length ) {
+				// RUN IMAGE RESIZE FUNCTION
+				campaignImages();
+			}
+		});					
+	}
+
+	// 6.4. CAMPAIGN IMAGES RESIZE
+
+	function campaignImages () {
+		console.log("campaignImages");
+		var ratios = [];
+		$(".campaign_photos img").each( function(){
+			// GET RATIOS
+			// console.log( 828, $(this).attr("width"), $(this).attr("height") );
+			var thisRatio = $(this).attr("width") / $(this).attr("height");
+			if ( !isNaN(thisRatio) ) {
+				ratios.push( thisRatio );
+			}
+			if ( $(this).attr("width") > $(this).attr("height") ) {
+				$(this).css({
+					"width" : "100%",
+					"height" : "auto"
 				});
+			} else {
+				$(this).css({
+					"width" : "auto",
+					"height" : "100%"
+				});	
+			}
+			
+		});
+		// GET SMALLEST RATIO
+		Array.min = function( array ){
+		    return Math.min.apply( Math, array );
+		};
+		var finalRatio = Array.min(ratios);
+		$(".campaign_images").css( "height", $(".campaign_photos").width() * finalRatio );
 
-
-				// $(this).css( "min-height", $(this).find("img").height() );
-				
-			});		
-		}
+		// INIT CAMPAIGN SLIDESHOW
+		$(".campaign_images li").eq(0).addClass("visible");
 	}
 
-	// 5.3. IFRAMES RESIZE
+	// 6.5. ADD CLASSES TO TERMS SUBTITLES
 
-	function iframeResize () {
-		if ( $("#news").length || $("#campaign").length ) {
-			console.log("iframeResize");
-			$("iframe").each( function(){
-				var thisR = $(this).attr("width") / $(this).attr("height");
-				var newH = $(this).width() / thisR;
-				$(this).css( "height", newH );
-				// console.log( $(this).width(), thisR );
-				// RESIZE PARENT 
-				$(this).parents(".news_content").css( "min-height", newH );
-				// IF ON CAMPAIGN PAGE RESIZE IMAGE FRAME
-				if ( $("#campaign_images").length ) {
-					// console.log(572);
-					$("#campaign_images").css( "height", newH );
-				}
-			});			
-		} 
+		// WORD COUNTER
+	function wordCount(str) { 
+	  return str.split(" ").length;
 	}
-
-	// 5.4. ADD CLASSES TO TERMS SUBTITLES
 
 	function termsClasses () {
-		if ( $("#terms_and_conditions").length ) {
-			console.log("termsClasses");
-			$("strong").addClass("wrap");			
-			// REINITIALISE TEXT WRAP
-			textWrap();	
-		}	
+		console.log("termsClasses");
+		// CHECK IF ONE WORD
+		$("strong").each( function(){
+			var string = $(this).text().trim();
+			if ( wordCount(string) === 1 ) {
+				$(this).addClass("wrap");	
+			}		
+		});
+		// REINITIALISE TEXT WRAP
+		textWrap();
 	}
 
-	// 5.5. INFO PAGE 
+	// 6.6. INFO PAGE 
 
 	function infoFix () {
 		if ( $("#info").length ) {
 			console.log("infoFix");
-			$("#info_contact").find(".info_row").each( function(i) {
-				// console.log( 611, i );
-				if ( i === 0 ) {
-					$(this).css( "margin-bottom", "0px" );
-					$(this).find("h3:first-child").css( "margin-bottom", "0px" );
-				}
-			});	
-			// REINITIALISE TEXT WRAP
-			// textWrap();	
+				
 		}
 	}
-
-	// X.XX. HIDE DOUBLES
-
-	// function hideDoubles(){
-	// 	// IF HAS CLASS
-	// 	$(".page_collection li").each( function(){
-	// 		if ( $(this).hasClass("product-tag-shorts") || $(this).hasClass("product-tag-leggings") || $(this).hasClass() ) {
-
-	// 		}
-	// 	});
-	// }
-
-

@@ -1,30 +1,14 @@
 <?php
-/**
- * Cart totals
- *
- * @author 		WooThemes
- * @package 	WooCommerce/Templates
- * @version     2.3.6
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
 ?>
 
 <div class="cart_totals <?php if ( WC()->customer->has_calculated_shipping() ) echo 'calculated_shipping'; ?>">
 
 	<?php do_action( 'woocommerce_before_cart_totals' ); ?>
 
-	<h2><?php _e( 'Cart Totals', 'woocommerce' ); ?></h2>
-
 	<table cellspacing="0">
-
-		<tr class="cart-subtotal">
-			<th><?php _e( 'Subtotal', 'woocommerce' ); ?></th>
-			<td><?php wc_cart_totals_subtotal_html(); ?></td>
-		</tr>
 
 		<?php foreach ( WC()->cart->get_coupons() as $code => $coupon ) : ?>
 			<tr class="cart-discount coupon-<?php echo esc_attr( sanitize_title( $code ) ); ?>">
@@ -37,17 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 			<?php do_action( 'woocommerce_cart_totals_before_shipping' ); ?>
 
-			<?php wc_cart_totals_shipping_html(); ?>
-
 			<?php do_action( 'woocommerce_cart_totals_after_shipping' ); ?>
-
-		<?php elseif ( WC()->cart->needs_shipping() ) : ?>
-
-			<tr class="shipping">
-
-				<th><?php _e( 'Shipping', 'woocommerce' ); ?></th>
-				<td><?php woocommerce_shipping_calculator(); ?></td>
-			</tr>
 
 		<?php endif; ?>
 
@@ -57,6 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<th><?php echo esc_html( $fee->name ); ?></th>
 				<td><?php wc_cart_totals_fee_html( $fee ); ?></td>
 			</tr>
+
 		<?php endforeach; ?>
 
 		<?php if ( wc_tax_enabled() && WC()->cart->tax_display_cart == 'excl' ) : ?>
@@ -79,7 +54,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<tr class="order-total">
 
-			<th><?php _e( 'Total', 'woocommerce' ); ?></th>
+			<th><?php _e( 'Sub-total', 'woocommerce' ); ?></th>
 			<td><?php wc_cart_totals_order_total_html(); ?></td>
 		</tr>
 
@@ -101,11 +76,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<div class="cart_bottom_wrapper">
 
-		<div class="wc-proceed-to-checkout">
-			<a class="button" href="<?php bloginfo( 'url' ); ?>/terms-and-conditions">
-				Terms & Conditions
-			</a>
-		</div>
+		<a class="button" href="<?php bloginfo( 'url' ); ?>/terms-and-conditions">
+			Terms & Conditions
+		</a>
 
 		<div class="wc-proceed-to-checkout">
 
