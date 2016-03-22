@@ -14,7 +14,7 @@ get_sidebar();
 	<img src="<?php bloginfo( 'template_url' ); ?>/img/loading.gif" />
 </div>
 
-<div class="single_page page">
+<div id="single_page" class="single_page page">
 
 	<!-- MAIN IMAGE + INFO ROW -->
 

@@ -143,7 +143,7 @@ function related_items ( $the_id ) {
 
 // GET OTHER COLOURS
 
-function other_colours ( $the_id ) {
+function other_colours ( $the_id, $wholesale ) {
     // var_dump( $the_id );
     // GET SKU OF CURRENT PRODUCT
     $product = wc_get_product( $the_id );
@@ -163,10 +163,49 @@ function other_colours ( $the_id ) {
             $loop_id = $product->id;
             $loop_stubs = explode("-", $loop_sku);
             $loop_stub = $loop_stubs[0];
-            // echo $loop_stub . ", " . $stub . "<br>";          
-            if ( $loop_stub === $stub ) { ?>
-                <li class="other_colours"><a href="<?php echo get_permalink( ); ?>"><?php echo get_the_title(); ?></a></li>
-            <?php
+                  
+            if ( $loop_stub === $stub && $loop_id !== $the_id ) { 
+                // WHOLESALE OUTPUT 
+                if ( $wholesale === true ) { ?>
+                    <div class="wholesale_other_colours" data-id="<?php echo $loop_id; ?>">
+                        <?php 
+                            if ( have_rows("product_images") ) : 
+                                $j = 0;
+                                while ( have_rows("product_images") ) : the_row();
+                                    $image = get_sub_field("product_image");
+                                    if( !empty($image) && $j === 0 ): 
+                                        $thumb = $image['sizes'][ "thumbnail" ]; // 200x300
+                                        $medium = $image['sizes'][ "medium" ]; // 400x600
+                                        $large = $image['sizes'][ "large" ]; // 533x800
+                                        $extralarge = $image['sizes'][ "extra-large" ]; // 683x1024
+                                        $width = $image['sizes'][ "thumbnail-width" ]; 
+                                        $height = $image['sizes'][ "thumbnail-height" ]; 
+                                        ?>
+                                        <img 
+                                        width="<?php echo $width; ?>"  
+                                        height="<?php echo $height; ?>"  
+                                        src="<?php echo $thumb; ?>" 
+                                        data-sizes="auto"
+                                        data-src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" 
+                                        data-srcset="<?php echo $thumb; ?> 400w,
+                                            <?php echo $medium; ?> 500w, 
+                                            <?php echo $large; ?> 600w,
+                                            <?php echo $extralarge; ?> 800w"   
+                                        class="lazyload single_additional_image position_<?php echo $position; ?>" 
+                                        />      
+                                    <?php
+                                    endif;
+                                    $j++;
+                                endwhile;
+                            endif;
+                        ?>
+                    </div>
+                <?php 
+                // SINGLE OUTPUT 
+                } else { ?> 
+                    <li class="other_colours"><a href="<?php echo get_permalink( ); ?>"><?php echo get_the_title(); ?></a></li>
+            <?php                    
+                } 
             } 
         endwhile;
     endif;
@@ -239,12 +278,12 @@ function mailchimp_form () { ?>
                     <label for="mce-EMAIL">Email Address </label>
                     <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
                 </div>
+                <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d43f01e1f63768b0eb69b572d_90ec4cfaaa" tabindex="-1" value=""></div>
+                <div class="submit_wrapper clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
                 <div id="mce-responses" class="clear">
                     <div class="response" id="mce-error-response" style="display:none"></div>
                     <div class="response" id="mce-success-response" style="display:none"></div>
                 </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d43f01e1f63768b0eb69b572d_90ec4cfaaa" tabindex="-1" value=""></div>
-                <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
             </div>
         </form>
     </div>
@@ -252,4 +291,65 @@ function mailchimp_form () { ?>
 <?php                    
 }
 
+// CUSTOMISE CHECKOUT
+
+function custom_override_checkout_fields( $fields ) {
+    if ( is_user_logged_in() ) {
+        $fields['billing']['billing_company']['required'] = true;        
+    }
+    return $fields;
+}
+
+add_filter( 'woocommerce_checkout_fields' , 'custom_override_checkout_fields' );
+
+// add VAT field to checkout page
+function VAT_override_checkout_fields( $fields ) {
+    if ( is_user_logged_in() ) {
+        $fields['billing']['VAT_code'] = array(
+        'label'     => __('VAT', 'woocommerce'),
+        'placeholder'   => _x('VAT', 'placeholder', 'woocommerce'),
+        'required'  => false,
+        'class'     => array('form-row-wide'),
+        'clear'     => true
+        );     
+    }
+    return $fields;
+}
+
+add_filter( 'woocommerce_checkout_fields' , 'VAT_override_checkout_fields');
+
+// WHOLESALE ORDER PAGE
+
+// function wwofCategoriesBeforeListing() {
+//     $args = array(
+//         'taxonomy'     => 'product_cat',
+//         'hierarchical' => true,
+//         'hide_empty'   => true
+//     );
+ 
+//     $all_categories = get_categories( $args );
+ 
+    
+//     if ($all_categories) {
+//         echo '<ul id="filter_by_cat"><li>Filter by:</li>';
+//         foreach ($all_categories as $cat) {
+//             echo '<li><a data-cat-slug="' . $cat->slug . '" class="wwofCatLink" href="'. get_term_link($cat->slug, 'product_cat') .'">'. $cat->name .'</a></li>';
+//         }
+//         echo '</ul>'; 
+
+
+//         echo '<script type="text/javascript">
+//         jQuery(".wwofCatLink").click(function(e) {
+//             e.preventDefault();
+//             var catSlug = jQuery(this).data("cat-slug");
+//             jQuery("select#wwof_product_search_category_filter").val(catSlug);
+//             jQuery("input#wwof_product_search_form").val("");
+//             jQuery("input#wwof_product_search_btn").trigger("click");
+//         });
+//         </script>';
+ 
+//     }
+// }
+ 
+// add_action('wwof_action_before_product_listing', 'wwofCategoriesBeforeListing', 10);
 ?>

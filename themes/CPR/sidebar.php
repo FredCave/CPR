@@ -19,6 +19,14 @@
 <div id="nav_bg">
 </div>
 
+<!-- MOBILE BG TOP -->
+<div id="nav_mobile_top">
+</div>
+
+<!-- MOBILE BG BOTTOM -->
+<div id="nav_mobile_bottom">
+</div>
+
 <!-- PRIMARY NAV -->
 <div id="nav" class="<?php if ( !is_product() && !is_product_category() && !is_front_page() ) { echo "nav_bg"; } ?>" >
 

@@ -61,10 +61,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 			
 			<!-- PRODUCT DESCRIPTION -->
 			<div class="product_desc_toggle">
-				<div class="product_desc_click wrap">Description</div>
+				<div class="product_desc_click">Description</div>
 				<div class="product_desc">
 					<!-- SKU -->
-					<li class="wrap" style="text-align:center"><?php echo $product->sku; ?></li>
+					<li class="" style="text-align:center"><?php echo $product->sku; ?></li>
 					<!-- FABRIC INFO -->
 					<li class="">				
 						<?php 
@@ -82,7 +82,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	    	
 	    	<!-- LINKS TO OTHER COLOURS -->
 	    	<li class="other_colours_wrapper">
-		    	<ul><?php echo other_colours( get_the_ID() ); ?></ul>
+		    	<ul><?php echo other_colours( get_the_ID(), false ); ?></ul>
 		    </li>
 	    	
 			<!-- PRICES -->

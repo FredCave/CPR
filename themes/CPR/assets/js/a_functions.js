@@ -38,6 +38,9 @@
 		6.5. ADD CLASSES TO TERMS SUBTITLES
 		6.6. INFO PAGE 
 
+	7. WHOLESALE ORDER FORM
+		7.1. ORDER FORM INIT
+
 *****************************************************************************/
 
 // 1. GENERAL FUNCTIONS 	
@@ -76,6 +79,10 @@
 		}
 		if ( $("#terms_and_conditions").length ) {
 			termsClasses();
+		}
+		if ( $(".wholesale_page").length ) {
+			console.log(84);
+			wholesaleInit();
 		}
 	}
 
@@ -136,6 +143,10 @@
 
 	function landingInit () {
 		console.log("landingInit");
+		// RESET WINDOW TO TOP
+		$("html,body").animate({
+			scrollTop : 0
+		}, 10 );
 		$("#landing_page").waitForImages( function(){
 			$(this).find("li:first-child").addClass("visible");
 		});
@@ -250,50 +261,56 @@
 
 	// 3.3. NAV LI COMPRESS / RESET
 
-	function navLiCompress ( navLi ) {
-		console.log("navLiCompress");
-		// IF ONE WORD 
-		if ( navLi.hasClass("wrap") ) {
-			// GET STRING
-			var target;
-			if ( navLi.find("a").length ) {
-				target = navLi.find("a");
-			} else {
-				target = navLi;
+	function navLiCompress ( navLi ) {		
+		// IF WINDOW WIDER THAN 800
+		if ( $(window).width() > 800 ) {
+			console.log("navLiCompress");
+			// IF ONE WORD 
+			if ( navLi.hasClass("wrap") ) {
+				// GET STRING
+				var target;
+				if ( navLi.find("a").length ) {
+					target = navLi.find("a");
+				} else {
+					target = navLi;
+				}
+				var string = target.text();
+				// REMOVE SPACES
+				string = string.replace(/\s/g, '');
+				target.text( string );
 			}
-			var string = target.text();
-			// REMOVE SPACES
-			string = string.replace(/\s/g, '');
-			target.text( string );
+			// CENTRE TEXT
+			navLi.css({
+				"text-align" : "center",
+				"text-align-last" : "center"
+			});
 		}
-		// CENTRE TEXT
-		navLi.css({
-			"text-align" : "center",
-			"text-align-last" : "center"
-		});		
 	}
 
 	function navLiReset ( navLi ) {
-		console.log("navLiReset");
-		// IF ONE WORD 
-		if ( navLi.hasClass("wrap") ) {
-			// GET STRING
-			var target;
-			if ( navLi.find("a").length ) {
-				target = navLi.find("a");
-			} else {
-				target = navLi;
+		// IF WINDOW WIDER THAN 800
+		if ( $(window).width() > 800 ) {
+			console.log("navLiReset");
+			// IF ONE WORD 
+			if ( navLi.hasClass("wrap") ) {
+				// GET STRING
+				var target;
+				if ( navLi.find("a").length ) {
+					target = navLi.find("a");
+				} else {
+					target = navLi;
+				}
+				var string = target.text();
+				// ADD SPACES 
+				var chars = string.split('');
+				target.text( chars.join(" ") );
 			}
-			var string = target.text();
-			// ADD SPACES 
-			var chars = string.split('');
-			target.text( chars.join(" ") );
-		}
-		// JUSTIFY TEXT
-		navLi.css({
-			"text-align" : "",
-			"text-align-last" : ""
-		});		
+			// JUSTIFY TEXT
+			navLi.css({
+				"text-align" : "",
+				"text-align-last" : ""
+			});
+		}		
 	}
 
 	// 3.3. SHOW / HIDE NAV COLLECTIONS DEPENDING ON CURRENT PAGE
@@ -314,7 +331,10 @@
 			// MAKE VISIBLE + ACTIVATE LINKS
 			$(".nav_hidden").each( function(){
 				var thisHref = $(this).find("a").data("href");
-				$(this).css( "height", liHeight );
+				$(this).css({
+					"height" : liHeight,
+					"margin-top" : "0px"
+				});
 				$(this).find("a").attr("href", thisHref).css("cursor","");	
 			});
 		} else {
@@ -322,7 +342,10 @@
 			// HIDE HIDDEN + DEACTIVATE LINKS
 			$(".nav_hidden").each( function(){
 				var thisHref = $(this).find("a").data("href");
-				$(this).css("height","").find("a").attr("href", "").css("cursor","text");	
+				$(this).css({
+					"height" : "",
+					"margin-top" : ""
+				}).find("a").attr("href", "").css("cursor","text");	
 			});
 		}	
 	}
@@ -473,9 +496,19 @@
 		if ( click.text().toLowerCase() === "filter" ) {
 			console.log("filter_toggle");
 			if ( !target.is(':visible') ) {
-				target.show();	
+				target.show();
+				// IF SMALL SCREEN ADD BG
+				if ( $(window).width() <= 500 ) {
+					// BG FADE IN
+					$("#nav_bg").css("opacity","1");
+				}
 			} else {
 				target.hide();
+				// IF SMALL SCREEN REMOVE BG
+				if ( $(window).width() <= 500 ) {
+					// BG FADE IN
+					$("#nav_bg").css("opacity","");
+				}
 				// CHECK IF ONE OF THE CATEGORIES HAS BEEN SELECTED
 				$(".filter").each( function(){
 					if ( $(this).hasClass("selected") ) {
@@ -551,6 +584,12 @@
 			scrollTop: collTop
 		}, 500);
 
+		// IF BG VISIBLE
+		if ( $("#nav_bg").css("opacity") > 0 ) {
+			// BG FADE IN
+			$("#nav_bg").css("opacity","");
+		}
+
 	}
 
 	function filterClear() {
@@ -595,6 +634,7 @@
 		console.log("slideShowInit");
 		$(".single_info_wrapper").each( function(){
 			var count = $(this).find(".position_right").length;
+			console.log(637, count);
 			if ( count > 1 ) {
 				// IF MORE THAN ONE IMAGE START GALLERY
 				$(this).find(".position_right").css({
@@ -648,25 +688,29 @@
 		// SIZES POSITION
 
 	function radioPos ( ) {
-		$(".variations tr").each( function(){
-			// LOOP TO GET COUNT AND WIDTH
-			var radioCount = 0,
-			radioWidth = 0;
-			$(this).children().not(".clear").each( function(i){
-				radioCount++;
-				radioWidth += $(this).width();
-			});
-			var container = $(this).width();
-			var diff = container - radioWidth;
-			var diffPerc = Math.floor( diff / ( radioCount - 1 ) / container * 100 );
-			$(this).find("td").css( "margin-right", diffPerc + "%" );
-			// LAST HAS MARGIN REMOVED
-			$(this).find("td").eq( radioCount - 1 ).css({
-				"position" : "absolute",
-				"right" : 0,
-				"margin-right" : 0
-			});
-		});		
+		console.log("radioPos disabled");
+		// WINDOW WIDTH CHECK
+		// if ( $(window).width() > 780 ) {
+		// 	$(".variations tr").each( function(){
+		// 		// LOOP TO GET COUNT AND WIDTH
+		// 		var radioCount = 0,
+		// 		radioWidth = 0;
+		// 		$(this).children().not(".clear").each( function(i){
+		// 			radioCount++;
+		// 			radioWidth += $(this).width();
+		// 		});
+		// 		var container = $(this).width();
+		// 		var diff = container - radioWidth;
+		// 		var diffPerc = Math.floor( diff / ( radioCount - 1 ) / container * 100 );
+		// 		$(this).find("td").css( "margin-right", diffPerc + "%" );
+		// 		// LAST HAS MARGIN REMOVED
+		// 		$(this).find("td").eq( radioCount - 1 ).css({
+		// 			"position" : "absolute",
+		// 			"right" : 0,
+		// 			"margin-right" : 0
+		// 		});
+		// 	});				
+		// }
 	}
 
 	// 5.4. SINGLE DESCRIPTION TOGGLE
@@ -695,9 +739,9 @@
 
 	// 5.5. SINGLE INFO HOVER
 
-	function singleInfoOn ( target ) {
-		console.log("singleInfoOn");
-		if ( $(window).width() > 800 ) {
+	function singleInfoOn ( target, load ) {
+		if ( $(window).width() > 780 || load ) {
+			console.log("singleInfoOn");
 			target.css({
 				"text-align" : "center",
 				"text-align-last" : "center"
@@ -717,35 +761,37 @@
 				wrap.text( string );
 			});
 			// SIZES
-			$(".variations td").css("margin-right", "");
-			$(".variations td:last-child").css({
+			target.find(".variations td").css("margin-right", "");
+			target.find(".variations td:last-child").css({
 				"position": "relative"
 			});
 		}
 	}
 
 	function singleInfoOff ( target ) {
-		console.log("singleInfoOff");
-		target.css({
-			"text-align" : "",
-			"text-align-last" : ""
-		});
-		// REMOVE SPACES IN .WRAPS
-		target.find(".wrap").each( function(){
-			// GET STRING
-			var wrap;
-			if ( $(this).find("a").length ) {
-				wrap = $(this).find("a");
-			} else {
-				wrap = $(this);
-			}
-			var string = wrap.text();
-			// ADD SPACES
-			var chars = string.split('');
-			wrap.text( chars.join(" ") );
-		});
-		// SIZES
-		radioPos();
+		if ( $(window).width() > 780 ) {
+			console.log("singleInfoOff");
+			target.css({
+				"text-align" : "",
+				"text-align-last" : ""
+			});
+			// REMOVE SPACES IN .WRAPS
+			target.find(".wrap").each( function(){
+				// GET STRING
+				var wrap;
+				if ( $(this).find("a").length ) {
+					wrap = $(this).find("a");
+				} else {
+					wrap = $(this);
+				}
+				var string = wrap.text();
+				// ADD SPACES
+				var chars = string.split('');
+				wrap.text( chars.join(" ") );
+			});
+			// SIZES
+			radioPos();
+		}
 	}
 
 // 6. OTHER PAGE FUNCTIONS
@@ -852,3 +898,73 @@
 				
 		}
 	}
+
+// 7. WHOLESALE ORDER FORM
+
+	// 7.1. WHOLESALE INIT
+
+	function wholesaleInit () {
+		console.log("wholesaleInit");
+		$(".variable_price .price").each( function(){
+			$(this).find("del .amount").prepend("RRP: ").unwrap();
+		});
+	}
+
+	// 7.2. WHOLESALE OTHER COLOURS
+
+	var targetOffset = 0;
+	function wsaleOtherColours ( click ) {
+		console.log("wsaleOtherColours");
+		// GET TARGET ID
+		var targetId = click.data("id");
+		// GET OFFSET OF TARGET
+		targetOffset = $("#" + targetId).offset().top;
+		if ( targetOffset > 0 ) {
+			console.log( 884, targetOffset );
+			$("html,body").animate({
+				scrollTop : targetOffset
+			}, 1000 );
+		}
+	}
+
+	// 7.3. WHOLESALE FILTER TOGGLE
+
+	function wsaleFilterToggle ( click ) {
+		console.log("wsaleFilterToggle");
+		var wrapper = $("#search_wrapper");
+		// CHECK IF HIDDEN
+		if ( wrapper.hasClass("hidden") ) {
+			console.log("show");
+			wrapper.css({
+				"height" : "300px"
+			});
+			wrapper.removeClass("hidden");
+		} else {
+			console.log("hide");
+			wrapper.css({
+				"height" : ""
+			});
+			wrapper.addClass("hidden");
+		}
+	}	
+
+	// 7.4. WHOLESALE FILTER TOGGLE
+
+	function wsaleFilter ( click ) {
+		console.log("wsaleFilter");
+		// GET TARGET
+		var target = click.data("target");
+		console.log(target);
+		// LOOP THROUGH ITEMS
+		$("#wwof_product_listing_ajax_content").find("tbody tr").each( function(){
+			// $("#wwof_product_listing_ajax_content").find("tbody tr").hide();
+			if ( $(this).hasClass( target ) ) {
+				console.log("bingo");
+				$(this).fadeIn().siblings("tr").hide();				
+			}
+		});
+	}	
+
+
+
+

@@ -33,6 +33,10 @@
 		5.2. TOGGLE SHIPPING FORM
 		5.3. BUTTON HOVER
 
+	6. WHOLESALE
+		6.1. CLICK ON OTHER COLOURS
+
+
 *****************************************************************************/
 
 $(document).ready( function(){
@@ -67,9 +71,20 @@ $(document).ready( function(){
 	    if (mql.s.matches) {
 	        // Less than 600px wide     
 	    	imagesPrep();
+	    	// ALL SINGLE INFO CENTERED
+	    	// console.log(75);
+	    	// $(".single_info").each( function(){
+	    	// 	console.log(77);
+	    	// 	singleInfoOn( $(this), true );
+	    	// });
 	    } else if (mql.m.matches) {
 	        // More than 600px wide
 			imagesPrep();
+	    	// ALL SINGLE INFO CENTERED
+	    	// console.log(83);
+	    	// $(".single_info").each( function(){
+	    	// 	singleInfoOn( $(this), true );
+	    	// });
 	    } else {
 	    	// More than 780px wide
 			imagesPrep();
@@ -113,7 +128,7 @@ $(document).ready( function(){
 	// 1.6. LANDING PAGE SCROLL DETECT
 
 
-	$('#landing_page').bind( "mousewheel DOMMouseScroll", _.throttle(function (e) {
+	$('#landing_page').bind( "mousewheel DOMMouseScroll touchmove", _.throttle(function (e) {
 	    // CHECK IF IN SLIDER MODE
 	    var delta = 0, 
 	    	element = $(this), 
@@ -234,11 +249,11 @@ $(document).ready( function(){
 
 	// 4.4. PRODUCT INFO HOVER
 
-	$(".single_info").hover( function(){
-		singleInfoOn( $(this) );
-	}, function(){
-		singleInfoOff( $(this) );
-	});
+	// $(".single_info").hover( function(){
+	// 	singleInfoOn( $(this) );
+	// }, function(){
+	// 	singleInfoOff( $(this) );
+	// });
 
 // 5. OTHER PAGE EVENTS
 
@@ -267,5 +282,38 @@ $(document).ready( function(){
 	}, function(){
 		$(this).find(".campaign_title").css("width","");
 	});	
+
+// 	6. WHOLESALE
+		
+	// 6.1. CLICK ON OTHER COLOURS
+
+	$("#wwof_product_listing_ajax_content").on( "click", ".wholesale_other_colours", function(){
+		wsaleOtherColours( $(this) );
+	});
+
+	// 6.1. FILTER TOGGLE
+
+	$("#ws_filter_toggle").on( "click", function (e) {
+		e.preventDefault();
+		wsaleFilterToggle( $(this) );
+	});
+
+		// CLICK OUTSIDE TO CLOSE
+	$(document).on( "click", function (e) {
+    	var container = $("#search_wrapper");
+	    if (!container.is(e.target) && container.has(e.target).length === 0) {
+	        container.css({
+	        	"height" : ""
+	        }).addClass("hidden");
+	    }
+	});
+
+	// 6.2. FILTER TERMS CLICK
+
+	$(".wsale_term").on( "click", function (e) {
+		e.preventDefault();
+		wsaleFilter( $(this) );
+	});
+
 
 });
