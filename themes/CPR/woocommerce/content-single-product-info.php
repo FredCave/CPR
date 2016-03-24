@@ -48,7 +48,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		endwhile;
 	endif; ?>
 
-	<div class="single_info">
+	<div class="single_info info_justified">
 
 		<?php 
 			global $product;
@@ -61,7 +61,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			
 			<!-- PRODUCT DESCRIPTION -->
 			<div class="product_desc_toggle">
-				<div class="product_desc_click">Description</div>
+				<div class="product_desc_click wrap">Description</div>
 				<div class="product_desc">
 					<!-- SKU -->
 					<li class="" style="text-align:center"><?php echo $product->sku; ?></li>

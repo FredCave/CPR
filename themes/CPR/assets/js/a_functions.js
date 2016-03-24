@@ -38,8 +38,9 @@
 		6.5. ADD CLASSES TO TERMS SUBTITLES
 		6.6. INFO PAGE 
 
-	7. WHOLESALE ORDER FORM
-		7.1. ORDER FORM INIT
+	7. CART / WHOLESALE 
+		7.1. CART SHIPPING
+		7.2. ORDER FORM INIT
 
 *****************************************************************************/
 
@@ -80,8 +81,10 @@
 		if ( $("#terms_and_conditions").length ) {
 			termsClasses();
 		}
+		if ( $("#checkout").length ) {
+			shippingCheck();
+		}
 		if ( $(".wholesale_page").length ) {
-			console.log(84);
 			wholesaleInit();
 		}
 	}
@@ -465,7 +468,9 @@
 				// SET IMAGE WIDTH
 				$(".collection .selected-product").find(".product_image").each( function(){
 					var imgRatio = $(this).attr("width") / $(this).attr("height");
-					var newWidth = $(window).height() * 0.66 * imgRatio;
+					// WIDTH BASED ON PARENT HEIGHT
+					var newWidth = $(this).parents("li").height() * imgRatio;
+					console.log( 470, newWidth );
 					$(this).css( "width", newWidth ).addClass("lazyload").attr( "data-ratio", imgRatio );
 				});
 				// INITIATE LAZYSIZES
@@ -690,27 +695,27 @@
 	function radioPos ( ) {
 		console.log("radioPos disabled");
 		// WINDOW WIDTH CHECK
-		// if ( $(window).width() > 780 ) {
-		// 	$(".variations tr").each( function(){
-		// 		// LOOP TO GET COUNT AND WIDTH
-		// 		var radioCount = 0,
-		// 		radioWidth = 0;
-		// 		$(this).children().not(".clear").each( function(i){
-		// 			radioCount++;
-		// 			radioWidth += $(this).width();
-		// 		});
-		// 		var container = $(this).width();
-		// 		var diff = container - radioWidth;
-		// 		var diffPerc = Math.floor( diff / ( radioCount - 1 ) / container * 100 );
-		// 		$(this).find("td").css( "margin-right", diffPerc + "%" );
-		// 		// LAST HAS MARGIN REMOVED
-		// 		$(this).find("td").eq( radioCount - 1 ).css({
-		// 			"position" : "absolute",
-		// 			"right" : 0,
-		// 			"margin-right" : 0
-		// 		});
-		// 	});				
-		// }
+		if ( $(window).width() > 780 ) {
+			$(".info_justified .variations tr").each( function(){
+				// LOOP TO GET COUNT AND WIDTH
+				var radioCount = 0,
+				radioWidth = 0;
+				$(this).children().not(".clear").each( function(i){
+					radioCount++;
+					radioWidth += $(this).width();
+				});
+				var container = $(this).width();
+				var diff = container - radioWidth;
+				var diffPerc = Math.floor( diff / ( radioCount - 1 ) / container * 100 );
+				$(this).find("td").css( "margin-right", diffPerc + "%" );
+				// LAST HAS MARGIN REMOVED
+				$(this).find("td").eq( radioCount - 1 ).css({
+					"position" : "absolute",
+					"right" : 0,
+					"margin-right" : 0
+				});
+			});				
+		}
 	}
 
 	// 5.4. SINGLE DESCRIPTION TOGGLE
@@ -900,6 +905,27 @@
 	}
 
 // 7. WHOLESALE ORDER FORM
+
+	// 7.1. CART SHIPPING
+
+	function shippingCheck () {
+		// console.log("shippingCheck");
+		// console.log($("#shipping_method").find("#shipping_method_0_free_shipping").length);
+		// switch ( true ) {
+		// 	case $("#shipping_method").find("#shipping_method_0_free_shipping").length > 0 :
+		// 		console.log("free_shipping");
+		// 		$("#shipping_method").find("#shipping_method_0_free_shipping").prop( "checked", "checked" ).parent("li").show();
+		// 		break;
+		// 	case $("#shipping_method").find("#shipping_method_0_local_delivery").length > 0 :
+		// 		console.log("germany");
+		// 		$("#shipping_method").find("#shipping_method_0_local_delivery").prop( "checked", "checked" ).parent("li").show();
+		// 		break;
+		// 	case $("#shipping_method").find("#shipping_method_0_international_delivery").length > 0 :
+		// 		console.log("europe");
+		// 		$("#shipping_method").find("#shipping_method_0_international_delivery").prop( "checked", "checked" ).parent("li").show();
+		// 		break;
+		// }
+	}
 
 	// 7.1. WHOLESALE INIT
 

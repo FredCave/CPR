@@ -127,7 +127,6 @@ $(document).ready( function(){
 
 	// 1.6. LANDING PAGE SCROLL DETECT
 
-
 	$('#landing_page').bind( "mousewheel DOMMouseScroll touchmove", _.throttle(function (e) {
 	    // CHECK IF IN SLIDER MODE
 	    var delta = 0, 
@@ -153,7 +152,14 @@ $(document).ready( function(){
 	    return false;
 	}, 1000) );
 
-	
+	// 1.7. SAFARI DETECT
+
+	if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
+		console.log('safari check');
+		$(".info_justified").find(".wrap").removeClass("wrap");
+		$(".info_justified").removeClass("info_justified");
+	}
+
 // 2. NAV
 
 	// 2.2. NAV CLICK
@@ -249,11 +255,11 @@ $(document).ready( function(){
 
 	// 4.4. PRODUCT INFO HOVER
 
-	// $(".single_info").hover( function(){
-	// 	singleInfoOn( $(this) );
-	// }, function(){
-	// 	singleInfoOff( $(this) );
-	// });
+	$(".info_justified").hover( function(){
+		singleInfoOn( $(this) );
+	}, function(){
+		singleInfoOff( $(this) );
+	});
 
 // 5. OTHER PAGE EVENTS
 
