@@ -19,25 +19,24 @@ get_sidebar();
 	<!-- MAIN IMAGE + INFO ROW -->
 
 	<div class="single_product">
-
+		
 		<?php while ( have_posts() ) : the_post(); ?>
 
 			<!-- CONTENT HERE -->
+			<?php $single_id = get_the_ID(); ?>
 			<?php wc_get_template_part( 'content', 'single-product' ); ?>
 
 		<?php endwhile; ?>
 
 		<!-- RELATED ITEMS -->
 		<?php 
-		global $post;
-		$this_id = $post->ID;
-		related_items( $this_id );
+		related_items( $single_id );
 		?>
 
 	</div><!-- END OF .SINGLE_PRODUCT -->
 
 	<!-- COLLECTION -->
-	<?php parent_collection( $this_id ); ?>
+	<?php parent_collection( $single_id ); ?>
 
 </div><!-- END OF .SINGLE_PAGE -->
    

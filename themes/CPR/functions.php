@@ -12,6 +12,8 @@ function remove_assets() {
     wp_dequeue_style( 'woocommerce-layout' ); 
     wp_dequeue_style( 'woocommerce-smallscreen' ); 
     wp_dequeue_style( 'woocommerce-general' ); 
+    wp_dequeue_style( 'wwof_WholesalePage_css' ); 
+    wp_dequeue_style( 'wcqi-css' );   
 }
 add_action('wp_print_styles', 'remove_assets', 99999);
 
@@ -144,10 +146,9 @@ function related_items ( $the_id ) {
 // GET OTHER COLOURS
 
 function other_colours ( $the_id, $wholesale ) {
-    // var_dump( $the_id );
     // GET SKU OF CURRENT PRODUCT
-    $product = wc_get_product( $the_id );
-    $this_sku = $product->get_sku();
+    $this_product = wc_get_product( $the_id );
+    $this_sku = $this_product->get_sku();
     // GET STUB OF SKU
     $stubs = explode("-", $this_sku);
     $stub = $stubs[0];   
@@ -163,12 +164,13 @@ function other_colours ( $the_id, $wholesale ) {
             $loop_id = $product->id;
             $loop_stubs = explode("-", $loop_sku);
             $loop_stub = $loop_stubs[0];
-                  
+            // echo $the_id . "/" . $product->id;      
             if ( $loop_stub === $stub && $loop_id !== $the_id ) { 
                 // WHOLESALE OUTPUT 
                 if ( $wholesale === true ) { ?>
                     <div class="wholesale_other_colours" data-id="<?php echo $loop_id; ?>">
-                        <?php 
+                        <p class=""><?php the_title(); ?></p>
+                            <?php
                             if ( have_rows("product_images") ) : 
                                 $j = 0;
                                 while ( have_rows("product_images") ) : the_row();
@@ -188,28 +190,27 @@ function other_colours ( $the_id, $wholesale ) {
                                         data-sizes="auto"
                                         data-src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" 
                                         data-srcset="<?php echo $thumb; ?> 400w,
-                                            <?php echo $medium; ?> 500w, 
-                                            <?php echo $large; ?> 600w,
-                                            <?php echo $extralarge; ?> 800w"   
-                                        class="lazyload single_additional_image position_<?php echo $position; ?>" 
-                                        />      
-                                    <?php
-                                    endif;
-                                    $j++;
-                                endwhile;
-                            endif;
+                                        <?php echo $medium; ?> 500w, 
+                                        <?php echo $large; ?> 600w,
+                                        <?php echo $extralarge; ?> 800w"   
+                                        class="lazyload single_additional_image position_<?php echo $position; ?>" />      
+                                 <?php                                   
+                                endif;
+                                $j++;
+                            endwhile;
+                        endif;
                         ?>
                     </div>
                 <?php 
                 // SINGLE OUTPUT 
                 } else { ?> 
                     <li class="other_colours"><a href="<?php echo get_permalink( ); ?>"><?php echo get_the_title(); ?></a></li>
-            <?php                    
+                <?php                  
                 } 
-            } 
+            }                   
         endwhile;
-    endif;
-    wp_reset_postdata();
+        // $sku_query->reset_postdata();       
+    endif;  
 } 
 
 // ADD SPACES – FABRIC INFO
@@ -317,6 +318,81 @@ function VAT_override_checkout_fields( $fields ) {
 }
 
 add_filter( 'woocommerce_checkout_fields' , 'VAT_override_checkout_fields');
+
+
+// UPDATE CART TOTAL VIA AJAX
+
+add_filter( 'woocommerce_add_to_cart_fragments', 'woocommerce_header_add_to_cart_fragment' );
+function woocommerce_header_add_to_cart_fragment( $fragments ) {
+    ob_start(); ?>
+
+    <a class="cart-contents" href="<?php echo WC()->cart->get_cart_url(); ?>" title="<?php _e( 'View your shopping cart' ); ?>">
+        <?php echo WC()->cart->cart_contents_count; ?> / <?php echo WC()->cart->get_cart_total(); ?>
+    </a>             
+    <?php
+    $fragments['a.cart-contents'] = ob_get_clean();
+    
+    return $fragments;
+}
+
+// WooCommerce: show all product attributes listed below each item on Cart page
+
+// function isa_woo_cart_attributes($cart_item, $cart_item_key){
+   
+//     $item_data = $cart_item_key['data'];
+//     $attributes = $item_data->get_attributes();
+       
+       
+//     if ( ! $attributes ) {
+//         return $cart_item;
+//     }
+       
+//     $out = $cart_item . '<br />';
+      
+//     foreach ( $attributes as $attribute ) {
+  
+//         if ( $attribute['is_taxonomy'] ) {
+         
+//         // skip variations
+//             if ( $attribute['is_variation'] ) {
+//                 continue;
+//             }
+  
+//             // backwards compatibility for attributes which are registered as taxonomies
+              
+//             $product_id = $item_data->id;
+//             $terms = wp_get_post_terms( $product_id, $attribute['name'], 'all' );
+              
+//             // get the taxonomy
+//             $tax = $terms[0]->taxonomy;
+              
+//             // get the tax object
+//             $tax_object = get_taxonomy($tax);
+              
+//             // get tax label
+//             if ( isset ($tax_object->labels->name) ) {
+//                 $tax_label = $tax_object->labels->name;
+//             } elseif ( isset( $tax_object->label ) ) {
+//                 $tax_label = $tax_object->label;
+//             }
+              
+//             foreach ( $terms as $term ) {
+//                 $out .= $tax_label . ': ';
+//                 $out .= $term->name . '<br />';
+//             }
+             
+//         } else {
+         
+//             // not a taxonomy 
+             
+//             $out .= $attribute['name'] . ': ';
+//             $out .= $attribute['value'] . '<br />';
+//         }
+//     }
+//     echo $out;
+// }
+   
+// add_filter( 'woocommerce_cart_item_name', 'isa_woo_cart_attributes', 10, 2 );
 
 // WHOLESALE ORDER PAGE
 

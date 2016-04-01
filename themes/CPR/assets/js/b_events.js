@@ -54,6 +54,10 @@ $(document).ready( function(){
 		if ( $("#news").length || $("#campaign").length ) {
 			iframeResize();
 		}
+		if ( $("#single_page").length ) {
+			radioPos();
+		}
+
 	});
 
 		// THROTTLED SCROLL DETECT
@@ -71,29 +75,27 @@ $(document).ready( function(){
 	    if (mql.s.matches) {
 	        // Less than 600px wide     
 	    	imagesPrep();
-	    	// ALL SINGLE INFO CENTERED
-	    	// console.log(75);
-	    	// $(".single_info").each( function(){
-	    	// 	console.log(77);
-	    	// 	singleInfoOn( $(this), true );
-	    	// });
+
+			// REPOSITION SINGLE GALLERY IMGs
+	    	slideShowResize();
+
 	    } else if (mql.m.matches) {
 	        // More than 600px wide
-			imagesPrep();
-	    	// ALL SINGLE INFO CENTERED
-	    	// console.log(83);
-	    	// $(".single_info").each( function(){
-	    	// 	singleInfoOn( $(this), true );
-	    	// });
+			imagesPrep();	
+			// REPOSITION SINGLE GALLERY IMGs
+	    	slideShowResize();
+	    	
 	    } else {
-	    	// More than 780px wide
+	    	// More than 800px wide
 			imagesPrep();
+			// REPOSITION SINGLE GALLERY IMGs
+	    	slideShowResize();
 	    }
 	}
 
 	var mql = {};
 	mql.s = window.matchMedia("(max-width: 600px)");
-	mql.m = window.matchMedia("(max-width: 780px)");
+	mql.m = window.matchMedia("(max-width: 800px)");
 	mql.s.addListener(function(){
 		handleMediaChange(mql);
 	});
@@ -127,7 +129,25 @@ $(document).ready( function(){
 
 	// 1.6. LANDING PAGE SCROLL DETECT
 
-	$('#landing_page').bind( "mousewheel DOMMouseScroll touchmove", _.throttle(function (e) {
+	var tStart;
+	$('#landing_page').bind('touchstart', function (e){
+		tStart = e.originalEvent.touches[0].clientY;
+		e.preventDefault();
+	});
+
+	$('#landing_page').bind( 'touchend', function (e){
+		var tEnd = e.originalEvent.changedTouches[0].clientY;
+		if( tStart > tEnd+5 ){
+			// LANDING PAGE SLIDER FORWARD
+	    	landingForward();
+		} else if ( tStart < tEnd-5 ) {
+	    	// LANDING PAGE SLIDER BACK
+	    	landingBack();
+		}
+		e.preventDefault();
+	});
+
+	$('#landing_page').bind( "mousewheel DOMMouseScroll", _.throttle(function (e) {
 	    // CHECK IF IN SLIDER MODE
 	    var delta = 0, 
 	    	element = $(this), 
@@ -135,6 +155,7 @@ $(document).ready( function(){
 	    	result, 
 	    	oe;
 	    oe = e.originalEvent; // for jQuery >=1.7
+	    console.log(oe);
 	    if (oe.wheelDelta) {
 	        delta = -oe.wheelDelta;
 	    }
@@ -249,7 +270,7 @@ $(document).ready( function(){
 
 	// 4.3. RADIO BUTTON CLICK
 
-	$(".variations label").not(".label label").on("click", function(){
+	$(".variations input").on("click", function(){
 		radioCheck( $(this) );
 	});
 
@@ -291,10 +312,26 @@ $(document).ready( function(){
 
 // 	6. WHOLESALE
 		
-	// 6.1. CLICK ON OTHER COLOURS
+	// 6.1. OTHER COLOURS
+
+		// ON HOVER
+
+	$("#wwof_product_listing_ajax_content").on( "mouseover", ".wholesale_other_colours", function(){
+		wsaleOtherColoursHover( $(this) );
+	});
+
+	$("#wwof_product_listing_ajax_content").on( "mouseout", ".wholesale_other_colours", function(){
+		wsaleOtherColoursUnhover( $(this) );
+	});
+
+	$("#wwof_product_listing_ajax_content").on( "LoadProductListing", ".wholesale_other_colours", function(){
+		alert();
+	});
+
+		// ON CLICK
 
 	$("#wwof_product_listing_ajax_content").on( "click", ".wholesale_other_colours", function(){
-		wsaleOtherColours( $(this) );
+		wsaleOtherColoursClick( $(this) );
 	});
 
 	// 6.1. FILTER TOGGLE
@@ -311,6 +348,9 @@ $(document).ready( function(){
 	        container.css({
 	        	"height" : ""
 	        }).addClass("hidden");
+	        container.find("#wsale_filter_terms").css({
+				"padding-top": ""
+			});
 	    }
 	});
 

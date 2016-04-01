@@ -159,6 +159,9 @@
 
 	function landingDown() {
 		console.log("landingDown");
+		// HIDE STORE LINK
+		$("#landing_page_access").fadeOut();
+		// ANIMATE
 		$("#landing_page").animate({
 			marginTop: "-100vh"
 		}, 1000, function(){
@@ -487,7 +490,7 @@
 		console.log("imgWidth");
 		$(".collection .selected-product").find(".product_image").each( function(){
 			var imgRatio = $(this).attr("data-ratio");
-			var newWidth = $(window).height() * 0.66 * imgRatio;
+			var newWidth = $(this).parents("li").height() * imgRatio;
 			$(this).css( "width", newWidth );
 		});
 	}
@@ -638,18 +641,31 @@
 	function slideShowInit () {
 		console.log("slideShowInit");
 		$(".single_info_wrapper").each( function(){
-			var count = $(this).find(".position_right").length;
-			console.log(637, count);
-			if ( count > 1 ) {
-				// IF MORE THAN ONE IMAGE START GALLERY
-				$(this).find(".position_right").css({
+			var imgs = $(this).find(".single_images_right");
+			var count = imgs.find("img").length;
+			var limit;
+			if ( $(window).width() <= 800 ) {
+				limit = 1;
+			} else {
+				limit = 2;
+			}
+			if ( count > limit ) {
+				// IF MORE THAN ONE IMAGE ( + LEFT IMG ) : START GALLERY
+				imgs.css({
 					"cursor" : "pointer"
-				}).wrapAll("<span class='gallery'></span>");
-				$(this).find(".gallery img").each( function(){ $(this).wrap("<li></li>") });
-				$(this).find(".gallery li:last-child").addClass("visible");
-				$(this).find(".gallery_arrow").show();
-			} 
+				}).addClass("gallery"); 
+				imgs.find("img").each( function(){
+					$(this).wrap("<li></li>");
+				});
+				// DISABLE FIRST IMAGE ( LEFT IMAGE )
+				imgs.find("li:first-child").addClass("invisible");
+				// MAKE LAST IMAGE VISIBLE
+				imgs.find("li:last-child").addClass("visible");
+				imgs.siblings(".gallery_arrow").show();
+			}
 		});
+		// RUN RESIZE TO ADAPT TO SMALL SCREENS
+		slideShowResize();
 	}
 
 	function slideShowGo ( gallery ) {
@@ -664,7 +680,27 @@
 			console.log(441);	
 			// GO BACK TO BEGINNING
 			gallery.find(".visible").removeClass("visible");
-			gallery.find("li:first-child").addClass("visible");
+			if ( gallery.find(".invisible").length ) {
+				// IF ON SINGLE PAGE
+				gallery.find("li:nth-child(2)").addClass("visible");	
+			} else {
+				gallery.find("li:first-child").addClass("visible");				
+			}
+		}
+	}
+
+	function slideShowResize () {
+		console.log("slideShowResize");
+		if ( $(window).width() <= 800 ) {
+			console.log( 684 );
+			$(".single_images_right").each( function(){
+				$(this).find(".invisible").removeClass("invisible").addClass("was_invisible");
+			});	
+		} else {
+			console.log( 689 );
+			$(".single_info_right").each( function(){
+				$(this).find(".was_invisible").removeClass("was_invisible").addClass("invisible");
+			});				
 		}
 	}
 
@@ -687,35 +723,44 @@
 
 	function radioCheck ( click ) {
 		console.log("radioCheck");
-
+		// LOOP THROUGH INPUTS
+		var selected = false;
+		click.parents("tr").find("td").each( function(){
+			if ( $(this).find("input").prop( "checked" ) ) {
+				selected = true;
+				click.parents(".variations_form").find(".single_add_to_cart_button").addClass("button_active");	
+			} 
+		});
 	}
 
 		// SIZES POSITION
 
 	function radioPos ( ) {
-		console.log("radioPos disabled");
+		console.log("radioPos");
 		// WINDOW WIDTH CHECK
-		if ( $(window).width() > 780 ) {
-			$(".info_justified .variations tr").each( function(){
-				// LOOP TO GET COUNT AND WIDTH
-				var radioCount = 0,
-				radioWidth = 0;
-				$(this).children().not(".clear").each( function(i){
-					radioCount++;
-					radioWidth += $(this).width();
-				});
-				var container = $(this).width();
-				var diff = container - radioWidth;
-				var diffPerc = Math.floor( diff / ( radioCount - 1 ) / container * 100 );
-				$(this).find("td").css( "margin-right", diffPerc + "%" );
-				// LAST HAS MARGIN REMOVED
-				$(this).find("td").eq( radioCount - 1 ).css({
-					"position" : "absolute",
-					"right" : 0,
-					"margin-right" : 0
-				});
-			});				
-		}
+		// if ( $(window).width() > 600 ) {
+		// 	$(".info_justified .variations tr").each( function(){
+		// 		// LOOP TO GET COUNT AND WIDTH
+		// 		var radioCount = 0,
+		// 		radioWidth = 0;
+		// 		$(this).children().not(".clear").each( function(i){
+		// 			radioCount++;
+		// 			radioWidth += $(this).width();
+		// 		});
+		// 		// WIDTH OF WHOLE INFO WRAPPER
+		// 		var container = $(this).width();
+		// 		var diff = container - radioWidth;
+		// 		var diffPerc = Math.floor( diff / ( radioCount - 1 ) / container * 100 );
+		// 		console.log( container, radioWidth, diff, diffPerc );
+		// 		$(this).find("td").css( "margin-right", diffPerc + "%" );
+		// 		// LAST HAS MARGIN REMOVED
+		// 		$(this).find("td").eq( radioCount - 1 ).css({
+		// 			"position" : "absolute",
+		// 			"right" : 0,
+		// 			"margin-right" : 0
+		// 		});
+		// 	});				
+		// }
 	}
 
 	// 5.4. SINGLE DESCRIPTION TOGGLE
@@ -745,7 +790,7 @@
 	// 5.5. SINGLE INFO HOVER
 
 	function singleInfoOn ( target, load ) {
-		if ( $(window).width() > 780 || load ) {
+		if ( $(window).width() > 800 || load ) {
 			console.log("singleInfoOn");
 			target.css({
 				"text-align" : "center",
@@ -774,7 +819,7 @@
 	}
 
 	function singleInfoOff ( target ) {
-		if ( $(window).width() > 780 ) {
+		if ( $(window).width() > 800 ) {
 			console.log("singleInfoOff");
 			target.css({
 				"text-align" : "",
@@ -938,17 +983,36 @@
 
 	// 7.2. WHOLESALE OTHER COLOURS
 
-	var targetOffset = 0;
-	function wsaleOtherColours ( click ) {
-		console.log("wsaleOtherColours");
+		// HOVER
+
+	function wsaleOtherColoursHover ( click ) {
+		// console.log("wsaleOtherColoursHover");
+		// GET TARGET TITLE
+		var targetText = click.find("p").text();
+		// INJECT INTO PLACEHOLDER
+		click.parents(".wholesale_product_title").find(".wholesale_other_colours_title").text( targetText );
+	}
+
+	function wsaleOtherColoursUnhover( click ) {
+		// console.log("wsaleOtherColoursUnhover");
+		// EMPTY PLACEHOLDER
+		click.parents(".wholesale_product_title").find(".wholesale_other_colours_title").text( "");
+	}
+
+		// CLICK
+
+	function wsaleOtherColoursClick ( click ) {
+		console.log("wsaleOtherColoursClick");
 		// GET TARGET ID
 		var targetId = click.data("id");
 		// GET OFFSET OF TARGET
-		targetOffset = $("#" + targetId).offset().top;
+		var targetOffset = $("#" + targetId).offset().top;
+		var padding = parseInt ( $(".page").css("padding-top") );
+		console.log(973, padding);
 		if ( targetOffset > 0 ) {
 			console.log( 884, targetOffset );
 			$("html,body").animate({
-				scrollTop : targetOffset
+				scrollTop : targetOffset - padding
 			}, 1000 );
 		}
 	}
@@ -964,11 +1028,17 @@
 			wrapper.css({
 				"height" : "300px"
 			});
+			wrapper.find("#wsale_filter_terms").css({
+				"padding-top": "0"
+			});
 			wrapper.removeClass("hidden");
 		} else {
 			console.log("hide");
 			wrapper.css({
 				"height" : ""
+			});
+			wrapper.find("#wsale_filter_terms").css({
+				"padding-top": ""
 			});
 			wrapper.addClass("hidden");
 		}
@@ -990,6 +1060,19 @@
 			}
 		});
 	}	
+
+	// 7.5. QUANTITY RESET
+
+	// function quantityReset () {
+	// 	console.log("quantityReset");
+
+ //        $(".quantity").each( function(){
+
+ //            console.log( $(this).find(".input-text").attr("value") );
+ //            // $(this).find(".input-text").reset();
+
+ //        });
+	// }
 
 
 

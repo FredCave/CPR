@@ -2,7 +2,8 @@
 <html <?php language_attributes(); ?> style="margin-top: 0px !important">
 
 <head>
-	<title>Can Pep Rey</title>
+	<?php $title = ucwords( strtolower ( get_the_title() ) ); ?>
+	<title>Can Pep Rey <?php if ( !is_front_page() ) echo "– " . $title; ?></title>
     <meta name="description" content="">
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=9" />

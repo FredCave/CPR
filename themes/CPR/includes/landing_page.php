@@ -49,9 +49,9 @@
 		<?php get_landing_page(); ?>
 	</ul>
 
-	<!-- LANDING PAGE SCROLL DOWN -->
-	<div id="landing_page_access">
-		<a href="">Store</a>
-	</div>
+</div>
 
+<!-- LANDING PAGE SCROLL DOWN -->
+<div id="landing_page_access">
+	<a href="">Store</a>
 </div>

@@ -45,7 +45,7 @@
 			<li class="nav_collection wrap" data-length="<?php echo $cols; ?>"><a href="">Collections</a></li>
 
 			<?php foreach ( $all_cats as $cat ) { 
-		    	if ( get_field( "cat_visible", "product_cat_" . $cat->term_taxonomy_id ) ) { ?>
+		    	if ( get_field( "cat_visible", "product_cat_" . $cat->term_taxonomy_id ) || is_user_logged_in() ) { ?>
 		    		<li id="<?php echo $cat->slug; ?>" class="nav_collection_2 nav_hidden">
 		    			<a data-href="<?php bloginfo( 'url' ); ?>/collection/<?php echo $cat->slug; ?>"><?php echo $cat->name; ?></a>
 		    		</li>
@@ -107,7 +107,7 @@
 		<!-- CART -->
 		<li id="secondary_cart">
 			<div id="cart_container">
-			    <a class="" href="<?php echo WC()->cart->get_cart_url(); ?>" title="<?php _e( 'View your shopping cart' ); ?>">
+			    <a class="cart-contents" href="<?php echo WC()->cart->get_cart_url(); ?>" title="<?php _e( 'View your shopping cart' ); ?>">
 			        <?php 
 			        echo WC()->cart->cart_contents_count . " / " . WC()->cart->get_cart_total(); ?>
 			    </a> 

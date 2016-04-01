@@ -1781,27 +1781,27 @@ class WWOF_Product_Listing {
 
                     $product_variations = $product->get_available_variations();
 
-                    $min_order_qty_html = '<div class="variable-minimum-order-quantity" style="display: none;">';
+                    // $min_order_qty_html = '<div class="variable-minimum-order-quantity" style="display: none;">';
 
-                    foreach ( $product_variations as $variation ) {
+                    // foreach ( $product_variations as $variation ) {
 
-                        $wholesale_price = $wc_wholesale_prices_premium->getProductWholesalePrice( $variation[ 'variation_id' ] , $wholesale_role );
-                        $wholesale_price = apply_filters( 'wwp_filter_wholesale_price_shop' , $wholesale_price , $variation[ 'variation_id' ] , $wholesale_role );
+                    //     $wholesale_price = $wc_wholesale_prices_premium->getProductWholesalePrice( $variation[ 'variation_id' ] , $wholesale_role );
+                    //     $wholesale_price = apply_filters( 'wwp_filter_wholesale_price_shop' , $wholesale_price , $variation[ 'variation_id' ] , $wholesale_role );
 
-                        // We only do this if there is a wholesale price set, we don't want to enforce minimum order quantity if there is no wholesale price
-                        if ( is_numeric( $wholesale_price ) ) {
+                    //     // We only do this if there is a wholesale price set, we don't want to enforce minimum order quantity if there is no wholesale price
+                    //     if ( is_numeric( $wholesale_price ) ) {
 
-                            $min_order_qty = get_post_meta( $variation[ 'variation_id' ] , $wholesale_role[ 0 ] . '_wholesale_minimum_order_quantity' , true );
-                            if ( !$min_order_qty )
-                                $min_order_qty = 1;
+                    //         $min_order_qty = get_post_meta( $variation[ 'variation_id' ] , $wholesale_role[ 0 ] . '_wholesale_minimum_order_quantity' , true );
+                    //         if ( !$min_order_qty )
+                    //             $min_order_qty = 1;
 
-                            $min_order_qty_html .= '<span data-variation-id="' . $variation[ 'variation_id' ] . '" class="min-order-qty">' . $min_order_qty . '</span>';
+                    //         $min_order_qty_html .= '<span data-variation-id="' . $variation[ 'variation_id' ] . '" class="min-order-qty">' . $min_order_qty . '</span>';
 
-                        }
+                    //     }
 
-                    }
+                    // }
 
-                    $min_order_qty_html .= '</div>';
+                    // $min_order_qty_html .= '</div>';
 
                 } else {
 
@@ -1822,6 +1822,8 @@ class WWOF_Product_Listing {
 
         } // WWPP check
 
+        $initial_value = 1;
+
         if ( $product->is_in_stock() ) {
 
             if ( $product->manage_stock == 'yes' ) {
@@ -1832,10 +1834,10 @@ class WWOF_Product_Listing {
                 if ( $stock_quantity > 0 )
                     $max_str = 'max="'. $stock_quantity .'"';
 
-                $quantity_field = '<div class="quantity buttons_added"><input type="button" value="-" class="minus"><input type="number" step="1" min="1" ' . $max_str . ' name="quantity" value="' . $initial_value . '" title="Qty" class="input-text qty text" size="4"><input type="button" value="+" class="plus"></div>';
+                $quantity_field = '<div class="quantity buttons_added"><input type="button" value="-" class="minus"><input type="number" step="1" min="1" ' . $max_str . ' name="quantity" value="1" title="Qty" class="input-text qty text 1835" size="4"><input type="button" value="+" class="plus"></div>';
 
             } else
-                $quantity_field = '<div class="quantity buttons_added"><input type="button" value="-" class="minus"><input type="number" step="1" min="1" name="quantity" value="' . $initial_value . '" title="Qty" class="input-text qty text" size="4"><input type="button" value="+" class="plus"></div>';
+                $quantity_field = '<div class="quantity buttons_added"><input type="button" value="-" class="minus"><input type="number" step="1" min="1" name="quantity" value="1" title="Qty" class="input-text qty text" size="4"><input type="button" value="+" class="plus"></div>';
             
         } else
             $quantity_field = '<span class="out-of-stock">' . __( 'Out of Stock' , 'woocommerce-wholesale-order-form' ) . '</span>';

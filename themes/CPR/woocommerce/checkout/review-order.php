@@ -68,11 +68,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<?php if ( WC()->cart->needs_shipping() && WC()->cart->show_shipping() ) : ?>
 
-			<?php do_action( 'woocommerce_review_order_before_shipping' ); ?>
+			<?php 
+			/* HIDE SHIPPING IF USER LOGGED IN */
+			if ( !is_user_logged_in () ) {
 
-			<?php wc_cart_totals_shipping_html(); ?>
+				do_action( 'woocommerce_review_order_before_shipping' );
 
-			<?php do_action( 'woocommerce_review_order_after_shipping' ); ?>
+				wc_cart_totals_shipping_html(); 
+
+				do_action( 'woocommerce_review_order_after_shipping' ); 
+
+			} ?>
 
 		<?php endif; ?>
 

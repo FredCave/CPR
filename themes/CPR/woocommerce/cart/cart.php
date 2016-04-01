@@ -5,6 +5,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <div id="cart">
 
+	<!-- IF WHOLESALE BACK TO ORDER PAGE -->
+	<?php if ( is_user_logged_in() ) { ?>
+		<p class="return-to-shop">
+			<a class="button" href="<?php bloginfo( 'url' ); ?>/wholesale-ordering/">
+				Return to Wholesale Order Page
+			</a>
+		</p>
+	<?php } ?>
+
 	<form action="<?php echo esc_url( WC()->cart->get_cart_url() ); ?>" method="post">
 
 		<?php do_action( 'woocommerce_before_cart_table' ); ?>
@@ -26,8 +35,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 				<?php
 				foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
+					// echo "<pre>";
+					// var_dump( $cart_item ); 
+					// echo "</pre>";
 					$_product     = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
 					$product_id   = apply_filters( 'woocommerce_cart_item_product_id', $cart_item['product_id'], $cart_item, $cart_item_key );
+					// echo $product_id;
 
 					if ( $_product && $_product->exists() && $cart_item['quantity'] > 0 && apply_filters( 'woocommerce_cart_item_visible', true, $cart_item, $cart_item_key ) ) {
 					?>
@@ -74,11 +87,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 							</td>
 
 							<td class="product-name">
-								<?php
-								echo $_product->get_title();
-
+								<a href="<?php echo get_bloginfo( 'url' ) . "/?p=" . $product_id; ?>">
+									<?php echo $_product->get_title(); ?>
+								</a>
+								<?php								
 								// Meta data
 								echo WC()->cart->get_item_data( $cart_item );
+								// var_dump( $cart_item );
 
 								// Backorder notification
 								if ( $_product->backorders_require_notification() && $_product->is_on_backorder( $cart_item['quantity'] ) ) {

@@ -148,6 +148,10 @@ jQuery( document ).ready( function( $ ) {
                 removeProcessingOverlay();
 
             } );
+
+
+
+
     }
 
     function blockFragments ( fragments ) {
@@ -322,16 +326,19 @@ jQuery( document ).ready( function( $ ) {
             .attr( 'disabled' , 'disabled' )
             .siblings( '.spinner' )
             .removeClass( 'success' )
-            .removeClass( 'error' )
-            .css( 'display' , 'inline-block' );
+            .removeClass( 'error' );
+            // .css( 'display' , 'inline-block' );
 
         disableSearchCommandFields();
         disabledPagingLinks();
 
         var productType = $current_tr.find( ".product_meta_col" ).find( ".product_type" ).text(),
             productID = $current_tr.find( ".product_meta_col" ).find( ".main_product_id" ).text(),
-            variationID = $current_tr.find( ".product_title_col" ).find( ".product_variations" ).find( "option:selected" ).val() || 0,
-            quantity = $current_tr.find( ".product_quantity_col" ).find( ".qty" ).val();
+            //variationID = $current_tr.find( ".product_title_col" ).find( ".product_variations" ).find( "option:selected" ).val() || 0,
+            variationID = $this.parents(".variation_wrapper").attr("data-variation"),
+            //quantity = $current_tr.find( ".product_quantity_col" ).find( ".qty" ).val();
+            quantity = $this.siblings( ".quantity" ).find( ".qty" ).val();
+            // console.log( 335, productType, productID, variationID, quantity );
 
         if ( productType == "variable" && variationID == 0 ) {
 
@@ -362,6 +369,9 @@ jQuery( document ).ready( function( $ ) {
                     $wwofProductListingContainer
                         .find( ".wwof_cart_sub_total" )
                         .replaceWith( data.cart_subtotal_markup );
+
+                    // CUSTOM UPDATE MAIN CART TALLY
+                    // console.log( 374, data );
 
                     $this
                         .removeAttr( 'disabled' )

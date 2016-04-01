@@ -49,6 +49,7 @@ global $wc_wholesale_order_form;
 
                 $product_loop->the_post();
                 $product = wc_get_product( get_the_ID() );
+                $product_id = $product->id;
 
                 // TODO: add composite and bundled product support for next version, for now lets just skip them
                 if ( $product->product_type == 'bto' || $product->product_type == 'composite' || $product->product_type == 'bundle' ) {
@@ -63,9 +64,11 @@ global $wc_wholesale_order_form;
                     ?>
 
                 <tr id="<?php echo get_the_ID(); ?>" class="<?php echo $tags[0]->slug . " " . $cat[0]->slug; ?>">
+                    
                     <td class="product_meta_col" style="display: none !important;">
                         <?php echo $wc_wholesale_order_form->getProductMeta( $product ); ?>
                     </td>
+                    
                     <td class="product_title_col">
                         <!-- DIVIDE IN TWO -->
                         <div class="wholesale_product_image">
@@ -85,7 +88,7 @@ global $wc_wholesale_order_form;
                                         endif; ?>
                                     <li class="<?php if ( $i === 1 ) { echo "visible"; } ?>">
                                         <img class="wholesale_image" 
-                                            sizes="25vw" 
+                                            sizes="(max-width: 800px) 50vw, 25vw" 
                                             srcset="<?php echo $full; ?> 2000w,
                                                     <?php echo $extralarge; ?> 1024w,
                                                     <?php echo $large; ?> 800w,
@@ -108,12 +111,32 @@ global $wc_wholesale_order_form;
                         <div class="wholesale_product_title">
                             <p><?php echo $wc_wholesale_order_form->getProductTitle( $product , get_the_permalink() ); ?></p>
                             <p><?php echo $this_sku = $product->get_sku(); ?></p>
+                       
                             <p><?php echo $wc_wholesale_order_form->getProductVariationField( $product ); ?></p>
+
+                            <span class="product_price_col wholesale_prices">
+                                <?php echo $wc_wholesale_order_form->getProductPrice( $product ); ?>
+                            </span>
                         
                             <!-- VIGNETTES OF RELATED ITEMS -->
-                            <?php other_colours( get_the_ID(), true ); ?>
+                            <?php
+                            other_colours( $product_id, true );
+                            ?>
+
+                            <!-- PLACEHOLDER FOR TITLES -->
+                            <p class="wholesale_other_colours_title"></p>
+                         
+                            <!-- DESCRIPTION -->
+                            <div class="wholesale_desc wholesale_desc_left">
+                            <?php if ( get_field( "product_description", $product_id ) ) {
+                                echo get_field( "product_description", $product_id );
+                            }?>
+                            </div>
 
                         </div>
+
+
+
                     </td>
                     <td class="product_sku_col <?php echo $wc_wholesale_order_form->getProductSkuVisibilityClass(); ?>">
                         <!--<?php echo $wc_wholesale_order_form->getProductSku( $product ); ?>-->
@@ -122,29 +145,54 @@ global $wc_wholesale_order_form;
                         
                     </td>
                     <td class="product_stock_quantity_col <?php echo $wc_wholesale_order_form->getProductStockQuantityVisibilityClass(); ?>">
-                        <?php echo $wc_wholesale_order_form->getProductStockQuantity( $product ); ?>
+                        <?php /* echo $wc_wholesale_order_form->getProductStockQuantity( $product ); */ ?>
+                        <!-- DESCRIPTION -->
+                        <div class="wholesale_desc wholesale_desc_right">
+                        <?php if ( get_field( "product_description", $product_id ) ) {
+                            echo get_field( "product_description", $product_id );
+                        }?>
+                        </div>
+
+
                     </td>
                     <td class="product_quantity_col">
-                        <span class="product_price_col wholesale_prices">
-                            <?php echo $wc_wholesale_order_form->getProductPrice( $product ); ?>
-                        </span>
-                        
-                        <p><?php echo $wc_wholesale_order_form->getProductQuantityField( $product ); ?></p>
-                        <p><?php echo $wc_wholesale_order_form->getProductRowActionFields( $product ); ?></p>
-                        <pre>
-                        <?php /* foreach( WC()->cart->get_cart() as $cart_item_key => $values ) {
-                            $_product = $values['data'];
-                                // IF CART PRODUCT ID === CURRENT ID
-                                if ( $values ["product_id"] === get_the_ID() ) {
-                                    echo $values ["product_id"] . "<br>";
-                                    echo $values['quantity'] . "<br>";
-                                    echo $values["variation"]["attribute_pa_size"] . "<br>";
-                                    //echo $values["data"]["post_title"];
-                                    echo $values["data"]->post->post_title . "<br>";
-                                }
-                            } */
+                    
+                        <?php 
+                        $product_variations = $product->get_available_variations();
+                        foreach ( array_reverse($product_variations) as $variation ) { 
+                            $variation_id = $variation['variation_id'];
+                            ?>
+                            <div class="variation_wrapper" data-variation="<?php echo $variation_id; ?>">
+                                <p>
+                                    <?php echo $variation["attributes"]["attribute_pa_size"]; ?>
+                                    <!-- ALREADY IN CART -->   
+                                    <?php 
+                                        // echo $variation_id;
+                                        foreach( WC()->cart->get_cart() as $cart_item_key => $values ) {
+                                            $cart_id = $values['data']->variation_id;
+                                            //echo $values ["product_id"] . ", " . get_the_ID();
+                                            // IF CART PRODUCT ID === CURRENT ID
+                                            if ( $variation_id === $cart_id ) {
+                                                echo "<span class'already_in_cart'>" . " (x " . $values['quantity'] . ")</span>";
+                                                // echo $values["variation"]["attribute_pa_size"] . "<br>";
+                                                //echo "<span class'already_in_cart'>" . " x " . $values['quantity'] . $values["variation"]["attribute_pa_size"] . "</span>";
+                                                // //echo $values["data"]["post_title"];
+                                                // echo $values["data"]->post->post_title . "<br>";
+                                            }
+                                        }
+                                    ?>
+                                </p>
+                                <?php echo $wc_wholesale_order_form->getProductQuantityField( $product ); ?> 
+                                <input type="button" class="wwof_add_to_cart_button btn btn-primary single_add_to_cart_button button alt" value="<?php echo __( 'Add To Cart' , 'woocommerce-wholesale-order-form' ); ?>"/>
+                                <span class="spinner"></span> 
+
+                            </div>
+                        <?php
+                        }
                         ?>
-                        </pre>
+                        
+
+                       
                     </td>
                     <td class="product_row_action">
                         
@@ -153,6 +201,7 @@ global $wc_wholesale_order_form;
                 <?php
 
             }// End while loop
+            $product_loop->reset_postdata();
 
         }else{
 
