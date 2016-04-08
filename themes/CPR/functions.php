@@ -154,7 +154,8 @@ function other_colours ( $the_id, $wholesale ) {
     $stub = $stubs[0];   
     // LOOP THROUGH PRODUCTS
     $args = array(
-        'post_type' => 'product'
+        'post_type'     => 'product',
+        'post_status'   => 'publish'
     );
     $sku_query = new WP_Query( $args );
     if ( $sku_query->have_posts() ) :

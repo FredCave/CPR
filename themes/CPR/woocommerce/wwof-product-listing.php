@@ -87,14 +87,19 @@ global $wc_wholesale_order_form;
                                             $full = $image["product_image"]["url"];
                                         endif; ?>
                                     <li class="<?php if ( $i === 1 ) { echo "visible"; } ?>">
-                                        <img class="wholesale_image" 
-                                            sizes="(max-width: 800px) 50vw, 25vw" 
-                                            srcset="<?php echo $full; ?> 2000w,
+                                        <?php /* <img class="wholesale_image" 
+                                            data-sizes="(max-width: 800px) 50vw, 25vw" 
+                                            src="<?php echo $medium; ?>" 
+                                        /> */ ?>
+                                        <img class="wholesale_image lazyload" 
+                                            src="<?php echo $thumb; ?>" 
+                                            data-sizes="auto"
+                                            data-src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" 
+                                            data-srcset="<?php echo $full; ?> 2000w,
                                                     <?php echo $extralarge; ?> 1024w,
                                                     <?php echo $large; ?> 800w,
                                                     <?php echo $medium; ?> 600w,
                                                     <?php echo $thumb; ?> 300w"
-                                            src="<?php echo $medium; ?>"
                                             alt="Can Pep Rey"
                                         />
                                     </li>                              
@@ -109,7 +114,7 @@ global $wc_wholesale_order_form;
 
                         <?php /* echo $wc_wholesale_order_form->getProductImage( $product , get_the_permalink() , array( 48 , 48 ) ); // array here means image dimension */ ?>
                         <div class="wholesale_product_title">
-                            <p><?php echo $wc_wholesale_order_form->getProductTitle( $product , get_the_permalink() ); ?></p>
+                            <p class="wsale_product_title"><?php echo $wc_wholesale_order_form->getProductTitle( $product , get_the_permalink() ); ?></p>
                             <p><?php echo $this_sku = $product->get_sku(); ?></p>
                        
                             <p><?php echo $wc_wholesale_order_form->getProductVariationField( $product ); ?></p>
@@ -128,9 +133,16 @@ global $wc_wholesale_order_form;
                          
                             <!-- DESCRIPTION -->
                             <div class="wholesale_desc wholesale_desc_left">
-                            <?php if ( get_field( "product_description", $product_id ) ) {
-                                echo get_field( "product_description", $product_id );
-                            }?>
+                                <p>
+                                    <?php if ( get_field( "product_info", $product_id ) ) {
+                                        echo get_field( "product_info", $product_id );
+                                    } ?>
+                                </p>
+                                <p>
+                                    <?php if ( get_field( "product_description", $product_id ) ) {
+                                        echo get_field( "product_description", $product_id );
+                                    } ?>
+                                </p>
                             </div>
 
                         </div>
@@ -148,9 +160,16 @@ global $wc_wholesale_order_form;
                         <?php /* echo $wc_wholesale_order_form->getProductStockQuantity( $product ); */ ?>
                         <!-- DESCRIPTION -->
                         <div class="wholesale_desc wholesale_desc_right">
-                        <?php if ( get_field( "product_description", $product_id ) ) {
-                            echo get_field( "product_description", $product_id );
-                        }?>
+                            <p>
+                                <?php if ( get_field( "product_info", $product_id ) ) {
+                                    echo get_field( "product_info", $product_id );
+                                } ?>
+                            </p>
+                            <p>
+                                <?php if ( get_field( "product_description", $product_id ) ) {
+                                    echo get_field( "product_description", $product_id );
+                                } ?>
+                            </p>
                         </div>
 
 
@@ -159,30 +178,52 @@ global $wc_wholesale_order_form;
                     
                         <?php 
                         $product_variations = $product->get_available_variations();
+                        // LOOP THROUGH VARIATIONS
                         foreach ( array_reverse($product_variations) as $variation ) { 
                             $variation_id = $variation['variation_id'];
                             ?>
                             <div class="variation_wrapper" data-variation="<?php echo $variation_id; ?>">
-                                <p>
-                                    <?php echo $variation["attributes"]["attribute_pa_size"]; ?>
-                                    <!-- ALREADY IN CART -->   
+                                
+                                    <!-- VARIATION TITLE -->   
+                                    <p class="variation_size">
+                                        <?php echo $variation["attributes"]["attribute_pa_size"]; ?>
+                                    </p>
+                                    
+                                    <!-- QUANTITIES -->   
                                     <?php 
-                                        // echo $variation_id;
+                                        $in_cart = 0;
+                                        // LOOP THROUGH CART ITEMS
                                         foreach( WC()->cart->get_cart() as $cart_item_key => $values ) {
                                             $cart_id = $values['data']->variation_id;
                                             //echo $values ["product_id"] . ", " . get_the_ID();
                                             // IF CART PRODUCT ID === CURRENT ID
                                             if ( $variation_id === $cart_id ) {
-                                                echo "<span class'already_in_cart'>" . " (x " . $values['quantity'] . ")</span>";
-                                                // echo $values["variation"]["attribute_pa_size"] . "<br>";
-                                                //echo "<span class'already_in_cart'>" . " x " . $values['quantity'] . $values["variation"]["attribute_pa_size"] . "</span>";
-                                                // //echo $values["data"]["post_title"];
-                                                // echo $values["data"]->post->post_title . "<br>";
-                                            }
+                                                // IF IN CART
+                                                // var_dump( $cart_item_key );
+                                                    // echo "<span class'already_in_cart'>" . " (x " . $values['quantity'] . ")</span>";
+                                                    // echo $values["variation"]["attribute_pa_size"] . "<br>";
+                                                    //echo "<span class'already_in_cart'>" . " x " . $values['quantity'] . $values["variation"]["attribute_pa_size"] . "</span>";
+                                                    // //echo $values["data"]["post_title"];
+                                                    // echo $values["data"]->post->post_title . "<br>";
+                                                $in_cart = $values['quantity'];
+                                                $product_quantity = woocommerce_quantity_input( array(
+                                                    'input_name'  => "cart[{$cart_item_key}][qty]",
+                                                    //'input_value' => $in_cart,
+                                                    'input_value' => '1',
+                                                    'max_value'   => $product->backorders_allowed() ? '' : $product->get_stock_quantity(),
+                                                    'min_value'   => '0'
+                                                    ), $product, false );            
+                                                echo apply_filters( 'woocommerce_cart_item_quantity', $product_quantity, $cart_item_key, $values );                                                                                           
+                                            } 
+                                        } // END OF CART FOR EACH
+                                        // IF NOT IN CART
+                                        if ( $in_cart === 0 ) {
+                                           echo $wc_wholesale_order_form->getProductQuantityField( $product ); 
                                         }
                                     ?>
-                                </p>
-                                <?php echo $wc_wholesale_order_form->getProductQuantityField( $product ); ?> 
+                                
+                                <!--<input type="submit" class="update_cart button" name="update_cart" value="<?php esc_attr_e( 'Update Cart', 'woocommerce' ); ?>" />-->
+                                <!-- NEEDS FIXING -->
                                 <input type="button" class="wwof_add_to_cart_button btn btn-primary single_add_to_cart_button button alt" value="<?php echo __( 'Add To Cart' , 'woocommerce-wholesale-order-form' ); ?>"/>
                                 <span class="spinner"></span> 
 
@@ -230,7 +271,7 @@ global $wc_wholesale_order_form;
         </span>
     </div>
 
-<?php echo $wc_wholesale_order_form->getCartSubtotal(); ?>
+<?php /* echo $wc_wholesale_order_form->getCartSubtotal(); */ ?>
 
     <?php echo $wc_wholesale_order_form->getGalleryListingPagination( $paged , $product_loop->max_num_pages , $search , $cat_filter ); ?>
 

@@ -8,16 +8,11 @@
 
 	<div id="news" class="page page_margin">
 
-		<!-- CAMPAIGN LIST -->
+		<!-- CAMPAIGN LIST – MODIFIED TO LINK TO CAMPAING PAGE -->
 		<ul id="campaign_list">
-			<?php $the_query = new WP_Query("post_type=campaign");
-			if ( $the_query -> have_posts() ) :
-		        while ( $the_query -> have_posts() ) : $the_query-> the_post(); ?>
-		    		<li>
-		    			<a href="<?php bloginfo( 'url' ); ?>/campaigns"><h4 class="campaign_title">Campaign <?php the_title(); ?></h4></a>
-					</li>
-		    <?php endwhile;
-		    endif; ?>		
+    		<li>
+    			<a href="<?php bloginfo( 'url' ); ?>/campaigns"><h4 class="campaign_title wrap">Campaigns</h4></a>
+			</li>		
 		</ul>
 
 		<!-- NEWS LIST -->

@@ -72,30 +72,42 @@ $(document).ready( function(){
 	var handleMediaChange = function (mql) {
 		console.log("mql");
 	    // Gives number of columns for image injection
-	    if (mql.s.matches) {
+	    if (mql.v.matches) {
+	    	// IF SCREEN VERTICAL
+	    		// LOAD COLLECTION
+			if ( !collLoaded ) {
+				collectionInit();
+				collLoaded = true;
+			}
+	    	landingDown();
+	    	imagesPrep();
+			console.log( "mql", 92 );
+	    } else if (mql.s.matches) {
 	        // Less than 600px wide     
 	    	imagesPrep();
 
 			// REPOSITION SINGLE GALLERY IMGs
 	    	slideShowResize();
-
+	    	// console.log( "mql", 81 );
 	    } else if (mql.m.matches) {
 	        // More than 600px wide
 			imagesPrep();	
 			// REPOSITION SINGLE GALLERY IMGs
 	    	slideShowResize();
-	    	
-	    } else {
+	    	// console.log( "mql", 87 );
+		} else {
 	    	// More than 800px wide
 			imagesPrep();
 			// REPOSITION SINGLE GALLERY IMGs
 	    	slideShowResize();
+	    	// console.log( "mql", 97 );
 	    }
 	}
 
 	var mql = {};
 	mql.s = window.matchMedia("(max-width: 600px)");
 	mql.m = window.matchMedia("(max-width: 800px)");
+	mql.v = window.matchMedia(" (orientation:portrait), (max-aspect-ratio:3/4) ");
 	mql.s.addListener(function(){
 		handleMediaChange(mql);
 	});
@@ -199,6 +211,14 @@ $(document).ready( function(){
 	// 2.3. NAV LI HOVER
 	
 	$("#nav li").not("#nav_share, #nav_home").hover( function(){
+		navLiCompress( $(this) );
+	}, function () {
+		navLiReset( $(this) );
+	});
+
+		// ADDITION – CAMPAIGNS LINK
+
+	$("#news .campaign_title").hover( function(){
 		navLiCompress( $(this) );
 	}, function () {
 		navLiReset( $(this) );
@@ -359,6 +379,11 @@ $(document).ready( function(){
 	$(".wsale_term").on( "click", function (e) {
 		e.preventDefault();
 		wsaleFilter( $(this) );
+	});
+
+		// RESET
+	$("#wwof_product_displayall_btn").on( "click", function(){
+		wsaleFilterReset();
 	});
 
 

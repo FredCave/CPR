@@ -10,15 +10,12 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
-
 get_header();
 get_sidebar();
-
 // wc_print_notices(); 
 ?>
 
 <!-- WHOLESALE LOGIN HERE -->
-
 
 <p class="myaccount_user my_account">
 	<?php
@@ -32,8 +29,6 @@ get_sidebar();
 <div id="wholesale_link" class="my_account">
 	<a class="button" href="<?php bloginfo( 'url' ); ?>/wholesale-ordering/">Wholesale order page</a>
 </div>
-
-
 
 <?php /*do_action( 'woocommerce_before_my_account' ); ?>
 

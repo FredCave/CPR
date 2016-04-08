@@ -473,7 +473,6 @@
 					var imgRatio = $(this).attr("width") / $(this).attr("height");
 					// WIDTH BASED ON PARENT HEIGHT
 					var newWidth = $(this).parents("li").height() * imgRatio;
-					console.log( 470, newWidth );
 					$(this).css( "width", newWidth ).addClass("lazyload").attr( "data-ratio", imgRatio );
 				});
 				// INITIATE LAZYSIZES
@@ -538,7 +537,6 @@
 			var filterText = $(this).find("a").attr("id");
 			if ( !$(".product-tag-" + filterText).length ) {
 				$(this).hide();
-				console.log(449, filterText);
 			} 
 		});
 	}
@@ -550,7 +548,6 @@
 		// REPLACE SPACES BY HYPHENS
 		thisTag = thisTag.replace(" ","-");
 		var thisClass = "product-tag-" + thisTag;
-		console.log( 324, thisTag, thisClass );
 
 		//$(".product").not(".single_product").hide();
 		$(".product").hide();
@@ -559,7 +556,6 @@
 		//$(".product").not(".single_product").each( function(){
 		$(".product").each( function(){
 			if ( $(this).hasClass( thisClass ) ) {
-				console.log( 332, thisClass );	
 				$(this).addClass("selected-product");
 			}
 		});	
@@ -671,13 +667,11 @@
 	function slideShowGo ( gallery ) {
 		console.log("slideShowGo");
 		// CLICK = .GALLERY
-		console.log( 435, gallery.find(".visible").next().length );
 		// IF NEXT EXISTS
 		if ( gallery.find(".visible").next().length ) {			
 			// MAKE NEXT VISIBLE
 			gallery.find(".visible").removeClass("visible").next().addClass("visible");
-		} else {	
-			console.log(441);	
+		} else {		
 			// GO BACK TO BEGINNING
 			gallery.find(".visible").removeClass("visible");
 			if ( gallery.find(".invisible").length ) {
@@ -692,12 +686,10 @@
 	function slideShowResize () {
 		console.log("slideShowResize");
 		if ( $(window).width() <= 800 ) {
-			console.log( 684 );
 			$(".single_images_right").each( function(){
 				$(this).find(".invisible").removeClass("invisible").addClass("was_invisible");
 			});	
 		} else {
-			console.log( 689 );
 			$(".single_info_right").each( function(){
 				$(this).find(".was_invisible").removeClass("was_invisible").addClass("invisible");
 			});				
@@ -872,7 +864,21 @@
 		$("iframe").each( function(){
 			var thisR = $(this).attr("width") / $(this).attr("height");
 			var newH = $(this).width() / thisR;
-			$(this).css( "height", newH );
+			var maxH = $(window).height() * 0.8;
+			console.log( 868, maxH, maxH * thisR );
+			// IF TALLER THAN PARENT
+			if ( newH > maxH ) {
+				$(this).css({
+					"height" : maxH,
+					"width" : maxH * thisR
+				});	
+			} else {
+				$(this).css({
+					"height" : newH,
+					"width" : "" 	
+				});	
+			}
+
 			// console.log( $(this).width(), thisR );
 			// RESIZE PARENT 
 			$(this).parents(".news_content").css( "min-height", newH );
@@ -891,31 +897,43 @@
 		var ratios = [];
 		$(".campaign_photos img").each( function(){
 			// GET RATIOS
-			// console.log( 828, $(this).attr("width"), $(this).attr("height") );
 			var thisRatio = $(this).attr("width") / $(this).attr("height");
 			if ( !isNaN(thisRatio) ) {
 				ratios.push( thisRatio );
 			}
 			if ( $(this).attr("width") > $(this).attr("height") ) {
+				// LANDSCAPE
 				$(this).css({
 					"width" : "100%",
 					"height" : "auto"
 				});
 			} else {
+				// PORTRAIT
 				$(this).css({
 					"width" : "auto",
 					"height" : "100%"
 				});	
-			}
-			
+			}		
 		});
 		// GET SMALLEST RATIO
 		Array.min = function( array ){
 		    return Math.min.apply( Math, array );
 		};
 		var finalRatio = Array.min(ratios);
-		$(".campaign_images").css( "height", $(".campaign_photos").width() * finalRatio );
-
+		var finalH = $(".campaign_photos").width() * finalRatio;
+		if ( finalH > $(window).height() * 0.8 ) {
+			// IF IMAGES TOO TALL FOR SCREEN
+			$(".campaign_images").css({
+				"height" : $(window).height() * 0.8,
+				"width" : $(window).height() * 0.8 / finalRatio
+			});
+		} else {
+			$(".campaign_images").css({
+				"height" : finalH,
+				"width" : ""
+			});
+		}
+		
 		// INIT CAMPAIGN SLIDESHOW
 		$(".campaign_images li").eq(0).addClass("visible");
 	}
@@ -979,6 +997,9 @@
 		$(".variable_price .price").each( function(){
 			$(this).find("del .amount").prepend("RRP: ").unwrap();
 		});
+		// INITIATE LAZYSIZES
+		console.log(983);
+		lazySizes.init();
 	}
 
 	// 7.2. WHOLESALE OTHER COLOURS
@@ -1022,11 +1043,17 @@
 	function wsaleFilterToggle ( click ) {
 		console.log("wsaleFilterToggle");
 		var wrapper = $("#search_wrapper");
+		var termsH = $("#wsale_filter_terms").height();
+		var termsPadding = 80;
+		if ( $(window).width() < 980 && $(window).width() > 500 ) {
+			termsPadding = 140;
+		} 
+		console.log( $(window).width(), termsH, termsPadding );
 		// CHECK IF HIDDEN
 		if ( wrapper.hasClass("hidden") ) {
 			console.log("show");
 			wrapper.css({
-				"height" : "300px"
+				"height" : termsH + termsPadding
 			});
 			wrapper.find("#wsale_filter_terms").css({
 				"padding-top": "0"
@@ -1050,16 +1077,56 @@
 		console.log("wsaleFilter");
 		// GET TARGET
 		var target = click.data("target");
-		console.log(target);
-		// LOOP THROUGH ITEMS
-		$("#wwof_product_listing_ajax_content").find("tbody tr").each( function(){
-			// $("#wwof_product_listing_ajax_content").find("tbody tr").hide();
-			if ( $(this).hasClass( target ) ) {
-				console.log("bingo");
-				$(this).fadeIn().siblings("tr").hide();				
+		// GET CLASS
+		if ( click.hasClass("wsale_term_cat") ) {
+			// CATEGORY
+				// GET AVAILABLE OPTIONS FROM DROPDOWN
+			var dropdown = $("#wwof_product_search_category_filter");
+			dropdown.find("option").each( function(){
+				var optionName = $(this)[0].innerHTML;
+				var optionSlug = optionName.toLowerCase().split(" ").join("-");
+				if ( target === optionSlug ) {
+					// GET VAL
+					var thisVal = $(this)[0].index;
+					// REMOTELY SELECT IN DROPDOWN
+					dropdown.prop( "selectedIndex", thisVal );
+					// CLEAR TEXT FIELD
+					$("#wwof_product_search_form").val("");
+				}
+			});
+		} else if ( click.hasClass("wsale_term_tag") ) {
+			// TAG
+			// PLURAL TO SINGULAR
+			var lastLetter = target.slice(-1);
+			var secondLastLetter = target.slice(-2);
+			if ( secondLastLetter === "es" ) {
+				target = target.substring(0, target .length - 2);
+			} else if ( lastLetter === "s" ) {
+				target = target.substring(0, target .length - 1);
 			}
-		});
+			// REMOVE HYPHENS FOR TSHIRTS		
+			if ( target.indexOf("-") > -1 ) {
+				target = target.split("-").join("");
+			}
+				// INJECT TEXT IN SEARCH FIELD
+			$("#wwof_product_search_form").val( target );
+		}
+		// TRIGGER CLICK
+		$("#wwof_product_search_btn")[0].click();
+
+		// HIGHLIGHT SELECTED TAG
+		$("#wsale_filter_terms a").css( "border-bottom", "" );
+		click.css( "border-bottom", "2px solid black" );
+
 	}	
+
+	function wsaleFilterReset () {
+		console.log("wsaleFilterReset");
+		// CLEAR SELECTED TERMS
+		$("#wsale_filter_terms a").css( "border-bottom", "" );
+		// CLEAR TEXT FIELD
+		$("#wwof_product_search_form").val("");
+	}
 
 	// 7.5. QUANTITY RESET
 
