@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         <tr>
                                             <td id="header_wrapper" style="">
                                             	<a href="http://canpeprey.com/">
-                                                    <img style="width: 100%; height: auto;" src="http://jackandbill.com/cpr2/wp-content/themes/CPR/img/can-pep-rey.png" />
+                                                    <img style="width: 100%; height: auto;" src="http://jackandbill.com/static/cpr_logo.png" />
                                                 </a>
                                                 <!--<h1 style="text-align: center; font-weight: bold; text-transform: uppercase;"><?php echo $email_heading; ?></h1>-->
                                             </td>

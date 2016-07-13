@@ -162,6 +162,8 @@ function wc_cart_totals_subtotal_html() {
 function wc_cart_totals_shipping_html() {
 	$packages = WC()->shipping->get_packages();
 
+
+
 	foreach ( $packages as $i => $package ) {
 		$chosen_method = isset( WC()->session->chosen_shipping_methods[ $i ] ) ? WC()->session->chosen_shipping_methods[ $i ] : '';
 		$product_names = array();

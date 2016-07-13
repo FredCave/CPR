@@ -7,7 +7,11 @@
 		<img src="<?php bloginfo( 'template_url' ); ?>/img/loading.gif" />
 	</div>
 
-	<div class="page">
+	<?php 
+	$title = strtolower( get_the_title() );
+	?>
+
+	<div class="page page-<?php echo $title; ?>">
 		<?php while ( have_posts() ) : the_post();
 			the_content();
 		endwhile; ?>

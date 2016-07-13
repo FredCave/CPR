@@ -59,26 +59,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<td><?php wc_cart_totals_subtotal_html(); ?></td>
 		</tr>
 
-		<?php foreach ( WC()->cart->get_coupons() as $code => $coupon ) : ?>
-			<tr class="cart-discount coupon-<?php echo esc_attr( sanitize_title( $code ) ); ?>">
-				<th><?php wc_cart_totals_coupon_label( $coupon ); ?></th>
-				<td><?php wc_cart_totals_coupon_html( $coupon ); ?></td>
-			</tr>
-		<?php endforeach; ?>
+		<?php if ( is_user_logged_in() ) : ?>
+			<?php foreach ( WC()->cart->get_coupons() as $code => $coupon ) : ?>
+				<tr class="cart-discount coupon-<?php echo esc_attr( sanitize_title( $code ) ); ?>">
+					<th><?php wc_cart_totals_coupon_label( $coupon ); ?></th>
+					<td><?php wc_cart_totals_coupon_html( $coupon ); ?></td>
+				</tr>
+			<?php endforeach; ?>
+		<?php endif; ?>
 
 		<?php if ( WC()->cart->needs_shipping() && WC()->cart->show_shipping() ) : ?>
 
 			<?php 
-			/* HIDE SHIPPING IF USER LOGGED IN */
-			if ( !is_user_logged_in () ) {
-
+			
 				do_action( 'woocommerce_review_order_before_shipping' );
 
 				wc_cart_totals_shipping_html(); 
 
 				do_action( 'woocommerce_review_order_after_shipping' ); 
 
-			} ?>
+			?>
 
 		<?php endif; ?>
 

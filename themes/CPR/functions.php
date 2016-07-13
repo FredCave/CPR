@@ -22,10 +22,14 @@ function enqueue_cpr_scripts() {
   
     wp_deregister_script( 'jquery' );
     wp_register_script( 'jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js');
-    // wp_register_script( 'jquery', get_template_directory_uri() . '/js/jquery.min.js');
+   // wp_register_script( 'jquery', get_template_directory_uri() . '/js/jquery.min.js');
     wp_enqueue_script( 'jquery' );  
     
     wp_enqueue_script('all_scripts', get_template_directory_uri() . '/js/scripts.min.js', array('jquery'), true);
+
+    // wp_register_script( "ajax_test", get_template_directory_uri() . '/js/custom_ajax.js', array('jquery') );
+    // wp_localize_script( 'ajax_test', 'myAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );        
+    // wp_enqueue_script( 'ajax_test' );
 
 }
 add_action('wp_enqueue_scripts', 'enqueue_cpr_scripts');
@@ -146,9 +150,11 @@ function related_items ( $the_id ) {
 // GET OTHER COLOURS
 
 function other_colours ( $the_id, $wholesale ) {
+    // $THE_ID = CURRENT PRODUCT
     // GET SKU OF CURRENT PRODUCT
     $this_product = wc_get_product( $the_id );
     $this_sku = $this_product->get_sku();
+    // echo $this_sku;
     // GET STUB OF SKU
     $stubs = explode("-", $this_sku);
     $stub = $stubs[0];   
@@ -160,13 +166,17 @@ function other_colours ( $the_id, $wholesale ) {
     $sku_query = new WP_Query( $args );
     if ( $sku_query->have_posts() ) :
         while ( $sku_query->have_posts() ) : $sku_query->the_post();
-            global $product;
-            $loop_sku = $product->get_sku();
-            $loop_id = $product->id;
+ 
+            $loop_product = wc_get_product( get_the_ID() );
+            $loop_sku = $loop_product->get_sku();
+            
+            $loop_id = $loop_product->id;
+            
             $loop_stubs = explode("-", $loop_sku);
             $loop_stub = $loop_stubs[0];
             // echo $the_id . "/" . $product->id;      
             if ( $loop_stub === $stub && $loop_id !== $the_id ) { 
+
                 // WHOLESALE OUTPUT 
                 if ( $wholesale === true ) { ?>
                     <div class="wholesale_other_colours" data-id="<?php echo $loop_id; ?>">
@@ -183,6 +193,7 @@ function other_colours ( $the_id, $wholesale ) {
                                         $extralarge = $image['sizes'][ "extra-large" ]; // 683x1024
                                         $width = $image['sizes'][ "thumbnail-width" ]; 
                                         $height = $image['sizes'][ "thumbnail-height" ]; 
+                                        
                                         ?>
                                         <img 
                                         width="<?php echo $width; ?>"  
@@ -194,8 +205,10 @@ function other_colours ( $the_id, $wholesale ) {
                                         <?php echo $medium; ?> 500w, 
                                         <?php echo $large; ?> 600w,
                                         <?php echo $extralarge; ?> 800w"   
-                                        class="lazyload single_additional_image position_<?php echo $position; ?>" />      
-                                 <?php                                   
+                                        class="lazyload single_additional_image position_<?php echo $position; ?>" 
+                                        />      
+                                 <?php
+                                                                  
                                 endif;
                                 $j++;
                             endwhile;
@@ -208,9 +221,11 @@ function other_colours ( $the_id, $wholesale ) {
                     <li class="other_colours"><a href="<?php echo get_permalink( ); ?>"><?php echo get_the_title(); ?></a></li>
                 <?php                  
                 } 
-            }                   
+            } 
+
         endwhile;
-        // $sku_query->reset_postdata();       
+        // $sku_query->reset_postdata();   
+        wp_reset_postdata();    
     endif;  
 } 
 
@@ -239,8 +254,10 @@ function addSpaces( $str ) {
 // PARENT COLLECTION ON SINGLE PAGE
 
 function parent_collection ( $the_id ) {
+
     $terms = get_the_terms( $the_id, 'product_cat' );
     $this_cat = $terms[0]->slug;
+
     $args = array(
         'post_type' => 'product',
         "tax_query" => array(
@@ -274,13 +291,13 @@ function parent_collection ( $the_id ) {
 
 function mailchimp_form () { ?>
     <div id="mc_embed_signup">
-        <form action="//canpeprey.us11.list-manage.com/subscribe/post?u=d43f01e1f63768b0eb69b572d&amp;id=90ec4cfaaa" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <form action="//canpeprey.us11.list-manage.com/subscribe/post?u=d43f01e1f63768b0eb69b572d&amp;id=f614e5d4db" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
             <div id="mc_embed_signup_scroll">
                 <div class="mc-field-group">
                     <label for="mce-EMAIL">Email Address </label>
                     <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
                 </div>
-                <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d43f01e1f63768b0eb69b572d_90ec4cfaaa" tabindex="-1" value=""></div>
+                <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d43f01e1f63768b0eb69b572d_f614e5d4db" tabindex="-1" value=""></div>
                 <div class="submit_wrapper clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
                 <div id="mce-responses" class="clear">
                     <div class="response" id="mce-error-response" style="display:none"></div>
@@ -304,7 +321,21 @@ function custom_override_checkout_fields( $fields ) {
 
 add_filter( 'woocommerce_checkout_fields' , 'custom_override_checkout_fields' );
 
-// add VAT field to checkout page
+// CHANGE BUTTON TEXT
+
+add_filter( 'gettext', 'custom_paypal_button_text', 20, 3 );
+
+function custom_paypal_button_text( $translated_text, $text, $domain ) {
+    switch ( $translated_text ) {
+        case 'Proceed to PayPal' :
+            $translated_text = __( 'Proceed to payment', 'woocommerce' );
+            break;
+    }
+    return $translated_text;
+}
+
+// ADD VAT FIELD TO CHECKOUT PAGE
+
 function VAT_override_checkout_fields( $fields ) {
     if ( is_user_logged_in() ) {
         $fields['billing']['VAT_code'] = array(
@@ -319,6 +350,24 @@ function VAT_override_checkout_fields( $fields ) {
 }
 
 add_filter( 'woocommerce_checkout_fields' , 'VAT_override_checkout_fields');
+
+// AUTOMATIC COUPON FOR WHOLESALE CUSTOMERS
+
+add_action( 'woocommerce_before_cart', 'apply_matched_coupons' );
+
+function apply_matched_coupons() {
+    global $woocommerce;
+
+    $coupon_code = '10percent'; // your coupon code here
+
+    if ( $woocommerce->cart->has_discount( $coupon_code ) ) return;
+
+    if ( $woocommerce->cart->cart_contents_total >= 500 ) {
+        $woocommerce->cart->add_discount( $coupon_code );
+        $woocommerce->show_messages();
+    }
+
+}
 
 
 // UPDATE CART TOTAL VIA AJAX
@@ -336,97 +385,23 @@ function woocommerce_header_add_to_cart_fragment( $fragments ) {
     return $fragments;
 }
 
-// WooCommerce: show all product attributes listed below each item on Cart page
+// UPDATE WHOLESALE QUANTITES VIA AJAX
 
-// function isa_woo_cart_attributes($cart_item, $cart_item_key){
-   
-//     $item_data = $cart_item_key['data'];
-//     $attributes = $item_data->get_attributes();
-       
-       
-//     if ( ! $attributes ) {
-//         return $cart_item;
-//     }
-       
-//     $out = $cart_item . '<br />';
-      
-//     foreach ( $attributes as $attribute ) {
-  
-//         if ( $attribute['is_taxonomy'] ) {
-         
-//         // skip variations
-//             if ( $attribute['is_variation'] ) {
-//                 continue;
-//             }
-  
-//             // backwards compatibility for attributes which are registered as taxonomies
-              
-//             $product_id = $item_data->id;
-//             $terms = wp_get_post_terms( $product_id, $attribute['name'], 'all' );
-              
-//             // get the taxonomy
-//             $tax = $terms[0]->taxonomy;
-              
-//             // get the tax object
-//             $tax_object = get_taxonomy($tax);
-              
-//             // get tax label
-//             if ( isset ($tax_object->labels->name) ) {
-//                 $tax_label = $tax_object->labels->name;
-//             } elseif ( isset( $tax_object->label ) ) {
-//                 $tax_label = $tax_object->label;
-//             }
-              
-//             foreach ( $terms as $term ) {
-//                 $out .= $tax_label . ': ';
-//                 $out .= $term->name . '<br />';
-//             }
-             
-//         } else {
-         
-//             // not a taxonomy 
-             
-//             $out .= $attribute['name'] . ': ';
-//             $out .= $attribute['value'] . '<br />';
-//         }
-//     }
-//     echo $out;
-// }
-   
-// add_filter( 'woocommerce_cart_item_name', 'isa_woo_cart_attributes', 10, 2 );
+    // add_action( "wp_ajax_ajax_test", "echo_yes" );
+    // add_action( "wp_ajax_nopriv_ajax_test", "echo_yes" );
 
-// WHOLESALE ORDER PAGE
+    // function echo_yes () {
+    //     echo "yes";
+    // }
 
-// function wwofCategoriesBeforeListing() {
-//     $args = array(
-//         'taxonomy'     => 'product_cat',
-//         'hierarchical' => true,
-//         'hide_empty'   => true
-//     );
- 
-//     $all_categories = get_categories( $args );
- 
-    
-//     if ($all_categories) {
-//         echo '<ul id="filter_by_cat"><li>Filter by:</li>';
-//         foreach ($all_categories as $cat) {
-//             echo '<li><a data-cat-slug="' . $cat->slug . '" class="wwofCatLink" href="'. get_term_link($cat->slug, 'product_cat') .'">'. $cat->name .'</a></li>';
-//         }
-//         echo '</ul>'; 
+// SORT FUNCTIONS FOR EMAIL (+CART?)
 
+function email_variation_sort( $a, $b ) {
+    return $a["variation_id"] < $b["variation_id"];
+}
 
-//         echo '<script type="text/javascript">
-//         jQuery(".wwofCatLink").click(function(e) {
-//             e.preventDefault();
-//             var catSlug = jQuery(this).data("cat-slug");
-//             jQuery("select#wwof_product_search_category_filter").val(catSlug);
-//             jQuery("input#wwof_product_search_form").val("");
-//             jQuery("input#wwof_product_search_btn").trigger("click");
-//         });
-//         </script>';
- 
-//     }
-// }
- 
-// add_action('wwof_action_before_product_listing', 'wwofCategoriesBeforeListing', 10);
+function email_custom_sort( $a, $b ) {
+    return $a["product_id"] > $b["product_id"];
+}
+
 ?>

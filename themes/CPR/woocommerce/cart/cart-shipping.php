@@ -19,11 +19,27 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+echo "<pre>";
+// GET ALL AVAILABLE METHODS
+global $woocommerce;
+$all_methods = $woocommerce->shipping->get_shipping_methods();
+// var_dump( $all_methods["free_shipping"] );
+
+// var_dump( $available_methods );
+
+// if ( is_user_logged_in() ) {
+// 	echo "Wholesale";
+// }
+// echo "</pre>";
+// NEED TO APPEND FREE SHIPPING IF WHOLESALE USER
+
 ?>
-<tr class="shipping">
+<tr class="shipping <?php if ( is_user_logged_in () ) { echo 'hide'; } else { echo 'not_logged_in'; } ?>">
 	<th><?php echo wp_kses_post( $package_name ); ?></th>
 	<td data-title="<?php echo esc_attr( $package_name ); ?>">
-		<?php if ( 1 < count( $available_methods ) ) : ?>
+		<?php 
+		
+		if ( 1 < count( $available_methods ) ) : ?>
 			<ul id="shipping_method">
 				<?php 				
 				// SET HIGH RATE
@@ -36,7 +52,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					} 	
 				endforeach; 
 				// ECHO CHEAPEST
-				$chosen_method = "free_shipping";
+				// $chosen_method = "free_shipping";
 				printf( '<input type="radio" name="shipping_method[%1$d]" data-index="%1$d" id="shipping_method_%1$d_%2$s" value="%3$s" class="shipping_method" %4$s />
 					<label for="shipping_method_%1$d_%2$s">%5$s</label>',
 						$index, sanitize_title( $cheapest_method->id ), esc_attr( $cheapest_method->id ), checked( $cheapest_method->id, $cheapest_method->id, false ), wc_cart_totals_shipping_method_label( $cheapest_method ) );

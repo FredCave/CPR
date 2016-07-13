@@ -2,10 +2,11 @@
 Theme Name:   	CAN PEP REY
 Author:       	Fred Cave
 Author URI:		http://www.fredcave.com
+Version:        16.04.18
 */
 
 #wpadminbar {
-    display: none !important;
+/*    display: none !important;*/
 }
 
 /************************************************
@@ -86,6 +87,13 @@ body {
         }
     }
 
+    /* IPHONE 5 */
+    @media only screen and ( min-device-width : 320px ) and (max-device-width : 568px) and (orientation : landscape) { 
+        html, body { 
+/*            font-size: 0.7em;*/
+        }
+    }
+
 a {
     color: black;
     text-decoration: none;
@@ -156,7 +164,7 @@ ul, li {
 #nav_bg {
     position: fixed;
     top: 0;
-    z-index: 1;
+    z-index: 0;
     width: 100%;
     height: 100%;
     background-color: #efebe8;
@@ -624,7 +632,7 @@ ul, li {
 /*    display: none;*/ /* TMP */
 }
 
-    @media screen and ( max-aspect-ratio: 3/4 ), ( orientation : portrait ) {
+    @media screen and ( max-aspect-ratio: 3/4 ), ( orientation : portrait ), ( max-width: 600px ) {
         #landing_page {
             display: none;
         }       
@@ -669,8 +677,8 @@ ul, li {
     font-family: VBLACK, Vonnes, helvetica, arial, sans-serif;
     font-size: 1.4em;
     font-weight: bold;
-    left: 50%;
-    transform: translateX(-50%); 
+/*    left: 50%;
+    transform: translateX(-50%); */
 }
 
 .landing_page_title {
@@ -706,7 +714,8 @@ ul, li {
 ************************************************/
 
 .front_collection {
-    padding: 120px 0 200px 0;
+/*    padding: 120px 0 200px 0;*/
+    padding: 120px 0 0px 0;
     padding-top: 9vw;    
 }
 
@@ -983,9 +992,15 @@ ul, li {
         }
     }
 
+    @media ( orientation: landscape ) and ( max-width: 600px ) {
+        #collection_filter {
+            padding-bottom: 48px;
+        }
+    }
+
     @media ( max-width: 400px ) {
         #collection_filter {
-            padding-bottom: 80px;
+            padding-bottom: 90px;
         }
     }
 
@@ -1000,9 +1015,17 @@ ul, li {
     @media ( max-width: 780px ) {
         #collection_filter {
             font-size: 1.2em;
-            margin-bottom: 4px;
+           /* margin-bottom: 4px;*/
         }
     }
+
+     @media ( orientation: landscape ) and ( max-width: 600px ) {
+        #collection_filter li {
+/*            border: 1px solid red;*/
+            margin: 8px;
+        }
+    }
+   
 
 .clear_filter {
     padding: 4px;
@@ -1140,6 +1163,7 @@ ul, li {
     width: 48%;
     height: 100%;
     text-align: center;
+    -webkit-text-size-adjust: 100%;
 }
 
 .info_justified {
@@ -1185,9 +1209,8 @@ ul, li {
     padding-top: 4px;
     padding-bottom: 0px;
     transition: all 0.5s;
-}
 
-    
+}
 
 .other_colours_wrapper, 
 .single_info .price,
@@ -1215,10 +1238,17 @@ ul, li {
     margin-left: 0px;
 }
 
+.single_info select {
+    font-size: 1em;
+    border-radius: 1px;
+    margin-top: 8px;
+}
+
 .single_info .reset_variations {
-    display: none;
-    display: block;
-    margin-top: 4px;
+    display: none !important;
+    opacity: 0;
+/*    display: block;*/
+/*    margin-top: 4px;*/
 }
 
 .variations {
@@ -1234,13 +1264,13 @@ ul, li {
 }
 
 .variations .value select {
-    margin-right: -16px;
+/*    margin-right: -16px;*/
 }
 
     @media ( max-width: 600px ) {
         .variations td {
             display: block;
-            width: 40px;
+            width: auto;
             margin: 0 auto;
         }
     }
@@ -1495,8 +1525,42 @@ h4 {
     text-align: center; 
 }
 
-#news_images img, 
-#news_images iframe,
+.campaign_video {
+    margin-bottom: 36px; 
+}
+
+.news_images_wrapper {
+/*    border: 1px solid purple;*/
+    overflow: hidden;
+    position: relative;
+}
+
+.news_images {
+/*    border: 1px solid green;*/
+    width: 100%;
+    height: auto;
+    position: relative;
+}
+
+.news_image {
+    text-align: center;
+}
+
+.news_image img {
+    width: 100%;
+    height: auto;
+}
+
+.news_images_wrapper .gallery img {
+    cursor: pointer;    
+}
+
+.news_image .portrait {
+    width: auto;
+    height: 100%;
+}
+
+.news_images_wrapper iframe,
 .campaign_video iframe {
     width: 100%;
     height: auto;
@@ -1510,12 +1574,15 @@ h4 {
     position: relative;
     height: 100%;
     width: 100%;
+    max-width: 100%;
 }
 
-.campaign_images li {
+.campaign_images li,
+.news_images li {
     height: 100%;
     width: 100%;
     position: absolute;
+    opacity: 0;
 }
 
 .campaign_image img {
@@ -1528,11 +1595,8 @@ h4 {
     position: relative;
 }
 
-.campaign_images li {
-    opacity: 0;
-}
-
-#campaign .gallery_arrow {
+#campaign .gallery_arrow,
+.news_images_wrapper .gallery_arrow {
     position: absolute;
     z-index: 99;
     right: 50%;
@@ -1544,6 +1608,18 @@ h4 {
     text-align: center;
     display: block;
 }
+
+.news_images_wrapper .gallery_arrow {
+    height: 30px;
+    width: 30px;
+}
+
+    @media ( max-width: 800px ) {
+        .news_images_wrapper .gallery_arrow { 
+            height: 24px;
+            width: 24px;
+        }
+    }
 
 /************************************************
     CART
@@ -1563,6 +1639,7 @@ h4 {
     border-top: 2px solid black;
 /*    display: inline-block;*/
     width: 100%;
+    -webkit-text-size-adjust: 100%;
 }
 
 #cart .variation_row {
@@ -1757,7 +1834,12 @@ h4 {
 
 #shipping_method li:first-child {
     display: block;
-}    
+}   
+
+.cart-discount,
+.coupon {
+    display: none;
+} 
 
 /************************************************
     TERMS
@@ -1806,7 +1888,7 @@ h4 {
     margin: 0 auto;
 }
 
-#checkout .woocommerce-message {
+.page-checkout .woocommerce-message {
     display: none;
 }
 
@@ -1863,6 +1945,7 @@ h4 {
     text-align: center;
 }
 
+#payment_method_cheque, 
 .payment_method_paypal img,
 .payment_method_paypal a {
     display: none;
@@ -2127,7 +2210,9 @@ h4 {
         #wwof_product_listing_filter > * {
             margin: 8px !important;
         }
-
+        #wsale_filter_terms {
+            margin: 12px auto 0 auto;
+        }
     }
 
     @media ( max-width: 500px ) {
@@ -2137,12 +2222,25 @@ h4 {
         }
     }
 
+    @media ( max-width: 600px ) and ( orientation: landscape ) {
+        #search_wrapper {
+            height: 64px;
+        }
+    }
+
 #filter_cats li, 
 #filter_tags li {
 /*    border: 1px solid green;*/
     display: inline-block;
     margin: 0 24px 18px 0;
 }
+
+    @media ( max-height: 500px ) {
+        #filter_cats li, 
+        #filter_tags li {
+            margin: 0 12px 8px 0;
+        }
+    }
 
 #filter_cats li a {
     padding: 0 2px 2px 2px;
@@ -2158,6 +2256,19 @@ h4 {
         } 
     }
 
+#selected_term {
+/*    border: 1px solid purple;*/
+    height: 28px;
+    width: 200px;
+    position: fixed;
+    bottom: 64px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+/*    background-color: #efebe8;*/
+    display: none;
+}
+
 #wwof_product_listing_table .product_price_col {
 /*    border: 1px solid red;*/
     width: 0%;
@@ -2167,6 +2278,7 @@ h4 {
 #wwof_product_listing_table .product_quantity_col {
 /*    border: 1px solid red;*/
     width: 25%;
+
 }
 
 #wwof_product_listing_table .product_title_col {
@@ -2214,12 +2326,25 @@ h4 {
         #wwof_product_listing_table .variation_wrapper input.qty {
             width: 28px;
         }
+        #selected_term {
+            bottom: 60px;
+        }
+
     }
 
     @media ( max-width: 600px ) {
         #wwof_product_listing_table .variation_wrapper {
             width: 50%;
             margin-left: 25%;
+        }
+        #selected_term {
+            bottom: 56px;
+        }
+        #wwof_product_listing_table .product_stock_quantity_col {
+            display: none;
+        }
+        #wwof_product_listing_table .product_quantity_col {
+            padding-top: 0px;
         }
     }
 
@@ -2237,6 +2362,7 @@ h4 {
 /*    border: 1px solid orange;*/
     width: 45%;
     padding-left: 24px;
+    -webkit-text-size-adjust: 100%;
 }
 
 .wsale_product_title {
@@ -2462,6 +2588,7 @@ input[type="number"] {
 
 .variation_wrapper .spinner {
     height: 0px;
+    display: none !important;
 }
 
 .loading-icon {

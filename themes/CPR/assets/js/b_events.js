@@ -35,6 +35,7 @@
 
 	6. WHOLESALE
 		6.1. CLICK ON OTHER COLOURS
+		6.2. AJAX CART REFRESH
 
 
 *****************************************************************************/
@@ -53,6 +54,7 @@ $(document).ready( function(){
 		// RESIZE IFRAMES
 		if ( $("#news").length || $("#campaign").length ) {
 			iframeResize();
+			newsImagesResize();
 		}
 		if ( $("#single_page").length ) {
 			radioPos();
@@ -73,17 +75,13 @@ $(document).ready( function(){
 		console.log("mql");
 	    // Gives number of columns for image injection
 	    if (mql.v.matches) {
-	    	// IF SCREEN VERTICAL
+	    	// IF SCREEN VERTICAL OR LESS THAN 600PX WIDE 
 	    		// LOAD COLLECTION
 			if ( !collLoaded ) {
 				collectionInit();
 				collLoaded = true;
 			}
 	    	landingDown();
-	    	imagesPrep();
-			console.log( "mql", 92 );
-	    } else if (mql.s.matches) {
-	        // Less than 600px wide     
 	    	imagesPrep();
 
 			// REPOSITION SINGLE GALLERY IMGs
@@ -107,7 +105,7 @@ $(document).ready( function(){
 	var mql = {};
 	mql.s = window.matchMedia("(max-width: 600px)");
 	mql.m = window.matchMedia("(max-width: 800px)");
-	mql.v = window.matchMedia(" (orientation:portrait), (max-aspect-ratio:3/4) ");
+	mql.v = window.matchMedia(" (orientation:portrait), (max-aspect-ratio:3/4), (max-width: 600px)");
 	mql.s.addListener(function(){
 		handleMediaChange(mql);
 	});
@@ -115,6 +113,9 @@ $(document).ready( function(){
 		handleMediaChange(mql);
 	});
 	handleMediaChange(mql);
+
+
+
 
 
 	// 1.3. HYPHENATION
@@ -278,7 +279,7 @@ $(document).ready( function(){
 
 	// 4.1. IMAGE SLIDESHOW
 
-	$("body").on("click", ".gallery", function() {
+	$("body").on("click", ".gallery img", function() {
 		slideShowGo( $(this) );
 	});
 
@@ -337,15 +338,12 @@ $(document).ready( function(){
 		// ON HOVER
 
 	$("#wwof_product_listing_ajax_content").on( "mouseover", ".wholesale_other_colours", function(){
+		console.log(341);
 		wsaleOtherColoursHover( $(this) );
 	});
 
 	$("#wwof_product_listing_ajax_content").on( "mouseout", ".wholesale_other_colours", function(){
 		wsaleOtherColoursUnhover( $(this) );
-	});
-
-	$("#wwof_product_listing_ajax_content").on( "LoadProductListing", ".wholesale_other_colours", function(){
-		alert();
 	});
 
 		// ON CLICK
@@ -358,7 +356,7 @@ $(document).ready( function(){
 
 	$("#ws_filter_toggle").on( "click", function (e) {
 		e.preventDefault();
-		wsaleFilterToggle( $(this) );
+		wsaleFilterToggle();
 	});
 
 		// CLICK OUTSIDE TO CLOSE
@@ -385,6 +383,7 @@ $(document).ready( function(){
 	$("#wwof_product_displayall_btn").on( "click", function(){
 		wsaleFilterReset();
 	});
+
 
 
 });

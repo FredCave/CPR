@@ -42,8 +42,49 @@
 								</div>
 		    				</div>
 		    				<!-- RIGHT COLUMN -->
-		    				<div id="news_images" class="column">
-		    					<?php if ( get_field("embedded_media") ) {
+		    				<div class="column news_images_wrapper">
+		    					<?php if ( get_field("news_images") ) { 
+		    						// IF MORE THAN ONE IMAGE
+		    						if ( count( get_field( "news_images" ) ) > 1 ) { ?>
+			    						<!-- GALLERY ARROW -->
+			    						<div class="gallery_arrow">
+											<img src="<?php bloginfo('template_url'); ?>/img/gallery_arrow_large.svg" />
+										</div>		    							
+		    						<?php } ?>
+		    						<!-- IMAGE SLIDESHOW -->
+		    						<ul class="news_images gallery">
+			    						<?php while ( have_rows("news_images") ) : the_row();
+											$image = get_sub_field("news_image");
+											if( !empty($image) ): 
+									            $thumb = $image["sizes"][ "thumbnail" ]; // 300
+									            $medium = $image["sizes"][ "medium" ]; // 600
+									            $large = $image["sizes"][ "large" ]; // 800
+									            $extralarge = $image["sizes"][ "extra-large" ]; // 1024
+									            $full = $image["url"];
+									            $width = $image["sizes"]["medium-width"];
+									            $height = $image["sizes"]["medium-height"];
+									        endif; 
+									        if ( $width < $height ) {
+									        	$class = "portrait";
+									        } else {
+												$class = "landscape";
+									        }
+									        ?>
+										    <li class="news_image">
+												<img width="<?php echo $width; ?>" 
+													 height="<?php echo $height; ?>" 
+													 sizes="(min-width: 40em) 95vw, 47vw"
+													 srcset="<?php echo $thumb; ?> 300w,
+															<?php echo $medium; ?> 600w,
+															<?php echo $large; ?> 800w,
+															<?php echo $large; ?> 2x" 
+													class="<?php echo $class; ?>"
+												/>
+											</li>
+			    						<?php endwhile; ?>	
+		    						</ul>	    						
+		    					<?php } else if ( get_field("embedded_media") ) {
+		    						// VIDEO
 		    						the_field("embedded_media");
 		    					} ?>
 		    				</div>	    			

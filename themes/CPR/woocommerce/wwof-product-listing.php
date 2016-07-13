@@ -11,6 +11,18 @@
 
 if ( !defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
+// IF NOT LOGGED IN: REDIRECT
+if ( !is_user_logged_in() ) {
+    ?>
+    <p class="return-to-shop">
+        <a class="button wc-backward" href="<?php bloginfo( 'url' ); ?>">
+            <?php _e( 'Return To Shop', 'woocommerce' ) ?>
+        </a>
+    </p>
+    <?php
+    exit;
+}
+
 // NOTE: Don't Remove any ID or Classes inside this template when overriding it.
 // Some JS Files Depend on it. You are free to add ID and Classes without any problem.
 
@@ -18,6 +30,14 @@ global $wc_wholesale_order_form;
 ?>
 
 <div id="wwof_product_listing_table_container" class="wholesale_page" style="position: relative;">
+
+    <pre>
+        <?php 
+        // $product_loop 
+        // var_dump( $product_loop ); 
+        ?>
+    </pre>
+
     <table id="wwof_product_listing_table">
         <thead>
             <tr>
@@ -44,8 +64,13 @@ global $wc_wholesale_order_form;
         $ignored_products = 0;
 
         if ( $product_loop->have_posts() ) {
-
+            
             while ( $product_loop->have_posts() ) {
+                // TMP
+                // $product_loop->the_post();
+                // $product = wc_get_product( get_the_ID() );
+                // $product_id = $product->id;
+                // echo $product_id . "<br>";
 
                 $product_loop->the_post();
                 $product = wc_get_product( get_the_ID() );
@@ -90,7 +115,9 @@ global $wc_wholesale_order_form;
                                         <?php /* <img class="wholesale_image" 
                                             data-sizes="(max-width: 800px) 50vw, 25vw" 
                                             src="<?php echo $medium; ?>" 
-                                        /> */ ?>
+                                        /> */ 
+
+                                        ?>
                                         <img class="wholesale_image lazyload" 
                                             src="<?php echo $thumb; ?>" 
                                             data-sizes="auto"
@@ -112,7 +139,9 @@ global $wc_wholesale_order_form;
                             </div> 
                         </div><!-- end of .wholesale_product_image -->
 
-                        <?php /* echo $wc_wholesale_order_form->getProductImage( $product , get_the_permalink() , array( 48 , 48 ) ); // array here means image dimension */ ?>
+                        <?php /* echo $wc_wholesale_order_form->getProductImage( $product , get_the_permalink() , array( 48 , 48 ) ); // array here means image dimension */ 
+
+                        ?>
                         <div class="wholesale_product_title">
                             <p class="wsale_product_title"><?php echo $wc_wholesale_order_form->getProductTitle( $product , get_the_permalink() ); ?></p>
                             <p><?php echo $this_sku = $product->get_sku(); ?></p>
@@ -157,7 +186,9 @@ global $wc_wholesale_order_form;
                         
                     </td>
                     <td class="product_stock_quantity_col <?php echo $wc_wholesale_order_form->getProductStockQuantityVisibilityClass(); ?>">
-                        <?php /* echo $wc_wholesale_order_form->getProductStockQuantity( $product ); */ ?>
+                        <?php /* echo $wc_wholesale_order_form->getProductStockQuantity( $product ); */ 
+
+                        ?>
                         <!-- DESCRIPTION -->
                         <div class="wholesale_desc wholesale_desc_right">
                             <p>
@@ -243,7 +274,7 @@ global $wc_wholesale_order_form;
 
             }// End while loop
             $product_loop->reset_postdata();
-
+       
         }else{
 
             ?>

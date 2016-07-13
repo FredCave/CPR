@@ -34,22 +34,32 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php do_action( 'woocommerce_before_cart_contents' ); ?>
 
 				<?php
+
+
 				// CREATE ARRAY FOR PRODUCT IDs
 				$_product_ids = array();
 
 				// CART ARRAY
 				$cart_items = WC()->cart->get_cart();
 
-				// SORT THE MULTIDIMENSIONAL ARRAY IN ORDER OF PRODUCT_ID
-				usort( $cart_items, "custom_sort");
+				// SORT THE MULTIDIMENSIONAL ARRAY IN ORDER OF VARIATIONS
+				uasort( $cart_items, "variation_sort");
+				function variation_sort( $a, $b ) {
+					return $a["variation"]["attribute_pa_size"] < $b["variation"]["attribute_pa_size"];
+				}
+
+				uasort( $cart_items, "custom_sort");
 				function custom_sort( $a, $b ) {
 					return $a[ "product_id" ] > $b[ "product_id" ];
 				}
+
 				// LOOP THROUGH CART ITEMS
 				foreach ( $cart_items as $cart_item_key => $cart_item ) {					
 				
 					$_product     = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
 					$product_id   = apply_filters( 'woocommerce_cart_item_product_id', $cart_item['product_id'], $cart_item, $cart_item_key );
+
+					// echo $product_id . "<br>";
 
 					// IF NOT ALREADY IN ARRAY
 					if ( !in_array( $product_id, $_product_ids, true ) ) {
@@ -59,7 +69,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				    } else {
 				        $variation = true;
 				    }
-
+				    	
 						if ( $_product && $_product->exists() && $cart_item['quantity'] > 0 && apply_filters( 'woocommerce_cart_item_visible', true, $cart_item, $cart_item_key ) ) {
 						?>
 							<tr class="<?php if ( $variation ) { echo "variation_row "; } echo esc_attr( apply_filters( 'woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key ) ); ?>">
@@ -79,7 +89,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								</td>
 
 								<td class="product-thumbnail">
-									<?php if ( !$variation ) { 
+									<?php if ( !$variation ) {
 										if ( get_field( 'product_images', $product_id ) ) :
 
 											$image = get_field( "product_images", $product_id )[0]["product_image"];
@@ -102,7 +112,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											/>		
 
 									<?php endif; 
-									}
+										}
 									?>
 								</td>
 
@@ -169,13 +179,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<td colspan="6" class="actions">
 
 					<?php if ( WC()->cart->coupons_enabled() ) { ?>
-						<div class="coupon">
+						<?php if ( is_user_logged_in() ) : ?>
+							<div class="coupon">
 
-						<label for="coupon_code"><?php _e( 'Coupon', 'woocommerce' ); ?>:</label> <input type="text" name="coupon_code" class="input-text" id="coupon_code" value="" placeholder="<?php esc_attr_e( 'Coupon code', 'woocommerce' ); ?>" /> <input type="submit" class="button" name="apply_coupon" value="<?php esc_attr_e( 'Apply Coupon', 'woocommerce' ); ?>" />
+							<label for="coupon_code"><?php _e( 'Coupon', 'woocommerce' ); ?>:</label> <input type="text" name="coupon_code" class="input-text" id="coupon_code" value="wholesale" placeholder="<?php esc_attr_e( 'Coupon code', 'woocommerce' ); ?>" /> <input type="submit" class="button" name="apply_coupon" value="<?php esc_attr_e( 'Apply Coupon', 'woocommerce' ); ?>" />
 
-						<?php do_action( 'woocommerce_cart_coupon' ); ?>
+							<?php do_action( 'woocommerce_cart_coupon' ); ?>
 
-						</div>
+							</div>
+						<?php endif; ?>
 					<?php } ?>
 
 					<input type="submit" class="update_cart button" name="update_cart" value="<?php esc_attr_e( 'Update Cart', 'woocommerce' ); ?>" />

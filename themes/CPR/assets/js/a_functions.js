@@ -81,8 +81,11 @@
 		if ( $("#terms_and_conditions").length ) {
 			termsClasses();
 		}
+		if ( $("#cart").length ) {
+			couponCheck();
+		}
 		if ( $("#checkout").length ) {
-			shippingCheck();
+			paymentInit();
 		}
 		if ( $(".wholesale_page").length ) {
 			wholesaleInit();
@@ -179,15 +182,15 @@
 		// CHECK IF NEXT
 		if ( landingVis.next().length ) {
 			// NEXT SLIDE
-			landingVis.removeClass("visible").next().addClass("visible");
-			// LOAD COLLECTION
-			if ( !collLoaded ) {
-				collectionInit();
-				collLoaded = true;
-			}
+			landingVis.removeClass("visible").next().addClass("visible");		
 		} else {
 			// SCROLL DOWN
 			landingDown();
+		}
+		// LOAD COLLECTION IF NOT LOADED ALREADY
+		if ( !collLoaded ) {
+			collectionInit();
+			collLoaded = true;
 		}
 	}	
 
@@ -234,7 +237,10 @@
 		$("#collection_filter").fadeOut();
 		$("#nav_close").fadeIn();
 		// BG FADE IN
-		$("#nav_bg").css("opacity","1");
+		$("#nav_bg").css({
+			"opacity" : "1",
+			"z-index" : "1"
+		});
 	}
 
 	function navHide () {
@@ -262,7 +268,10 @@
 		$("#secondary_nav ul").fadeIn();
 		$("#nav_close").fadeOut();
 		// BG FADE OUT
-		$("#nav_bg").css("opacity","0");
+		$("#nav_bg").css({
+			"opacity" : "",
+			"z-index" : ""
+		});
 	}
 
 	// 3.3. NAV LI COMPRESS / RESET
@@ -664,9 +673,10 @@
 		slideShowResize();
 	}
 
-	function slideShowGo ( gallery ) {
+	function slideShowGo ( click ) {
 		console.log("slideShowGo");
-		// CLICK = .GALLERY
+		// CLICK = .GALLERY IMG
+		var gallery = click.parents(".gallery");
 		// IF NEXT EXISTS
 		if ( gallery.find(".visible").next().length ) {			
 			// MAKE NEXT VISIBLE
@@ -838,23 +848,28 @@
 
 // 6. OTHER PAGE FUNCTIONS
 
-	// 6.1. STYLE BUTTONS
-
-	function buttonResize () {
-	
-	}
-
-	// 6.2. MOVE NEWS IMAGES TO RIGHT-HAND COLUMN
+	// 6.2. NEWS SLIDESHOW
 
 	function newsPrep () {		
 		console.log("newsPrep");
-		$(".news_post").each( function(){
-			$(this).find("img").appendTo( $(this).find("#news_images") );
-			// WAIT UNTIL IMAGES HAVE LOADED
-			$(this).find("#news_images").waitForImages(function() {
-			    $(this).prev("#news_text").css( "min-height", $(this).find("img").height() ); 
-			});			
-		});		
+		// LOOP THROUGH EACH SLIDESHOW ON PAGE
+		$(".news_images").each( function(){
+			// INIT SLIDESHOW
+			$(this).find("li").eq(0).addClass("visible");
+		});	
+		// SET SIZE OF SLIDESHOWS
+		newsImagesResize();		
+	}
+
+	function newsImagesResize () {
+		console.log("newsImagesResize");
+		// LOOP THROUGH EACH SLIDESHOW ON PAGE
+		$(".news_images").each( function(){
+			// SET RATIO AS 3/2
+			$(this).css({
+				"height" : $(this).width() * 0.67
+			});
+		});			
 	}
 
 	// 6.3. IFRAMES RESIZE
@@ -894,48 +909,74 @@
 
 	function campaignImages () {
 		console.log("campaignImages");
-		var ratios = [];
-		$(".campaign_photos img").each( function(){
-			// GET RATIOS
-			var thisRatio = $(this).attr("width") / $(this).attr("height");
-			if ( !isNaN(thisRatio) ) {
-				ratios.push( thisRatio );
-			}
-			if ( $(this).attr("width") > $(this).attr("height") ) {
-				// LANDSCAPE
-				$(this).css({
-					"width" : "100%",
-					"height" : "auto"
+		// LOOP THROUGH SLIDESHOWS
+		$(".campaign_photos").each( function(i){
+
+			var ratios = [];
+			$(this).find("img").each( function(){
+				// GET RATIOS
+				var thisRatio = $(this).attr("width") / $(this).attr("height");
+				if ( !isNaN(thisRatio) && thisRatio > 1 ) {
+					// MUST BE LANDSCAPE RATIO (>1)
+					ratios.push( thisRatio );
+				}
+				if ( $(this).attr("width") > $(this).attr("height") ) {
+					// LANDSCAPE
+					$(this).css({
+						"width" : "100%",
+						"height" : "auto"
+					}).addClass("campaign_landscape");
+				} else {
+					// PORTRAIT
+					$(this).css({
+						"width" : "auto",
+						"height" : "100%"
+					}).addClass("campaign_portrait");	
+				}		
+			});
+			// GET SMALLEST RATIO
+			Array.min = function( array ){
+			    return Math.min.apply( Math, array );
+			};
+			var finalRatio = Array.min(ratios);
+
+			var finalH = $(this).width() * finalRatio;
+			if ( finalH > $(window).height() * 0.8 ) {
+				// IF IMAGES TOO TALL FOR SCREEN
+				$(this).find(".campaign_images").css({
+					"height" : $(window).height() * 0.8,
+					"width" : $(window).height() * 0.8 * finalRatio
 				});
 			} else {
-				// PORTRAIT
-				$(this).css({
-					"width" : "auto",
-					"height" : "100%"
-				});	
-			}		
+				$(this).find(".campaign_images").css({
+					"height" : finalH,
+					"width" : ""
+				});
+			}
+
+			// IF WRAPPER IS VERTICAL
+			if ( $(this).height() > $(this).width() ) {
+				$(this).find(".campaign_landscape").css({
+					"top" : "50%",
+					"transform" : "translateY(-50%)",
+					"position" : "absolute",
+					"left" : "0px"
+				});
+			} else {
+				$(this).find(".campaign_landscape").css({
+					"top" : "",
+					"transform" : "",
+					"position" : "",
+					"left" : ""
+				});				
+			}
+			
+			// INIT CAMPAIGN SLIDESHOW IF NOT YET DONE
+			if ( !$(this).hasClass("initiated") ) {
+				$(this).addClass("initiated").find(".campaign_images li").eq(0).addClass("visible");				
+			}
+
 		});
-		// GET SMALLEST RATIO
-		Array.min = function( array ){
-		    return Math.min.apply( Math, array );
-		};
-		var finalRatio = Array.min(ratios);
-		var finalH = $(".campaign_photos").width() * finalRatio;
-		if ( finalH > $(window).height() * 0.8 ) {
-			// IF IMAGES TOO TALL FOR SCREEN
-			$(".campaign_images").css({
-				"height" : $(window).height() * 0.8,
-				"width" : $(window).height() * 0.8 / finalRatio
-			});
-		} else {
-			$(".campaign_images").css({
-				"height" : finalH,
-				"width" : ""
-			});
-		}
-		
-		// INIT CAMPAIGN SLIDESHOW
-		$(".campaign_images li").eq(0).addClass("visible");
 	}
 
 	// 6.5. ADD CLASSES TO TERMS SUBTITLES
@@ -969,25 +1010,13 @@
 
 // 7. WHOLESALE ORDER FORM
 
-	// 7.1. CART SHIPPING
+	// 7.1. CART PAYMENT
 
-	function shippingCheck () {
-		// console.log("shippingCheck");
-		// console.log($("#shipping_method").find("#shipping_method_0_free_shipping").length);
-		// switch ( true ) {
-		// 	case $("#shipping_method").find("#shipping_method_0_free_shipping").length > 0 :
-		// 		console.log("free_shipping");
-		// 		$("#shipping_method").find("#shipping_method_0_free_shipping").prop( "checked", "checked" ).parent("li").show();
-		// 		break;
-		// 	case $("#shipping_method").find("#shipping_method_0_local_delivery").length > 0 :
-		// 		console.log("germany");
-		// 		$("#shipping_method").find("#shipping_method_0_local_delivery").prop( "checked", "checked" ).parent("li").show();
-		// 		break;
-		// 	case $("#shipping_method").find("#shipping_method_0_international_delivery").length > 0 :
-		// 		console.log("europe");
-		// 		$("#shipping_method").find("#shipping_method_0_international_delivery").prop( "checked", "checked" ).parent("li").show();
-		// 		break;
-		// }
+	function paymentInit () {
+		console.log( "paymentInit" );
+		if ( $("place_order").length ) {
+			console.log("button");
+		}
 	}
 
 	// 7.1. WHOLESALE INIT
@@ -998,8 +1027,9 @@
 			$(this).find("del .amount").prepend("RRP: ").unwrap();
 		});
 		// INITIATE LAZYSIZES
-		console.log(983);
 		lazySizes.init();
+		// TRIGGER READY EVENT
+		$(this).trigger("wholesale_ready");
 	}
 
 	// 7.2. WHOLESALE OTHER COLOURS
@@ -1024,34 +1054,86 @@
 
 	function wsaleOtherColoursClick ( click ) {
 		console.log("wsaleOtherColoursClick");
+		var targetOffset,
+			padding;
 		// GET TARGET ID
 		var targetId = click.data("id");
-		// GET OFFSET OF TARGET
-		var targetOffset = $("#" + targetId).offset().top;
-		var padding = parseInt ( $(".page").css("padding-top") );
-		console.log(973, padding);
-		if ( targetOffset > 0 ) {
-			console.log( 884, targetOffset );
-			$("html,body").animate({
-				scrollTop : targetOffset - padding
-			}, 1000 );
+
+		// CHECK IF TARGET IS VISIBLE
+		if ( $("#" + targetId).length ) {
+			// VISIBLE
+			// GET OFFSET OF TARGET
+			targetOffset = $("#" + targetId).offset().top;
+			padding = parseInt ( $(".page").css("padding-top") );
+			console.log(973, padding);
+			if ( targetOffset > 0 ) {
+				console.log( 884, targetOffset );
+				$("html,body").animate({
+					scrollTop : targetOffset - padding
+				}, 1000 );
+			}
+		} else {
+			// NOT VISIBLE
+			console.log("Not visible.");
+			// CHECK IF CLOSER TO BEGINNING OR END
+			var docH = $("html").height();
+			var clickPos = click.offset().top;
+			if ( clickPos > ( docH / 2 ) ) {
+				// NEXT
+				$("#wwof_product_listing_pagination").find(".next").trigger("click");
+				// SCROLL TO SELECTED PRODUCT
+				$(window).on( "wholesale_ready", function(){
+					console.log("wholesale_ready");
+					targetOffset = $("#" + targetId).offset().top;
+					padding = parseInt ( $(".page").css("padding-top") );
+					if ( targetOffset > 0 ) {
+						console.log( 884, targetOffset );
+						$("html,body").animate({
+							scrollTop : targetOffset - padding
+						}, 1000 );
+					}
+					// REMOVE LISTENER
+					$(window).off("wholesale_ready");
+				});
+			} else {
+
+				// PREV
+				$("#wwof_product_listing_pagination").find(".prev").trigger("click");
+				// SCROLL TO SELECTED PRODUCT
+				$(window).on( "wholesale_ready", function(){
+					console.log("wholesale_ready");
+					targetOffset = $("#" + targetId).offset().top;
+					padding = parseInt ( $(".page").css("padding-top") );
+					if ( targetOffset > 0 ) {
+						console.log( 884, targetOffset );
+						$("html,body").animate({
+							scrollTop : targetOffset - padding
+						}, 1000 );
+					}
+					// REMOVE LISTENER
+					$(window).off("wholesale_ready");
+				});
+			}
 		}
+
+
 	}
 
 	// 7.3. WHOLESALE FILTER TOGGLE
 
-	function wsaleFilterToggle ( click ) {
+	function wsaleFilterToggle () {
 		console.log("wsaleFilterToggle");
 		var wrapper = $("#search_wrapper");
 		var termsH = $("#wsale_filter_terms").height();
 		var termsPadding = 80;
-		if ( $(window).width() < 980 && $(window).width() > 500 ) {
+		// IF PORTRAIT
+		if ( $(window).height() > $(window).width() ) {
 			termsPadding = 140;
-		} 
+		}
 		console.log( $(window).width(), termsH, termsPadding );
 		// CHECK IF HIDDEN
 		if ( wrapper.hasClass("hidden") ) {
-			console.log("show");
+			// SHOW
 			wrapper.css({
 				"height" : termsH + termsPadding
 			});
@@ -1059,11 +1141,20 @@
 				"padding-top": "0"
 			});
 			wrapper.removeClass("hidden");
+			// HIDE + EMPTY SELECTED TERM
+			$("#selected_term").text("").hide();
 		} else {
-			console.log("hide");
-			wrapper.css({
-				"height" : ""
-			});
+			// HIDE
+			if ( $("#selected_term").is(':visible') ) {
+				// IF FILTER TERM IS VISIBLE
+				wrapper.css({
+					"height" : "100px"
+				});
+			} else {
+				wrapper.css({
+					"height" : ""
+				});				
+			}
 			wrapper.find("#wsale_filter_terms").css({
 				"padding-top": ""
 			});
@@ -1077,6 +1168,7 @@
 		console.log("wsaleFilter");
 		// GET TARGET
 		var target = click.data("target");
+		var text = click.text();
 		// GET CLASS
 		if ( click.hasClass("wsale_term_cat") ) {
 			// CATEGORY
@@ -1104,6 +1196,9 @@
 			} else if ( lastLetter === "s" ) {
 				target = target.substring(0, target .length - 1);
 			}
+			if ( target === "sweatshirt" ) {
+				target = "sweater";
+			}
 			// REMOVE HYPHENS FOR TSHIRTS		
 			if ( target.indexOf("-") > -1 ) {
 				target = target.split("-").join("");
@@ -1114,9 +1209,20 @@
 		// TRIGGER CLICK
 		$("#wwof_product_search_btn")[0].click();
 
+		// SCROLL TO TOP
+		$("html, body").animate({
+			scrollTop : 0
+		}, 500 );
+
 		// HIGHLIGHT SELECTED TAG
-		$("#wsale_filter_terms a").css( "border-bottom", "" );
-		click.css( "border-bottom", "2px solid black" );
+		// $("#wsale_filter_terms a").css( "border-bottom", "" );
+		// click.css( "border-bottom", "2px solid black" );
+
+		// APPEND TEXT TO PLACEHOLDER
+		$("#selected_term").text( text ).show();
+
+		// HIDE TERMS
+		wsaleFilterToggle();
 
 	}	
 
@@ -1126,6 +1232,8 @@
 		$("#wsale_filter_terms a").css( "border-bottom", "" );
 		// CLEAR TEXT FIELD
 		$("#wwof_product_search_form").val("");
+		// HIDE + EMPTY SELECTED TERM
+		$("#selected_term").text("").hide();
 	}
 
 	// 7.5. QUANTITY RESET
@@ -1141,6 +1249,21 @@
  //        });
 	// }
 
+	// 7.6. COUPON CHECK
 
+	function couponCheck() {
+		console.log("couponCheck");
+		if ( $(".coupon").length ) {
+			// IF VALUE IS WHOLESALE AND NOT ALREADY ADDED
+			if ( $(".coupon input").attr("value") === "wholesale" ) {
+				if ( $(".cart_totals").find(".cart-discount").length ) {
+					console.log("Coupon applied");
+				} else {
+					console.log("Apply coupon.");
+					$(".coupon input.button").trigger("click");					
+				}
+			}
+		}
+	}
 
 

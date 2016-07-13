@@ -19,7 +19,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
+// var_dump( $items );
+
+// CREATE ARRAY FOR PRODUCT IDs
+$_product_ids = array();
+
+// SORT THE MULTIDIMENSIONAL ARRAY IN ORDER OF VARIATIONS
+uasort( $items, "email_variation_sort");
+
+// SORT IN ORDER OF PRODUCT ID
+uasort( $items, "email_custom_sort");
+
 foreach ( $items as $item_id => $item ) :
+
 	$_product     = apply_filters( 'woocommerce_order_item_product', $order->get_product_from_item( $item ), $item );
 	$item_meta    = new WC_Order_Item_Meta( $item, $_product );
 
@@ -70,4 +82,6 @@ foreach ( $items as $item_id => $item ) :
 		</tr>
 	<?php endif; ?>
 
-<?php endforeach; ?>
+<?php endforeach; 
+
+?>

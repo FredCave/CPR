@@ -9,17 +9,21 @@ if ( $wc_wholesale_order_form->userHasAccess() ) { ?>
 
 <div id="search_wrapper" class="hidden">
 
+    <div id="selected_term">
+    </div>
+
     <div id="wwof_product_listing_filter">
         
         <!-- SHOW ALL -->
         <input type="button" id="wwof_product_displayall_btn" class="button button-secondary" value="<?php echo apply_filters( 'wwof_filter_listing_show_all_products_text' , __( 'Show All Products' , 'woocommerce-wholesale-order-form' ) ); ?>"/>
 
+        <!-- CATEGORIES – HIDDEN -->
         <select id="wwof_product_search_category_filter">
             <option value=""><?php echo apply_filters( 'wwof_filter_listing_no_category_filter_text' , __( '-- No Category Filter --' , 'woocommerce-wholesale-order-form' ) ); ?></option>
             <?php echo $product_category_options; ?>
         </select>
 
-        <!-- SEARCH FIELD -->
+        <!-- SEARCH FIELD – HIDDEN -->
         <input type="text" id="wwof_product_search_form" class="filter_field" placeholder="<?php echo $search_placeholder_text; ?>"/>
         <input type="button" id="wwof_product_search_btn" class="button button-primary" value="<?php echo apply_filters( 'wwof_filter_listing_search_text' , __( 'Search' , 'woocommerce-wholesale-order-form' ) ); ?>"/>
     

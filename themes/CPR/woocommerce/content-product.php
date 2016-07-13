@@ -53,8 +53,8 @@ if( count( array_intersect($bottom_classes, $all_classes) ) > 0 ) {
 					    src="<?php echo $thumb; ?>" 
 					    data-sizes="auto"
 					    data-src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" 
-					    data-srcset="<?php echo $thumb; ?> 400w,
-					    	<?php echo $medium; ?> 500w, 
+					    data-srcset="<?php echo $thumb; ?> 200w,
+					    	<?php echo $medium; ?> 400w, 
 							<?php echo $large; ?> 600w,
 							<?php echo $extralarge; ?> 800w"   
 						class="product_image" 

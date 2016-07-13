@@ -33,11 +33,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 						    src="<?php echo $thumb; ?>" 
 						    data-sizes="auto"
 						    data-src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" 
-						    data-srcset="<?php echo $thumb; ?> 400w,
-						    	<?php echo $medium; ?> 500w, 
+						    data-srcset="<?php echo $thumb; ?> 200w,
+						    	<?php echo $medium; ?> 400w, 
 								<?php echo $large; ?> 600w,
 								<?php echo $extralarge; ?> 800w"   
-							class="lazyload single_additional_image position_<?php echo $position; ?>" 
+							class="lazyload single_additional_image" 
 							/>		
 						<?php
 						endif;
@@ -66,11 +66,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 					    src="<?php echo $thumb; ?>" 
 					    data-sizes="auto"
 					    data-src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" 
-					    data-srcset="<?php echo $thumb; ?> 400w,
-					    	<?php echo $medium; ?> 500w, 
-							<?php echo $large; ?> 600w,
-							<?php echo $extralarge; ?> 800w"   
-						class="lazyload single_additional_image position_<?php echo $position; ?>" 
+					    data-srcset="<?php echo $thumb; ?> 200w,
+						    	<?php echo $medium; ?> 400w, 
+								<?php echo $large; ?> 600w,
+								<?php echo $extralarge; ?> 800w"   
+						class="lazyload single_additional_image" 
 						/>		
 					<?php
 					endif;		        
@@ -151,13 +151,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	    	
 	    	<!-- LINKS TO OTHER COLOURS -->
 	    	<li class="other_colours_wrapper">
-		    	<ul><?php /*echo other_colours( $product_id, false );*/ ?></ul>
+		    	<ul><?php echo other_colours( $product_id, false ); ?></ul>
 		    </li>
 	    				
 			<?php 
 			// RESET THE GLOBAL PRODUCT AFTER OTHER COLOURS LOOP
-			// global $product;
-			// $product = wc_get_product ( $product_id );
+			global $product;
+			$product = wc_get_product ( $product_id );
 			// OUT OF STOCK 
 			if ( ! $product->is_in_stock() ) { ?>
 			    <li class="">
